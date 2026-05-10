@@ -1,0 +1,179 @@
+﻿{
+  "common": {
+    "loading": "Loading…",
+    "loadingInventory": "Loading inventory…",
+    "loadingStock": "Loading stock…"
+  },
+  "inventory": {
+    "tabs": {
+      "stock": "Current stock",
+      "entry": "Register inbound",
+      "exit": "Register outbound",
+      "history": "Movement history",
+      "audit": "Audit",
+      "auditBadge": "Admin only"
+    },
+    "history": {
+      "filtersTitle": "Search filters",
+      "filters": {
+        "all": "All",
+        "entry": "Inbound",
+        "exit": "Outbound",
+        "type": "Type",
+        "cylinderType": "Cylinder type",
+        "from": "From",
+        "to": "To",
+        "user": "User",
+        "search": "Search",
+        "responsible": "Responsible"
+      },
+      "search": "Search",
+      "exportCsv": "Export CSV",
+      "print": "Print",
+      "keywordPh": "Search keywords…",
+      "recordsFound": "{n} records found",
+      "loadingMovements": "Loading movements…",
+      "noResults": "No rows match the selected filters.",
+      "clearFilters": "Clear filters",
+      "cols": {
+        "id": "ID",
+        "idShort": "#ID",
+        "datetime": "DATE & TIME",
+        "kind": "TYPE",
+        "cylinder": "CYLINDER TYPE",
+        "qty": "QTY",
+        "originDest": "ORIGIN / DESTINATION",
+        "reason": "REASON",
+        "user": "USER",
+        "notes": "NOTES"
+      },
+      "enterprise": {
+        "title": "Movement history",
+        "subtitle": "Full log of inventory inbound and outbound movements.",
+        "destinationOrigin": "Destination / origin",
+        "destinationPh": "e.g. Central warehouse",
+        "tableTitle": "Recorded movements"
+      },
+      "distributor": {
+        "title": "Movement history",
+        "subtitle": "Review inbound and outbound movements for your inventory.",
+        "searchPh": "ID, supplier, type…",
+        "movementsTitle": "Movements",
+        "exportExcel": "Export Excel",
+        "colProvider": "SUPPLIER / OUTBOUND TYPE",
+        "ownerBadge": "Owner"
+      }
+    },
+    "audit": {
+      "title": "Audit log — Immutable operation record",
+      "subtitle": "Visible to system administrators only.",
+      "immutableHint": "Audit entries are immutable and are never deleted or overwritten. Using “Void record” creates a linked corrective entry to preserve full traceability.",
+      "module": "Module",
+      "actionType": "Action type",
+      "eventsCount": "{n} events recorded",
+      "adminViewBadge": "Admin-only view",
+      "searchPh": "Search the log…",
+      "loading": "Loading audit log…",
+      "voidAction": "Void record",
+      "alreadyVoided": "Already voided",
+      "notVoidable": "Cannot void",
+      "voidToastTitle": "Demo",
+      "voidToastDetail": "Real voiding will connect to the backend. Entry: #{id}",
+      "cols": {
+        "uniqueId": "UNIQUE ID",
+        "module": "MODULE",
+        "op": "OP. TYPE",
+        "details": "INPUT DATA",
+        "prev": "PREVIOUS VALUE",
+        "next": "NEW VALUE",
+        "actions": "ACTIONS"
+      }
+    },
+    "forms": {
+      "common": {
+        "requiredHint": "All fields marked with * are required",
+        "cylinderType": "Cylinder type",
+        "quantity": "Quantity",
+        "quantityHelpEntry": "Enter the number of cylinders received",
+        "quantityHelpEntryDist": "Units entering stock",
+        "quantityHelpExit": "Units leaving stock",
+        "observations": "Notes",
+        "obsPlaceholder": "Additional notes for this inbound…",
+        "obsPlaceholderExit": "Invoice, route or delivery conditions…",
+        "clear": "Clear",
+        "clearForm": "Reset form",
+        "saveEntry": "Save inbound",
+        "saveExit": "Save outbound",
+        "previewDynamic": "Live preview",
+        "impactPreview": "Impact preview",
+        "footerLockEntry": "Every inbound is logged in movement history with date and time.",
+        "footerLockExit": "Every outbound is logged in movement history with date and time."
+      },
+      "enterpriseEntry": {
+        "title": "New cylinder inbound",
+        "subtitle": "All fields marked with * are required",
+        "origin": "Origin",
+        "originPh": "Select origin",
+        "entryDate": "Inbound date",
+        "entryTime": "Inbound time",
+        "previewLine": "Current {kg} kg stock: {current}",
+        "previewArrow": "Stock after save:",
+        "previewFooter": "+{qty} units when you confirm"
+      },
+      "distEntry": {
+        "title": "New cylinder inbound",
+        "subtitle": "Register stock entering inventory.",
+        "provider": "Supplier",
+        "providerPh": "Select supplier",
+        "selectedType": "Selected type:",
+        "qtyIncoming": "Quantity to add:",
+        "units": "units",
+        "stockNow": "CURRENT STOCK",
+        "stockNew": "NEW STOCK",
+        "providerLabel": "Supplier:"
+      },
+      "enterpriseExit": {
+        "title": "New cylinder outbound",
+        "destination": "Destination",
+        "destinationHelp": "Where the cylinders are going",
+        "destinationPh": "North distributor - Trujillo",
+        "reasonTitle": "Reason",
+        "reasonSale": "Sale",
+        "reasonDist": "Distribution",
+        "reasonMove": "Internal transfer",
+        "exitDate": "Outbound date",
+        "exitTime": "Outbound time",
+        "stockInsufficient": "Insufficient stock: only {n} {kg} kg cylinders available",
+        "previewWarn": "−{qty} units when you confirm",
+        "previewLine": "Current {nombre} stock: {current} → After save: {next} ↓"
+      },
+      "distExit": {
+        "title": "New cylinder outbound",
+        "subtitle": "Register stock leaving inventory.",
+        "exitKindTitle": "Outbound type",
+        "saleDirect": "Direct sale",
+        "delivery": "Home delivery",
+        "returnSupplier": "Return to supplier",
+        "selectedLine": "Selected:",
+        "qtyOut": "Quantity to remove:",
+        "exitKindLine": "Outbound type:",
+        "stockLine": "{kg} kg stock: {a} → {b}"
+      },
+      "weights": {
+        "kg5": "5 kg",
+        "kg10": "10 kg",
+        "kg15": "15 kg",
+        "kg45": "45 kg",
+        "domestic": "Domestic",
+        "standard": "Standard home",
+        "commercial": "Light commercial",
+        "industrial": "Industrial / restaurants"
+      }
+    },
+    "sidebar": {
+      "language": "Language",
+      "spanish": "Español",
+      "english": "English"
+    }
+  }
+}

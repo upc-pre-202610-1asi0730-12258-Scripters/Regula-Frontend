@@ -1,0 +1,28 @@
+@import './styles/regula-tokens.css';
+@import './styles/prime-tooltip.css';
+
+/* Solo lectura para lectores de pantalla */
+.regula-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+html {
+    font-size: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--regula-page-bg);
+}
+
+#app {
+    min-height: 100vh;
+}
