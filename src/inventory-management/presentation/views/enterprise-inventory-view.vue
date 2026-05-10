@@ -1,10 +1,11 @@
 ﻿<script setup>
 import { useInventoryUiStore } from '@/inventory-management/application/inventory-ui.store.js'
 import { useInventoryStore } from '@/inventory-management/application/inventory.store.js'
-import DistributorRegisterEntryPanel from '@/inventory-management/presentation/components/distributor-register-entry-panel.vue'
-import DistributorRegisterExitPanel from '@/inventory-management/presentation/components/distributor-register-exit-panel.vue'
-import InventoryDistributorStockPanel from '@/inventory-management/presentation/components/inventory-distributor-stock-panel.vue'
-import DistributorMovementHistoryPanel from '@/inventory-management/presentation/components/distributor-movement-history-panel.vue'
+import EnterpriseRegisterEntryPanel from '@/inventory-management/presentation/components/enterprise-register-entry-panel.vue'
+import EnterpriseRegisterExitPanel from '@/inventory-management/presentation/components/enterprise-register-exit-panel.vue'
+import InventoryEnterpriseStockPanel from '@/inventory-management/presentation/components/inventory-enterprise-stock-panel.vue'
+import EnterpriseAuditPanel from '@/inventory-management/presentation/components/enterprise-audit-panel.vue'
+import EnterpriseMovementHistoryPanel from '@/inventory-management/presentation/components/enterprise-movement-history-panel.vue'
 import InventoryShellTabs from '@/inventory-management/presentation/components/inventory-shell-tabs.vue'
 import ProgressSpinner from 'primevue/progressspinner'
 import { storeToRefs } from 'pinia'
@@ -15,13 +16,18 @@ const { t } = useI18n()
 const inventoryUi = useInventoryUiStore()
 
 const store = useInventoryStore()
-const { distributorCards, distributorLoaded } = storeToRefs(store)
+const { enterpriseRows, enterpriseTotals, enterpriseLoaded } = storeToRefs(store)
 
 const panels = computed(() => [
   { key: 'stock', header: t('inventory.tabs.stock') },
   { key: 'entrada', header: t('inventory.tabs.entry') },
   { key: 'salida', header: t('inventory.tabs.exit') },
   { key: 'historial', header: t('inventory.tabs.history') },
+  {
+    key: 'auditoria',
+    header: t('inventory.tabs.audit'),
+    badge: t('inventory.tabs.auditBadge'),
+  },
 ])
 
 function onSectionChange({ key }) {
@@ -29,36 +35,43 @@ function onSectionChange({ key }) {
 }
 
 onMounted(() => {
-  store.fetchDistributorStock()
+  store.fetchEnterpriseStock()
 })
 </script>
 
 <template>
-  <div class="dist-inv">
+  <div class="enterprise-inv">
     <InventoryShellTabs :panels="panels" @section-change="onSectionChange">
       <template #stock>
-        <div v-if="!distributorLoaded" class="dist-inv__loading">
+        <div v-if="!enterpriseLoaded" class="enterprise-inv__loading">
           <ProgressSpinner stroke-width="4" style="width: 42px; height: 42px" />
-          <span>{{ t('common.loadingStock') }}</span>
+          <span>{{ t('common.loadingInventory') }}</span>
         </div>
-        <InventoryDistributorStockPanel v-else :cards="distributorCards" />
+        <InventoryEnterpriseStockPanel
+            v-else
+            :rows="enterpriseRows"
+            :totals="enterpriseTotals"
+        />
       </template>
 
       <template #entrada>
-        <DistributorRegisterEntryPanel />
+        <EnterpriseRegisterEntryPanel />
       </template>
       <template #salida>
-        <DistributorRegisterExitPanel />
+        <EnterpriseRegisterExitPanel />
       </template>
       <template #historial>
-        <DistributorMovementHistoryPanel />
+        <EnterpriseMovementHistoryPanel />
+      </template>
+      <template #auditoria>
+        <EnterpriseAuditPanel />
       </template>
     </InventoryShellTabs>
   </div>
 </template>
 
 <style scoped>
-.dist-inv__loading {
+.enterprise-inv__loading {
   display: flex;
   align-items: center;
   gap: 0.75rem;
