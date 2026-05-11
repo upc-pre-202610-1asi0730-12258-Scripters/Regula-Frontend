@@ -1,5 +1,6 @@
 ﻿import AppShellLayout from '@/shared/presentation/layouts/app-shell-layout.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import { securityRoutes } from '@/operational-security-management/presentation/security-routes.js'
 
 const RoleSelectView = () =>
     import('@/shared/presentation/views/role-select-view.vue')
@@ -48,6 +49,12 @@ export const router = createRouter({
                     },
                 },
             ],
+        },
+        {
+            path: '/seguridad',
+            component: AppShellLayout,
+            // Aquí inyectamos todo el hub de seguridad que a su vez tiene las sub-rutas
+            children: securityRoutes
         },
         {
             path: '/:pathMatch(.*)*',

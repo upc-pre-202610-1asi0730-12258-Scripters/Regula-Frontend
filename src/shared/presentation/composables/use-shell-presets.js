@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router'
 
 const enterpriseNav = [
     { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-    { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '#' },
+    { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
     { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
     { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
     { label: 'Distribución', icon: 'pi pi-truck', to: '#' },
@@ -14,7 +14,7 @@ const enterpriseNav = [
 
 const distributorNav = [
     { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-    { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '#' },
+    { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
     { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
     { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
     { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '#' },
