@@ -3,8 +3,16 @@
     <!-- 1. Banner Informativo -->
     <div class="info-banner">
       <i class="pi pi-info-circle info-icon"></i>
+      <!-- Usamos i18n-t para interpolar HTML dentro de la traducción -->
       <p class="info-text">
-        Se considera desvío de ruta cuando la unidad se aleja más de <span class="mono-bold text-blue">500 m</span> de su ruta planificada por un lapso superior a <span class="mono-bold text-blue">3 minutos</span>.
+        <i18n-t keypath="security.route_deviations.banner" tag="span">
+          <template #distance>
+            <span class="mono-bold text-blue">500 m</span>
+          </template>
+          <template #time>
+            <span class="mono-bold text-blue">3 minutos</span>
+          </template>
+        </i18n-t>
       </p>
     </div>
 
@@ -13,22 +21,22 @@
       <div class="search-bar">
         <span class="p-input-icon-left w-full">
           <i class="pi pi-search" />
-          <InputText v-model="filters['global'].value" placeholder="Buscar unidad o ubicación..." class="w-full" />
+          <InputText v-model="filters['global'].value" :placeholder="$t('security.route_deviations.search_placeholder')" class="w-full" />
         </span>
       </div>
       
       <div class="summary-pills">
         <div class="pill">
           <span class="circle circle-gray"></span>
-          <span class="pill-label">Total: {{ securityStore.totalDeviations }}</span>
+          <span class="pill-label">{{ $t('security.route_deviations.pills.total') }}: {{ securityStore.totalDeviations }}</span>
         </div>
         <div class="pill">
           <span class="circle circle-orange"></span>
-          <span class="pill-label">Pendientes: {{ securityStore.pendingDeviations }}</span>
+          <span class="pill-label">{{ $t('security.route_deviations.pills.pending') }}: {{ securityStore.pendingDeviations }}</span>
         </div>
         <div class="pill">
           <span class="circle circle-green"></span>
-          <span class="pill-label">Atendidas: {{ securityStore.attendedDeviations }}</span>
+          <span class="pill-label">{{ $t('security.route_deviations.pills.attended') }}: {{ securityStore.attendedDeviations }}</span>
         </div>
       </div>
     </div>
@@ -46,34 +54,34 @@
         :loading="securityStore.isLoading"
         class="custom-table"
       >
-        <template #empty> No se encontraron desvíos registrados. </template>
+        <template #empty> {{ $t('security.alert_history.empty_state') }} </template>
 
-        <Column field="id" header="ID" :sortable="true"></Column>
-        <Column field="unit" header="Vehículo / Unidad" :sortable="true"></Column>
-        <Column field="location" header="Última Ubicación" :sortable="true"></Column>
+        <Column field="id" :header="$t('security.route_deviations.columns.id')" :sortable="true"></Column>
+        <Column field="unit" :header="$t('security.route_deviations.columns.unit')" :sortable="true"></Column>
+        <Column field="location" :header="$t('security.route_deviations.columns.location')" :sortable="true"></Column>
         
-        <Column field="distance" header="Distancia Detectada" :sortable="true">
+        <Column field="distance" :header="$t('security.route_deviations.columns.distance')" :sortable="true">
           <template #body="slotProps">
             <span class="mono-text">{{ slotProps.data.distance }} m</span>
           </template>
         </Column>
         
-        <Column field="time" header="Hora de Desvío" :sortable="true">
+        <Column field="time" :header="$t('security.route_deviations.columns.time')" :sortable="true">
           <template #body="slotProps">
             <span class="mono-text">{{ slotProps.data.time }}</span>
           </template>
         </Column>
 
-        <Column field="status" header="Estado" :sortable="true">
+        <Column field="status" :header="$t('security.route_deviations.columns.status')" :sortable="true">
           <template #body="slotProps">
             <Tag :value="slotProps.data.status" :severity="getStatusSeverity(slotProps.data.status)" />
           </template>
         </Column>
 
-        <Column header="Acción">
+        <Column :header="$t('security.route_deviations.columns.action')">
           <template #body="slotProps">
              <Button 
-               :label="slotProps.data.status === 'Pendiente' ? 'Revisar' : 'Detalles'" 
+               :label="slotProps.data.status === 'Pendiente' ? $t('security.route_deviations.actions.review') : $t('security.route_deviations.actions.details')" 
                :icon="slotProps.data.status === 'Pendiente' ? 'pi pi-exclamation-triangle' : 'pi pi-eye'"
                :severity="slotProps.data.status === 'Pendiente' ? 'warn' : 'secondary'"
                size="small"

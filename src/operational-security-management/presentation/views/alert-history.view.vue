@@ -1,13 +1,13 @@
 <template>
   <div class="alert-history p-4">
-    <h2 class="text-2xl font-bold mb-4">Historial de Alertas</h2>
+    <h2 class="text-2xl font-bold mb-4">{{ $t('security.alert_history.title') }}</h2>
 
     <div v-if="securityStore.isLoading" class="flex justify-content-center my-5">
       <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
     </div>
 
     <div v-else-if="securityStore.error" class="p-error mb-4">
-      {{ securityStore.error }}
+      {{ $t('security.common.error') }}
     </div>
 
     <div v-else class="card">
@@ -26,32 +26,32 @@
           <div class="flex justify-content-between">
             <span class="p-input-icon-left">
               <i class="pi pi-search" />
-              <InputText v-model="filters['global'].value" placeholder="Buscar en el historial..." />
+              <InputText v-model="filters['global'].value" :placeholder="$t('security.alert_history.search_placeholder')" />
             </span>
           </div>
         </template>
         
-        <template #empty> No se encontraron registros de alertas. </template>
+        <template #empty> {{ $t('security.alert_history.empty_state') }} </template>
 
-        <Column field="id" header="ID" sortable></Column>
+        <Column field="id" :header="$t('security.alert_history.columns.id')" sortable></Column>
         
-        <Column field="type" header="Tipo de Alerta" sortable></Column>
+        <Column field="type" :header="$t('security.alert_history.columns.type')" sortable></Column>
         
-        <Column field="location" header="Ubicación" sortable></Column>
+        <Column field="location" :header="$t('security.alert_history.columns.location')" sortable></Column>
         
-        <Column field="criticality" header="Criticidad" sortable>
+        <Column field="criticality" :header="$t('security.alert_history.columns.criticality')" sortable>
           <template #body="slotProps">
             <Tag :value="slotProps.data.criticality" :severity="getSeverity(slotProps.data.criticality)" />
           </template>
         </Column>
         
-        <Column field="timestamp" header="Fecha y Hora" sortable>
+        <Column field="timestamp" :header="$t('security.alert_history.columns.timestamp')" sortable>
           <template #body="slotProps">
             {{ formatDate(slotProps.data.timestamp) }}
           </template>
         </Column>
 
-        <Column field="status" header="Estado" sortable>
+        <Column field="status" :header="$t('security.alert_history.columns.status')" sortable>
           <template #body="slotProps">
              <span class="text-green-600 font-medium">
                <i class="pi pi-check-circle mr-1"></i>

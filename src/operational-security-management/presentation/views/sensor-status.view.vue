@@ -6,7 +6,7 @@
     </div>
     
     <div v-else-if="securityStore.error" class="p-error mb-4 w-full">
-      {{ securityStore.error }}
+      {{ $t('security.common.error') }}
     </div>
 
     <!-- 1. Tarjeta Principal (El primer sensor lo tomamos como el principal por ahora) -->
@@ -22,14 +22,14 @@
           <div class="ppm-circle" :style="{ background: `conic-gradient(var(--status-ok-text, #15803D) 0deg ${getDegree(mainSensor.ppm)}deg, var(--gray-200, #E5E7EB) ${getDegree(mainSensor.ppm)}deg 360deg)` }">
             <div class="ppm-value mono-text">{{ mainSensor.ppm >= 0 ? mainSensor.ppm : '--' }}</div>
           </div>
-          <div class="ppm-label">PPM (Gas)</div>
+          <div class="ppm-label">{{ $t('security.sensor_status.ppm_label') }}</div>
         </div>
 
         <!-- Barra de Rango de Seguridad -->
         <div class="safety-range">
           <div class="range-labels">
             <span>0</span>
-            <span>Rango Seguro</span>
+            <span>{{ $t('security.sensor_status.range_label') }}</span>
             <span>50+</span>
           </div>
           <div class="range-bar">
@@ -46,15 +46,15 @@
       <div class="hardware-panel">
         <div class="hw-item">
           <i class="pi pi-wifi hw-icon" :class="{'text-green': mainSensor.hardware.signal === 'Fuerte'}"></i>
-          <span class="hw-text">Señal {{ mainSensor.hardware.signal.toLowerCase() }}</span>
+          <span class="hw-text">{{ $t('security.sensor_status.hw.signal', { strength: mainSensor.hardware.signal.toLowerCase() }) }}</span>
         </div>
         <div class="hw-item">
           <i class="pi pi-bolt hw-icon" :class="{'text-red': mainSensor.hardware.battery < 20}"></i>
-          <span class="hw-text">Batería {{ mainSensor.hardware.battery }}%</span>
+          <span class="hw-text">{{ $t('security.sensor_status.hw.battery', { level: mainSensor.hardware.battery }) }}</span>
         </div>
         <div class="hw-item">
           <i :class="mainSensor.hardware.online ? 'pi pi-check-circle text-green' : 'pi pi-times-circle text-red'" class="hw-icon"></i>
-          <span class="hw-text">{{ mainSensor.hardware.online ? 'En línea' : 'Desconectado' }}</span>
+          <span class="hw-text">{{ mainSensor.hardware.online ? $t('security.sensor_status.hw.online') : $t('security.sensor_status.hw.offline') }}</span>
         </div>
       </div>
     </div>
@@ -67,35 +67,35 @@
           <i class="pi pi-exclamation-triangle warning-icon"></i>
         </div>
         <div class="warning-content">
-          <h4 class="warning-title">Sin señal del sensor</h4>
-          <p class="warning-desc">{{ offlineSensor.name }} ({{ offlineSensor.last_connection }})</p>
+          <h4 class="warning-title">{{ $t('security.sensor_status.warning_card.title') }}</h4>
+          <p class="warning-desc">{{ $t('security.sensor_status.warning_card.location', { sensorName: offlineSensor.name, time: offlineSensor.last_connection }) }}</p>
         </div>
-        <Button label="Reconectar" severity="warn" size="small" outlined class="ml-auto" />
+        <Button :label="$t('security.sensor_status.warning_card.reconnect_button')" severity="warn" size="small" outlined class="ml-auto" />
       </div>
       <div v-else class="card-panel warning-card" style="background: var(--status-ok-bg); border-color: var(--status-ok-border);">
          <div class="warning-icon-wrapper" style="background: white;">
           <i class="pi pi-check-circle text-green" style="font-size: 1.5rem;"></i>
         </div>
         <div class="warning-content">
-          <h4 class="warning-title" style="color: var(--status-ok-text)">Todo en orden</h4>
-          <p class="warning-desc">Todos los sensores están reportando correctamente.</p>
+          <h4 class="warning-title" style="color: var(--status-ok-text)">{{ $t('security.sensor_status.ok_card.title') }}</h4>
+          <p class="warning-desc">{{ $t('security.sensor_status.ok_card.desc') }}</p>
         </div>
       </div>
 
       <!-- Tarjetas Pequeñas de Metadatos -->
       <div class="metadata-cards">
         <div class="card-panel meta-card">
-          <div class="meta-label">Última lectura global</div>
+          <div class="meta-label">{{ $t('security.sensor_status.meta.last_read') }}</div>
           <div class="meta-value mono-text">{{ securityStore.sensorsMetadata.last_global_read }}</div>
         </div>
         <div class="meta-card-separator"></div>
         <div class="card-panel meta-card">
-          <div class="meta-label">Sensores activos</div>
+          <div class="meta-label">{{ $t('security.sensor_status.meta.active_sensors') }}</div>
           <div class="meta-value mono-text">{{ securityStore.sensorsMetadata.active_sensors }} / {{ securityStore.sensorsMetadata.total_sensors }}</div>
         </div>
         <div class="meta-card-separator"></div>
         <div class="card-panel meta-card">
-          <div class="meta-label">Batería crítica</div>
+          <div class="meta-label">{{ $t('security.sensor_status.meta.critical_battery') }}</div>
           <div class="meta-value mono-text text-red">{{ securityStore.sensorsMetadata.critical_battery }}</div>
         </div>
       </div>

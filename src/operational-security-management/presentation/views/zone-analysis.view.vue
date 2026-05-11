@@ -2,10 +2,10 @@
   <div class="zone-analysis">
     <!-- 1. Cabecera y Filtros -->
     <div class="zone-header">
-      <h2 class="zone-title">Zonas con mayor frecuencia de alertas</h2>
+      <h2 class="zone-title">{{ $t('security.zone_analysis.title') }}</h2>
       <div class="zone-filters">
-        <Select v-model="selectedPeriod" :options="periods" optionLabel="label" placeholder="Seleccionar Período" class="w-14rem" />
-        <Select v-model="selectedType" :options="types" optionLabel="label" placeholder="Tipo de Alerta" class="w-14rem" />
+        <Select v-model="selectedPeriod" :options="periods" optionLabel="label" :placeholder="$t('security.zone_analysis.filters.period')" class="w-14rem" />
+        <Select v-model="selectedType" :options="types" optionLabel="label" :placeholder="$t('security.zone_analysis.filters.type')" class="w-14rem" />
       </div>
     </div>
     
@@ -14,7 +14,7 @@
     </div>
     
     <div v-else-if="securityStore.error" class="p-error mb-4">
-      {{ securityStore.error }}
+      {{ $t('security.common.error') }}
     </div>
 
     <!-- 2. Grid de Zonas -->
@@ -33,19 +33,19 @@
         <div class="metrics-container">
           <div class="metric-square metric-alta">
             <span class="metric-val mono-text">{{ zone.metrics.alta }}</span>
-            <span class="metric-lbl">Alta</span>
+            <span class="metric-lbl">{{ $t('security.zone_analysis.metrics.high') }}</span>
           </div>
           <div class="metric-square metric-media">
             <span class="metric-val mono-text">{{ zone.metrics.media }}</span>
-            <span class="metric-lbl">Media</span>
+            <span class="metric-lbl">{{ $t('security.zone_analysis.metrics.medium') }}</span>
           </div>
           <div class="metric-square metric-baja">
             <span class="metric-val mono-text">{{ zone.metrics.baja }}</span>
-            <span class="metric-lbl">Baja</span>
+            <span class="metric-lbl">{{ $t('security.zone_analysis.metrics.low') }}</span>
           </div>
           <div class="metric-square metric-incidentes">
             <span class="metric-val mono-text">{{ zone.metrics.incidentes }}</span>
-            <span class="metric-lbl">Incidentes</span>
+            <span class="metric-lbl">{{ $t('security.zone_analysis.metrics.incidents') }}</span>
           </div>
         </div>
       </div>
@@ -53,23 +53,23 @@
 
     <!-- 5. Barra Inferior (Leyenda) -->
     <div class="card-panel bottom-legend">
-      <div class="legend-title">Leyenda de Criticidad:</div>
+      <div class="legend-title">{{ $t('security.zone_analysis.legend.title') }}</div>
       <div class="legend-items">
         <div class="legend-item">
           <span class="color-box box-alta"></span>
-          <span>Alta (Prioridad 1)</span>
+          <span>{{ $t('security.zone_analysis.legend.high') }}</span>
         </div>
         <div class="legend-item">
           <span class="color-box box-media"></span>
-          <span>Media (Prioridad 2)</span>
+          <span>{{ $t('security.zone_analysis.legend.medium') }}</span>
         </div>
         <div class="legend-item">
           <span class="color-box box-baja"></span>
-          <span>Baja (Preventiva)</span>
+          <span>{{ $t('security.zone_analysis.legend.low') }}</span>
         </div>
         <div class="legend-item">
           <span class="color-box box-ok"></span>
-          <span>Sin Riesgo / Estable</span>
+          <span>{{ $t('security.zone_analysis.legend.stable') }}</span>
         </div>
       </div>
     </div>
