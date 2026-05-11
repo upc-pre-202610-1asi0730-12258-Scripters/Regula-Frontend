@@ -1,0 +1,112 @@
+{
+  "security": {
+    "shell": {
+      "main_link": "Alerts & Security"
+    },
+    "hub": {
+      "title": "Alerts & Security",
+      "tabs": {
+        "active_alerts": "Active Alerts",
+        "alert_history": "Alert History",
+        "sensor_status": "Sensor Status",
+        "route_deviations": "Route Deviations",
+        "zone_analysis": "Zone Analysis"
+      }
+    },
+    "active_alerts": {
+      "title": "Active Alerts",
+      "card": {
+        "location": "Location",
+        "timestamp": "Date and Time",
+        "status": "Status",
+        "resolve_button": "Resolve Alert"
+      },
+      "empty_state": "There are no active alerts at this time."
+    },
+    "alert_history": {
+      "title": "Alert History",
+      "search_placeholder": "Search history...",
+      "empty_state": "No alert records found.",
+      "columns": {
+        "id": "ID",
+        "type": "Alert Type",
+        "location": "Location",
+        "criticality": "Criticality",
+        "timestamp": "Date and Time",
+        "status": "Status"
+      }
+    },
+    "route_deviations": {
+      "title": "Route Deviations",
+      "banner": "A route deviation is considered when the unit moves more than {distance} from its planned route for a period exceeding {time}.",
+      "search_placeholder": "Search unit or location...",
+      "pills": {
+        "total": "Total",
+        "pending": "Pending",
+        "attended": "Attended"
+      },
+      "columns": {
+        "id": "ID",
+        "unit": "Vehicle / Unit",
+        "location": "Last Location",
+        "distance": "Distance Detected",
+        "time": "Deviation Time",
+        "status": "Status",
+        "action": "Action"
+      },
+      "actions": {
+        "review": "Review",
+        "details": "Details"
+      }
+    },
+    "sensor_status": {
+      "main_card_title": "North Lima Distributor",
+      "ppm_label": "PPM (Gas)",
+      "range_label": "Safe Range",
+      "hw": {
+        "signal": "{strength} Signal",
+        "battery": "Battery {level}%",
+        "online": "Online",
+        "offline": "Offline"
+      },
+      "warning_card": {
+        "title": "No sensor signal",
+        "location": "{sensorName} ({time} ago)",
+        "reconnect_button": "Reconnect"
+      },
+      "ok_card": {
+        "title": "All systems go",
+        "desc": "All sensors are reporting correctly."
+      },
+      "meta": {
+        "last_read": "Last global reading",
+        "active_sensors": "Active sensors",
+        "critical_battery": "Critical battery"
+      }
+    },
+    "zone_analysis": {
+      "title": "Zones with highest alert frequency",
+      "filters": {
+        "period": "Select Period",
+        "type": "Alert Type"
+      },
+      "metrics": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low",
+        "incidents": "Incidents"
+      },
+      "legend": {
+        "title": "Criticality Legend:",
+        "high": "High (Priority 1)",
+        "medium": "Medium (Priority 2)",
+        "low": "Low (Preventive)",
+        "stable": "No Risk / Stable"
+      }
+    },
+    "common": {
+      "loading": "Loading...",
+      "error": "Error loading data."
+    }
+  }
+}

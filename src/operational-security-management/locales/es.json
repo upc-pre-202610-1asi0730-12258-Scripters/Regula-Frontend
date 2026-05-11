@@ -1,0 +1,112 @@
+{
+  "security": {
+    "shell": {
+      "main_link": "Alertas y Seguridad"
+    },
+    "hub": {
+      "title": "Alertas y Seguridad",
+      "tabs": {
+        "active_alerts": "Alertas Activas",
+        "alert_history": "Historial de Alertas",
+        "sensor_status": "Estado del Sensor",
+        "route_deviations": "Desvíos de Ruta",
+        "zone_analysis": "Análisis por Zona"
+      }
+    },
+    "active_alerts": {
+      "title": "Alertas Activas",
+      "card": {
+        "location": "Ubicación",
+        "timestamp": "Fecha y Hora",
+        "status": "Estado",
+        "resolve_button": "Resolver Alerta"
+      },
+      "empty_state": "No hay alertas activas en este momento."
+    },
+    "alert_history": {
+      "title": "Historial de Alertas",
+      "search_placeholder": "Buscar en el historial...",
+      "empty_state": "No se encontraron registros de alertas.",
+      "columns": {
+        "id": "ID",
+        "type": "Tipo de Alerta",
+        "location": "Ubicación",
+        "criticality": "Criticidad",
+        "timestamp": "Fecha y Hora",
+        "status": "Estado"
+      }
+    },
+    "route_deviations": {
+      "title": "Desvíos de Ruta",
+      "banner": "Se considera desvío de ruta cuando la unidad se aleja más de {distance} de su ruta planificada por un lapso superior a {time}.",
+      "search_placeholder": "Buscar unidad o ubicación...",
+      "pills": {
+        "total": "Total",
+        "pending": "Pendientes",
+        "attended": "Atendidas"
+      },
+      "columns": {
+        "id": "ID",
+        "unit": "Vehículo / Unidad",
+        "location": "Última Ubicación",
+        "distance": "Distancia Detectada",
+        "time": "Hora de Desvío",
+        "status": "Estado",
+        "action": "Acción"
+      },
+      "actions": {
+        "review": "Revisar",
+        "details": "Detalles"
+      }
+    },
+    "sensor_status": {
+      "main_card_title": "Distribuidor Lima Norte",
+      "ppm_label": "PPM (Gas)",
+      "range_label": "Rango Seguro",
+      "hw": {
+        "signal": "Señal {strength}",
+        "battery": "Batería {level}%",
+        "online": "En línea",
+        "offline": "Desconectado"
+      },
+      "warning_card": {
+        "title": "Sin señal del sensor",
+        "location": "{sensorName} (Hace {time})",
+        "reconnect_button": "Reconectar"
+      },
+      "ok_card": {
+        "title": "Todo en orden",
+        "desc": "Todos los sensores están reportando correctamente."
+      },
+      "meta": {
+        "last_read": "Última lectura global",
+        "active_sensors": "Sensores activos",
+        "critical_battery": "Batería crítica"
+      }
+    },
+    "zone_analysis": {
+      "title": "Zonas con mayor frecuencia de alertas",
+      "filters": {
+        "period": "Seleccionar Período",
+        "type": "Tipo de Alerta"
+      },
+      "metrics": {
+        "high": "Alta",
+        "medium": "Media",
+        "low": "Baja",
+        "incidents": "Incidentes"
+      },
+      "legend": {
+        "title": "Leyenda de Criticidad:",
+        "high": "Alta (Prioridad 1)",
+        "medium": "Media (Prioridad 2)",
+        "low": "Baja (Preventiva)",
+        "stable": "Sin Riesgo / Estable"
+      }
+    },
+    "common": {
+      "loading": "Cargando...",
+      "error": "Error al cargar los datos."
+    }
+  }
+}
