@@ -1,29 +1,10 @@
 ﻿import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-
-const enterpriseNav = [
-    { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-    { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
-    { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
-    { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
-    { label: 'Distribución', icon: 'pi pi-truck', to: '#' },
-    { label: 'Reportes', icon: 'pi pi-chart-bar', to: '#' },
-    { label: 'Mantenimiento', icon: 'pi pi-wrench', to: '#' },
-    { label: 'Administración', icon: 'pi pi-cog', to: '#' },
-]
-
-const distributorNav = [
-    { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-    { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
-    { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
-    { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
-    { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '#' },
-    { label: 'Fiados y Cobranzas', icon: 'pi pi-wallet', to: '#' },
-    { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#' },
-]
+import { useI18n } from 'vue-i18n'
 
 export function useShellPresets() {
     const route = useRoute()
+    const { t } = useI18n()
 
     const preset = computed(() => {
         if (route.meta?.shellPreset) {
@@ -35,9 +16,30 @@ export function useShellPresets() {
         return 'enterprise'
     })
 
-    const navigationItems = computed(() =>
-        preset.value === 'distributor' ? distributorNav : enterpriseNav,
-    )
+    const navigationItems = computed(() => {
+        const enterpriseNav = [
+            { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
+            { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
+            { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
+            { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
+            { label: 'Distribución', icon: 'pi pi-truck', to: '#' },
+            { label: 'Reportes', icon: 'pi pi-chart-bar', to: '#' },
+            { label: 'Mantenimiento', icon: 'pi pi-wrench', to: '#' },
+            { label: 'Administración', icon: 'pi pi-cog', to: '#' },
+        ]
+
+        const distributorNav = [
+            { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
+            { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
+            { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
+            { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
+            { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '#' },
+            { label: 'Fiados y Cobranzas', icon: 'pi pi-wallet', to: '#' },
+            { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#' },
+        ]
+        
+        return preset.value === 'distributor' ? distributorNav : enterpriseNav;
+    })
 
     const profile = computed(() =>
         preset.value === 'distributor'
