@@ -71,14 +71,14 @@ export const router = createRouter({
                     },
                 },
                 {
-                    path: 'distribuidor/fiados',
+                    path: 'distribuidor/deudas',
                     name: 'commercial-distributor-debts',
                     component: DistributorDebtsView,
                     meta: {
                         shellPreset: 'distributor',
-                        pageTitle: 'Fiados y Cobranzas',
-                        breadcrumbs: ['Regula', 'Fiados y Cobranzas'],
-                        title: 'Fiados y Cobranzas · Distribuidor · REGULA',
+                        pageTitle: 'Deudas y Cobranzas',
+                        breadcrumbs: ['Regula', 'Deudas y Cobranzas'],
+                        title: 'Deudas y Cobranzas · Distribuidor · REGULA',
                     },
                 },
             ],
