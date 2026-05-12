@@ -175,5 +175,67 @@
       "spanish": "Español",
       "english": "English"
     }
+  },
+
+  "reports": {
+    "tabs": {
+      "generate": "Generar Reporte",
+      "trends": "Tendencias de Seguridad"
+    },
+    "card": {
+      "title": "Generar Reporte Operativo"
+    },
+    "steps": {
+      "step1": "¿Qué datos incluir?",
+      "step2": "Período",
+      "step3": "Formato de exportación"
+    },
+    "modules": {
+      "inventory": {
+        "label": "Inventario",
+        "description": "Stock, movimientos y mermas."
+      },
+      "alerts": {
+        "label": "Alertas",
+        "description": "Incidentes y brechas de seguridad."
+      },
+      "distribution": {
+        "label": "Distribución",
+        "description": "Rutas, tiempos y entregas."
+      },
+      "all": {
+        "label": "Todos",
+        "description": "Resumen general del sistema."
+      }
+    },
+    "periods": {
+      "today": "Hoy",
+      "lastWeek": "Última semana",
+      "lastMonth": "Último mes",
+      "custom": "Rango personalizado"
+    },
+    "formats": {
+      "pdf": "Documento PDF",
+      "excel": "Hoja de cálculo Excel"
+    },
+    "preview": {
+      "title": "Vista previa del reporte",
+      "selectedModule": "Módulo seleccionado:",
+      "period": "Período:",
+      "estimatedRows": "Registros estimados:",
+      "rows": "filas",
+      "periodToday": "Hoy",
+      "periodLastWeek": "Última semana (Oct 12 – Oct 19)",
+      "periodLastMonth": "Último mes",
+      "periodCustom": "Rango personalizado"
+    },
+    "cta": {
+      "generate": "Generar reporte",
+      "generating": "Generando…"
+    },
+    "toast": {
+      "title": "Reporte generado",
+      "subtitle": "Tu archivo está listo para descargar."
+    }
   }
 }

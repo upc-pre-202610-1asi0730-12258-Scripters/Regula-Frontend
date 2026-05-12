@@ -7,6 +7,8 @@ const EnterpriseInventoryView = () =>
     import('@/inventory-management/presentation/views/enterprise-inventory-view.vue')
 const DistributorInventoryView = () =>
     import('@/inventory-management/presentation/views/distributor-inventory-view.vue')
+const GenerateReportView = () =>
+    import('@/operational-analytics/presentation/views/generate-report-view.vue')
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,6 +38,8 @@ export const router = createRouter({
                         title: 'Inventario · Empresa · REGULA',
                     },
                 },
+
+
                 {
                     path: 'distribuidor',
                     name: 'inventory-distributor',
@@ -52,6 +56,24 @@ export const router = createRouter({
         {
             path: '/:pathMatch(.*)*',
             redirect: '/',
+        },
+        {
+            path: '/reportes',
+            component: AppShellLayout,         // reutiliza el mismo layout con sidebar
+            redirect: '/reportes/generar',
+            children: [
+                {
+                    path: 'generar',
+                    name: 'reports-generate',
+                    component: GenerateReportView,
+                    meta: {
+                        shellPreset: 'enterprise',
+                        pageTitle: 'Reportes',
+                        breadcrumbs: ['Regula', 'Reportes'],
+                        title: 'Reportes · REGULA',
+                    },
+                },
+            ],
         },
     ],
 })
