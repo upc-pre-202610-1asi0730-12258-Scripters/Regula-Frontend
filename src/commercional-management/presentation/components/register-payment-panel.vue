@@ -1,185 +1,170 @@
 <script setup>
 import { useCommercialStore } from '@/commercional-management/application/commercial.store.js'
 import Button from 'primevue/button'
-import Dropdown from 'primevue/dropdown'
+import Select from 'primevue/select'
 import InputNumber from 'primevue/inputnumber'
-import { computed, reactive } from 'vue'
+import { reactive, ref, computed } from 'vue'
+import { useToast } from 'primevue/usetoast'
 
 const store = useCommercialStore()
+const toast = useToast()
+const loading = ref(false)
 
 const form = reactive({
-  clientId: 1,
-  amount: 30,
+  clientId: null,
+  amount: null
 })
 
-const debtClients = computed(() => store.clientsWithDebt)
-const selectedClient = computed(() => store.clients.find((client) => client.id === form.clientId))
-const newBalance = computed(() => Math.max((selectedClient.value?.activeDebt || 0) - form.amount, 0))
+const selectedClient = computed(() => {
+  return form.clientId ? store.clients.find(c => c.id === form.clientId) : null
+})
 
-function savePayment() {
+const maxAmount = computed(() => {
+  return selectedClient.value ? selectedClient.value.activeDebt : 0
+})
+
+const isFormValid = computed(() => {
+  return form.clientId && form.amount > 0 && form.amount <= maxAmount.value
+})
+
+function submitPayment() {
+  if (!isFormValid.value) return
+  
+  loading.value = true
+  
   store.registerPayment({
     clientId: form.clientId,
-    amount: form.amount,
+    amount: form.amount
+  }).then(() => {
+    toast.add({
+      severity: 'success',
+      summary: 'Pago registrado',
+      detail: 'El pago ha sido registrado exitosamente',
+      life: 3000
+    })
+    
+    // Reset form
+    form.clientId = null
+    form.amount = null
+  }).finally(() => {
+    loading.value = false
   })
+}
+
+function setTotalAmount() {
+  if (maxAmount.value > 0) {
+    form.amount = maxAmount.value
+  }
 }
 </script>
 
 <template>
-  <section class="payment">
-    <div class="payment__card">
-      <header class="payment__header">
-        <div class="payment__icon">
-          <i class="pi pi-wallet"></i>
+  <section class="register-panel">
+    <div class="register-panel__header">
+      <i class="pi pi-money-bill icon-green"></i>
+      <h3>Registrar Pago</h3>
+    </div>
+    
+    <div class="register-panel__form">
+      <div class="form-field">
+        <label>Cliente (con deuda activa)</label>
+        <Select 
+          v-model="form.clientId" 
+          :options="store.clientsWithDebt" 
+          optionLabel="name" 
+          optionValue="id"
+          placeholder="Seleccionar cliente" 
+          class="w-full"
+        />
+        <small v-if="selectedClient" class="text-gray-500 mt-1">
+          Deuda actual: <strong>S/. {{ selectedClient.activeDebt }}</strong>
+        </small>
+      </div>
+      
+      <div class="form-field">
+        <label>Monto a pagar (S/.)</label>
+        <div class="amount-input-group">
+          <InputNumber 
+            v-model="form.amount" 
+            mode="currency" 
+            currency="PEN" 
+            locale="es-PE" 
+            placeholder="0.00" 
+            :max="maxAmount"
+            class="w-full flex-grow-1"
+          />
+          <Button label="Total" outlined severity="secondary" @click="setTotalAmount" :disabled="!selectedClient" />
         </div>
-        <div>
-          <h2>Registrar pago de cliente</h2>
-          <p>Aplica el pago a la deuda del cliente</p>
-        </div>
-      </header>
-
-      <label>Cliente *</label>
-      <Dropdown
-          v-model="form.clientId"
-          :options="debtClients"
-          option-label="name"
-          option-value="id"
-          class="payment__input"
+      </div>
+      
+      <Button 
+        label="Registrar Pago" 
+        severity="success"
+        class="w-full submit-btn" 
+        :disabled="!isFormValid"
+        :loading="loading"
+        @click="submitPayment"
       />
-
-      <article v-if="selectedClient" class="payment__client">
-        <div class="payment__avatar">{{ selectedClient.initials }}</div>
-        <div>
-          <h3>{{ selectedClient.name }}</h3>
-          <p>Cliente activo · {{ selectedClient.debtCount }} fiado(s) pendientes</p>
-        </div>
-        <strong>S/. {{ selectedClient.activeDebt }}</strong>
-      </article>
-
-      <label>Monto pagado *</label>
-      <InputNumber v-model="form.amount" prefix="S/. " class="payment__input" />
-
-      <div class="payment__result">
-        <div>
-          <strong>Nuevo saldo tras pago</strong>
-          <p>S/. {{ selectedClient?.activeDebt || 0 }} deuda - S/. {{ form.amount }} pago</p>
-        </div>
-        <strong>S/. {{ newBalance }}</strong>
-      </div>
-
-      <div class="payment__actions">
-        <Button label="Cancelar" outlined severity="secondary" />
-        <Button label="Registrar Pago" icon="pi pi-check-circle" class="payment__button" @click="savePayment" />
-      </div>
     </div>
   </section>
 </template>
 
 <style scoped>
-.payment {
-  display: flex;
-  justify-content: center;
-}
-
-.payment__card {
-  width: min(100%, 500px);
+.register-panel {
   background: white;
-  border: 1px solid var(--regula-gray-light);
   border-radius: var(--regula-radius-card);
-  padding: 1.75rem;
+  border: 1px solid var(--regula-gray-light);
+  padding: 1.5rem;
   box-shadow: 0 8px 24px rgba(23, 45, 64, 0.08);
 }
 
-.payment__header {
+.register-panel__header {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
 
-.payment__icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: #fff7ed;
-  color: var(--regula-orange);
-  display: grid;
-  place-items: center;
+.icon-green {
+  color: #15803d;
+  font-size: 1.5rem;
 }
 
-.payment h2,
-.payment h3 {
+.register-panel h3 {
   margin: 0;
   color: var(--regula-navy);
+  font-size: 1.1rem;
 }
 
-.payment p {
-  margin: 0.25rem 0 0;
-  color: var(--regula-text-muted);
+.register-panel__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
-.payment label {
-  display: block;
-  margin: 1rem 0 0.45rem;
-  font-weight: 700;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
   color: var(--regula-navy);
 }
 
-.payment__input {
-  width: 100%;
-}
-
-.payment__client {
-  margin-top: 1rem;
-  background: #f8fafc;
-  border: 1px solid var(--regula-gray-light);
-  border-radius: 12px;
-  padding: 1rem;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 1rem;
-}
-
-.payment__avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
-  background: #fee2e2;
-  color: #dc2626;
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-}
-
-.payment__client > strong {
-  font-size: 1.5rem;
-  color: #dc2626;
-}
-
-.payment__result {
-  margin-top: 1rem;
-  background: #ecfdf5;
-  border: 1px solid #86efac;
-  color: #15803d;
-  border-radius: 12px;
-  padding: 1rem;
+.amount-input-group {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
-.payment__result > strong {
-  font-size: 1.6rem;
+.flex-grow-1 {
+  flex-grow: 1;
 }
 
-.payment__actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.85rem;
-  margin-top: 1.25rem;
-}
-
-.payment__button {
-  background: var(--regula-orange);
-  border-color: var(--regula-orange);
+.submit-btn {
+  margin-top: 0.5rem;
+  font-weight: 700;
 }
 </style>
