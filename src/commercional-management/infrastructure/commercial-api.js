@@ -18,4 +18,19 @@ export class CommercialApi {
     updateCommercialCylinderType(id, cylinderType) {
         return axios.put(`${API_BASE_URL}/commercialCylinderTypes/${id}`, cylinderType)
     }
+    getCommercialClients() {
+        return axios.get(`${API_BASE_URL}/commercialClients`)
+    }
+
+    getCommercialDebtMovements() {
+        return axios.get(`${API_BASE_URL}/commercialDebtMovements`)
+    }
+
+    createCommercialDebtMovement(movement) {
+        return axios.post(`${API_BASE_URL}/commercialDebtMovements`, movement)
+    }
+
+    updateCommercialClient(id, client) {
+        return axios.put(`${API_BASE_URL}/commercialClients/${id}`, client)
+    }
 }

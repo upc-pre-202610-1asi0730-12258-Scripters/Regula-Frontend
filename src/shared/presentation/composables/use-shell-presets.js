@@ -23,7 +23,12 @@ const distributorNav = [
         to: '/comercial/distribuidor/ventas',
         matchPrefix: '/comercial/distribuidor/ventas',
     },
-    { label: 'Fiados y Cobranzas', icon: 'pi pi-wallet', to: '#' },
+    {
+        label: 'Fiados y Cobranzas',
+        icon: 'pi pi-wallet',
+        to: '/comercial/distribuidor/fiados',
+        matchPrefix: '/comercial/distribuidor/fiados',
+    },
     { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#' },
 ]
 

@@ -3745,5 +3745,18 @@
       "distributor": "Propietario",
       "isNew": false
     }
+  ],
+
+  "commercialClients": [
+    { "id": 1, "name": "Juan García", "initials": "JG", "activeDebt": 120, "debtCount": 3, "oldestDebt": "01/03/2025" },
+    { "id": 2, "name": "Maria Lopez", "initials": "ML", "activeDebt": 75, "debtCount": 2, "oldestDebt": "05/03/2025" },
+    { "id": 3, "name": "Carlos Ruiz", "initials": "CR", "activeDebt": 45, "debtCount": 1, "oldestDebt": "10/03/2025" },
+    { "id": 4, "name": "Ana Belén", "initials": "AB", "activeDebt": 15, "debtCount": 1, "oldestDebt": "12/03/2025" }
+  ],
+  "commercialDebtMovements": [
+    { "id": "ID001", "date": "15/03/2025", "time": "10:30", "type": "Pago", "client": "Juan García", "description": "Pago parcial", "amount": 30, "balance": 50, "user": "Admin" },
+    { "id": "ID002", "date": "12/03/2025", "time": "14:20", "type": "Fiado", "client": "Juan García", "description": "2 balones 10kg", "amount": 50, "balance": 80, "user": "Admin" },
+    { "id": "ID003", "date": "10/03/2025", "time": "09:15", "type": "Pago", "client": "Rosa Huanca", "description": "Pago total", "amount": 45, "balance": 0, "user": "Admin" },
+    { "id": "ID004", "date": "08/03/2025", "time": "16:45", "type": "Fiado", "client": "Maria Lopez", "description": "1 balón 15kg", "amount": 75, "balance": 75, "user": "Admin" }
   ]
 }

@@ -9,6 +9,8 @@ const DistributorInventoryView = () =>
     import('@/inventory-management/presentation/views/distributor-inventory-view.vue')
 const DistributorSalesView = () =>
     import('@/commercional-management/presentation/views/distributor-sales-view.vue')
+const DistributorDebtsView = () =>
+    import('@/commercional-management/presentation/views/distributor-debts-view.vue')
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,6 +68,17 @@ export const router = createRouter({
                         pageTitle: 'Ventas',
                         breadcrumbs: ['Regula', 'Ventas'],
                         title: 'Ventas · Distribuidor · REGULA',
+                    },
+                },
+                {
+                    path: 'distribuidor/fiados',
+                    name: 'commercial-distributor-debts',
+                    component: DistributorDebtsView,
+                    meta: {
+                        shellPreset: 'distributor',
+                        pageTitle: 'Fiados y Cobranzas',
+                        breadcrumbs: ['Regula', 'Fiados y Cobranzas'],
+                        title: 'Fiados y Cobranzas · Distribuidor · REGULA',
                     },
                 },
             ],

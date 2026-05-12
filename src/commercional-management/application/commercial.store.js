@@ -12,6 +12,18 @@ export const useCommercialStore = defineStore('commercial', () => {
     const loaded = ref(false)
     const errors = ref([])
 
+    const clients = ref([])
+    const debtMovements = ref([])
+    const debtLoaded = ref(false)
+
+    const clientsWithDebt = computed(() =>
+        clients.value.filter((client) => Number(client.activeDebt) > 0)
+    )
+
+    const totalPendingDebt = computed(() =>
+        clientsWithDebt.value.reduce((total, client) => total + Number(client.activeDebt), 0)
+    )
+
     const paymentFilters = computed(() => [
         'Todos',
         'Efectivo',
@@ -64,7 +76,89 @@ export const useCommercialStore = defineStore('commercial', () => {
 
         return result
     })
+    function fetchDebtData() {
+        return Promise.all([
+            commercialApi.getCommercialClients(),
+            commercialApi.getCommercialDebtMovements(),
+        ])
+            .then(([clientsResponse, movementsResponse]) => {
+                clients.value = clientsResponse.data ?? []
+                debtMovements.value = movementsResponse.data ?? []
+                debtLoaded.value = true
+            })
+            .catch((error) => {
+                errors.value.push(error)
+            })
+    }
 
+    function registerDebt(data) {
+        const client = clients.value.find((item) => item.id === data.clientId)
+        const cylinder = getCylinderById(data.cylinderTypeId)
+
+        if (!client || !cylinder) return
+
+        const updatedClient = {
+            ...client,
+            activeDebt: Number(client.activeDebt) + Number(data.amount),
+            debtCount: Number(client.debtCount) + 1,
+        }
+
+        const movement = {
+            id: `ID${String(debtMovements.value.length + 1).padStart(3, '0')}`,
+            date: new Date().toLocaleDateString('es-PE'),
+            time: new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' }),
+            type: 'Fiado',
+            client: client.name,
+            description: `${data.quantity} balón(es) ${cylinder.label}`,
+            amount: Number(data.amount),
+            balance: updatedClient.activeDebt,
+            user: 'Admin',
+        }
+
+        return commercialApi
+            .updateCommercialClient(client.id, updatedClient)
+            .then(() => commercialApi.createCommercialDebtMovement(movement))
+            .then(() => {
+                const index = clients.value.findIndex((item) => item.id === client.id)
+                clients.value[index] = updatedClient
+                debtMovements.value.unshift(movement)
+            })
+    }
+
+    function registerPayment(data) {
+        const client = clients.value.find((item) => item.id === data.clientId)
+
+        if (!client) return
+
+        const newBalance = Math.max(Number(client.activeDebt) - Number(data.amount), 0)
+
+        const updatedClient = {
+            ...client,
+            activeDebt: newBalance,
+            debtCount: newBalance === 0 ? 0 : client.debtCount,
+        }
+
+        const movement = {
+            id: `ID${String(debtMovements.value.length + 1).padStart(3, '0')}`,
+            date: new Date().toLocaleDateString('es-PE'),
+            time: new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' }),
+            type: 'Pago',
+            client: client.name,
+            description: newBalance === 0 ? 'Pago total' : 'Pago parcial',
+            amount: Number(data.amount),
+            balance: newBalance,
+            user: 'Admin',
+        }
+
+        return commercialApi
+            .updateCommercialClient(client.id, updatedClient)
+            .then(() => commercialApi.createCommercialDebtMovement(movement))
+            .then(() => {
+                const index = clients.value.findIndex((item) => item.id === client.id)
+                clients.value[index] = updatedClient
+                debtMovements.value.unshift(movement)
+            })
+    }
     function setPaymentFilter(paymentType) {
         selectedPaymentFilter.value = paymentType
     }
@@ -171,5 +265,13 @@ export const useCommercialStore = defineStore('commercial', () => {
         getCylinderById,
         fetchCommercialData,
         registerSale,
+        clients,
+        debtMovements,
+        debtLoaded,
+        clientsWithDebt,
+        totalPendingDebt,
+        fetchDebtData,
+        registerDebt,
+        registerPayment,
     }
 })
