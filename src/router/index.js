@@ -7,6 +7,8 @@ const EnterpriseInventoryView = () =>
     import('@/inventory-management/presentation/views/enterprise-inventory-view.vue')
 const DistributorInventoryView = () =>
     import('@/inventory-management/presentation/views/distributor-inventory-view.vue')
+const DistributorSalesView = () =>
+    import('@/commercional-management/presentation/views/distributor-sales-view.vue')
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +47,25 @@ export const router = createRouter({
                         pageTitle: 'Inventario',
                         breadcrumbs: ['Regula', 'Inventario'],
                         title: 'Inventario · Distribuidor · REGULA',
+                    },
+                },
+            ],
+        },
+        {
+            path: '/comercial',
+            component: AppShellLayout,
+            redirect: '/comercial/distribuidor/ventas',
+            meta: {},
+            children: [
+                {
+                    path: 'distribuidor/ventas',
+                    name: 'commercial-distributor-sales',
+                    component: DistributorSalesView,
+                    meta: {
+                        shellPreset: 'distributor',
+                        pageTitle: 'Ventas',
+                        breadcrumbs: ['Regula', 'Ventas'],
+                        title: 'Ventas · Distribuidor · REGULA',
                     },
                 },
             ],

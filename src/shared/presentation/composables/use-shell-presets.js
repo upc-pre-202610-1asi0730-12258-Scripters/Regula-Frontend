@@ -17,7 +17,12 @@ const distributorNav = [
     { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '#' },
     { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
     { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
-    { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '#' },
+    {
+        label: 'Ventas',
+        icon: 'pi pi-shopping-cart',
+        to: '/comercial/distribuidor/ventas',
+        matchPrefix: '/comercial/distribuidor/ventas',
+    },
     { label: 'Fiados y Cobranzas', icon: 'pi pi-wallet', to: '#' },
     { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#' },
 ]

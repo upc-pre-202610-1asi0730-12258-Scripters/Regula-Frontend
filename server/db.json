@@ -1,4 +1,4 @@
-﻿{
+{
   "enterpriseStockRows": [
     {
       "id": 1,
@@ -3659,6 +3659,91 @@
       "valorAnterior": "96",
       "valorNuevo": "136",
       "accionEstado": "voidable"
+    }
+  ],
+
+
+  "commercialCylinderTypes": [
+    {
+      "id": "5kg",
+      "label": "5 kg",
+      "price": 28,
+      "stock": 40
+    },
+    {
+      "id": "10kg",
+      "label": "10 kg",
+      "price": 50,
+      "stock": 50
+    },
+    {
+      "id": "15kg",
+      "label": "15 kg",
+      "price": 72,
+      "stock": 35
+    },
+    {
+      "id": "45kg",
+      "label": "45 kg",
+      "price": 195,
+      "stock": 12
+    }
+  ],
+  "distributorSales": [
+    {
+      "id": "#VT-0921",
+      "time": "14:30",
+      "cylinderType": "10 kg",
+      "cylinderTypeId": "10kg",
+      "quantity": 2,
+      "paymentType": "Efectivo",
+      "client": "Bodega Doña Lucha",
+      "distributor": "Carlos M.",
+      "isNew": false
+    },
+    {
+      "id": "#VT-0922",
+      "time": "14:45",
+      "cylinderType": "15 kg",
+      "cylinderTypeId": "15kg",
+      "quantity": 1,
+      "paymentType": "Yape/Plin",
+      "client": "Restaurante El Buen Sabor",
+      "distributor": "Propietario",
+      "isNew": false
+    },
+    {
+      "id": "#VT-0923",
+      "time": "15:10",
+      "cylinderType": "45 kg",
+      "cylinderTypeId": "45kg",
+      "quantity": 3,
+      "paymentType": "Fiado",
+      "client": "Panadería San José",
+      "distributor": "Luis A.",
+      "isNew": false
+    },
+    {
+      "id": "#VT-0924",
+      "time": "15:30",
+      "cylinderType": "5 kg",
+      "cylinderTypeId": "5kg",
+      "quantity": 5,
+      "paymentType": "Transferencia",
+      "client": "Minimarket Los Pinos",
+      "distributor": "Carlos M.",
+      "isNew": false
+    },
+    {
+      "id": "#VT-0925",
+      "time": "16:05",
+      "cylinderType": "10 kg",
+      "cylinderTypeId": "10kg",
+      "quantity": 10,
+      "paymentType": "Efectivo",
+      "client": "Comedor Popular 24",
+      "distributor": "Propietario",
+      "isNew": false
     }
   ]
 }
