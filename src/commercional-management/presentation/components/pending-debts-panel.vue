@@ -7,156 +7,135 @@ const store = useCommercialStore()
 
 <template>
   <section class="pending">
-    <div class="pending__top">
-      <div>
-        <h2>Clientes con deuda activa</h2>
-        <p>Ordenados por mayor deuda</p>
-      </div>
-
-      <div class="pending__alert">
-        <i class="pi pi-exclamation-circle"></i>
-        Total pendiente de cobro: <strong>S/. {{ store.totalPendingDebt }}</strong> ·
-        {{ store.clientsWithDebt.length }} clientes con deuda
-      </div>
+    <div class="pending__header">
+      <h2>Deudas Pendientes</h2>
+      <span class="pending__badge">Total: S/. {{ store.totalPendingDebt }}</span>
     </div>
 
-    <div class="pending__grid">
-      <article v-for="client in store.clientsWithDebt" :key="client.id" class="pending__card">
-        <div class="pending__card-main">
-          <div class="pending__avatar">{{ client.initials }}</div>
-
-          <div>
-            <h3>{{ client.name }}</h3>
-            <span>{{ client.debtCount }} fiado(s)</span>
+    <div class="pending__list">
+      <div v-for="client in store.clientsWithDebt" :key="client.id" class="pending__item">
+        <div class="pending__client-info">
+          <div class="pending__avatar">
+            <i class="pi pi-user" aria-hidden="true"></i>
           </div>
 
-          <div class="pending__amount">S/. {{ client.activeDebt }}</div>
+          <div>
+            <strong>{{ client.name }}</strong>
+            <span>{{ client.debtCount }} deudas pendientes</span>
+          </div>
         </div>
 
-        <p class="pending__oldest">Fiado más antiguo: {{ client.oldestDebt }}</p>
-
-        <div class="pending__actions">
-          <Button label="Registrar pago" class="pending__primary" />
-          <Button label="Ver historial" outlined severity="secondary" />
-          <button type="button" class="pending__detail">Ver detalle</button>
+        <div class="pending__amount">
+          <strong>S/. {{ client.activeDebt }}</strong>
         </div>
-      </article>
+      </div>
+
+      <div v-if="store.clientsWithDebt.length === 0" class="pending__empty">
+        <i class="pi pi-check-circle" aria-hidden="true" />
+        <p>No hay deudas pendientes por cobrar.</p>
+      </div>
     </div>
+
+    <Button label="Ver todas las cuentas" severity="secondary" outlined class="pending__btn" />
   </section>
 </template>
 
 <style scoped>
-.pending__top {
+.pending {
+  background: white;
+  border-radius: var(--regula-radius-card);
+  border: 1px solid var(--regula-gray-light);
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(23, 45, 64, 0.08);
+}
+
+.pending__header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.pending h2 {
+  margin: 0;
+  color: var(--regula-navy);
+  font-size: 1.2rem;
+}
+
+.pending__badge {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.pending__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
 
-.pending__top h2 {
-  margin: 0;
-  color: var(--regula-navy);
-}
-
-.pending__top p {
-  margin: 0.25rem 0 0;
-  color: var(--regula-text-muted);
-}
-
-.pending__alert {
-  border: 1px solid #ef4444;
-  color: #b91c1c;
-  background: #fff1f2;
-  padding: 0.75rem 1rem;
-  border-radius: 10px;
-}
-
-.pending__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem;
-}
-
-.pending__card {
-  background: var(--regula-white);
-  border: 1px solid var(--regula-gray-light);
-  border-left: 4px solid var(--regula-orange);
-  border-radius: var(--regula-radius-card);
-  box-shadow: 0 8px 24px rgba(23, 45, 64, 0.08);
-  overflow: hidden;
-}
-
-.pending__card-main {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 1rem;
+.pending__item {
+  display: flex;
   align-items: center;
-  padding: 1.5rem;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 1px solid var(--regula-gray-light);
+  border-radius: 12px;
+}
+
+.pending__client-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
 }
 
 .pending__avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
-  background: #fee2e2;
-  color: #dc2626;
-  display: grid;
-  place-items: center;
-  font-weight: 800;
+  width: 42px;
+  height: 42px;
+  background: var(--regula-surface);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--regula-steel);
 }
 
-.pending__card h3 {
-  margin: 0;
+.pending__client-info strong {
+  display: block;
   color: var(--regula-navy);
+  margin-bottom: 0.15rem;
 }
 
-.pending__card span {
+.pending__client-info span {
   font-size: 0.8rem;
-  background: #f1f5f9;
-  padding: 0.15rem 0.4rem;
-  border-radius: 6px;
-}
-
-.pending__amount {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #dc2626;
-}
-
-.pending__oldest {
-  padding: 0 1.5rem 1rem;
-  margin: 0;
-  text-align: right;
   color: var(--regula-text-muted);
 }
 
-.pending__actions {
-  border-top: 1px solid var(--regula-gray-light);
-  padding: 1rem 1.5rem;
+.pending__amount strong {
+  color: #dc2626;
+  font-size: 1.1rem;
+}
+
+.pending__btn {
+  width: 100%;
+}
+
+.pending__empty {
   display: flex;
-  gap: 0.75rem;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  color: var(--regula-text-muted);
 }
 
-.pending__primary {
-  background: var(--regula-orange);
-  border-color: var(--regula-orange);
-}
-
-.pending__detail {
-  margin-left: auto;
-  border: none;
-  background: transparent;
-  color: var(--regula-orange);
-  font-weight: 700;
-  cursor: pointer;
-}
-
-@media (max-width: 900px) {
-  .pending__grid {
-    grid-template-columns: 1fr;
-  }
+.pending__empty i {
+  font-size: 2rem;
+  color: #22c55e;
+  margin-bottom: 0.75rem;
 }
 </style>
