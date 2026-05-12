@@ -9,7 +9,7 @@ const store = useCommercialStore()
     <div class="history__header">
       <div>
         <h2>Historial de movimientos</h2>
-        <p>Registro completo de fiados y pagos</p>
+        <p>Registro completo de deudas y pagos</p>
       </div>
 
       <button class="history__export">
