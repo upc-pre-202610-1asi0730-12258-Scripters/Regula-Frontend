@@ -22,7 +22,7 @@ const attemptedSubmit = ref(false)
 const form = reactive({
   cylinderTypeId: '10kg',
   quantity: 2,
-  paymentType: 'Fiado',
+  paymentType: 'Deuda', // Cambiado de Fiado a Deuda
   client: 'Rosa Huanca',
   distributor: 'Carlos M.',
 })
@@ -46,7 +46,7 @@ const stockAfterSave = computed(() => {
   return selectedCylinder.value.stock - Number(form.quantity)
 })
 
-const requiresClient = computed(() => form.paymentType === 'Fiado')
+const requiresClient = computed(() => form.paymentType === 'Deuda')
 
 const hasClientError = computed(() => {
   return requiresClient.value && form.client.trim().length === 0
@@ -200,11 +200,11 @@ function saveSale() {
         <button
             type="button"
             class="sale-dialog__payment-card"
-            :class="{ 'sale-dialog__payment-card--selected': form.paymentType === 'Fiado' }"
-            @click="selectPayment('Fiado')"
+            :class="{ 'sale-dialog__payment-card--selected': form.paymentType === 'Deuda' }"
+            @click="selectPayment('Deuda')"
         >
           <i class="pi pi-wallet" aria-hidden="true" />
-          <span>Fiado</span>
+          <span>Deuda</span>
         </button>
       </div>
     </section>
@@ -213,7 +213,7 @@ function saveSale() {
       <label class="sale-dialog__label">
         Cliente
         <span v-if="requiresClient">*</span>
-        <small v-if="requiresClient">Requerido para Fiado</small>
+        <small v-if="requiresClient">Requerido para Deuda</small>
       </label>
 
       <span
@@ -229,15 +229,15 @@ function saveSale() {
       </span>
 
       <p v-if="attemptedSubmit && hasClientError" class="sale-dialog__error">
-        Debes ingresar un cliente para registrar una venta fiada.
+        Debes ingresar un cliente para registrar una venta en deuda.
       </p>
     </section>
 
-    <div v-if="form.paymentType === 'Fiado' && form.client" class="sale-dialog__warning">
+    <div v-if="form.paymentType === 'Deuda' && form.client" class="sale-dialog__warning">
       <i class="pi pi-exclamation-triangle" aria-hidden="true" />
       <div>
         <strong>Cliente: {{ form.client }}</strong>
-        <p>Esta venta se registrará como fiado pendiente de cobro.</p>
+        <p>Esta venta se registrará como deuda pendiente de cobro.</p>
       </div>
     </div>
 
