@@ -1,88 +1,97 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Toast from 'primevue/toast'
-import { useToast } from 'primevue/usetoast'
+
+import { useAnalyticsStore }   from '@/operational-analytics/application/analytics.store.js'
+import { useAnalyticsUiStore } from '@/operational-analytics/application/analytics-ui.store.js'
+import { ReportConfigAssembler } from '@/operational-analytics/infrastructure/report-config.assembler.js'
 
 const { t } = useI18n()
-const toast = useToast()
 
+const analyticsStore   = useAnalyticsStore()
+const analyticsUiStore = useAnalyticsUiStore()
 
+// ─── Local UI selections (assembled into a domain entity on submit) ──────────
 const selectedModule = ref('inventory')
 const selectedPeriod = ref('lastWeek')
 const selectedFormat = ref('pdf')
-const showSuccess = ref(false)
-const isGenerating = ref(false)
 
-
+// ─── Static option lists (labels come from i18n) ────────────────────────────
 const reportModules = computed(() => [
-  {
-    key: 'inventory',
-    icon: 'pi pi-box',
-    label: t('reports.modules.inventory.label'),
-    description: t('reports.modules.inventory.description'),
-  },
-  {
-    key: 'alerts',
-    icon: 'pi pi-shield',
-    label: t('reports.modules.alerts.label'),
-    description: t('reports.modules.alerts.description'),
-  },
-  {
-    key: 'distribution',
-    icon: 'pi pi-truck',
-    label: t('reports.modules.distribution.label'),
-    description: t('reports.modules.distribution.description'),
-  },
-  {
-    key: 'all',
-    icon: 'pi pi-th-large',
-    label: t('reports.modules.all.label'),
-    description: t('reports.modules.all.description'),
-  },
+  { key: 'inventory',    icon: 'pi pi-box',      label: t('reports.modules.inventory.label'),    description: t('reports.modules.inventory.description')    },
+  { key: 'alerts',       icon: 'pi pi-shield',   label: t('reports.modules.alerts.label'),       description: t('reports.modules.alerts.description')       },
+  { key: 'distribution', icon: 'pi pi-truck',    label: t('reports.modules.distribution.label'), description: t('reports.modules.distribution.description') },
+  { key: 'all',          icon: 'pi pi-th-large', label: t('reports.modules.all.label'),          description: t('reports.modules.all.description')          },
 ])
 
 const periodOptions = computed(() => [
-  { key: 'today', label: t('reports.periods.today') },
-  { key: 'lastWeek', label: t('reports.periods.lastWeek') },
+  { key: 'today',     label: t('reports.periods.today')     },
+  { key: 'lastWeek',  label: t('reports.periods.lastWeek')  },
   { key: 'lastMonth', label: t('reports.periods.lastMonth') },
-  { key: 'custom', label: t('reports.periods.custom'), icon: 'pi pi-calendar' },
+  { key: 'custom',    label: t('reports.periods.custom'), icon: 'pi pi-calendar' },
 ])
 
 const formatOptions = computed(() => [
-  { key: 'pdf', icon: 'pi pi-file-pdf', label: t('reports.formats.pdf'), iconColor: '#e53e3e' },
+  { key: 'pdf',   icon: 'pi pi-file-pdf',   label: t('reports.formats.pdf'),   iconColor: '#e53e3e' },
   { key: 'excel', icon: 'pi pi-file-excel', label: t('reports.formats.excel'), iconColor: '#38a169' },
 ])
 
-
+// ─── Preview: derived from domain entity via store ───────────────────────────
 const previewModuleLabel = computed(() =>
     reportModules.value.find((m) => m.key === selectedModule.value)?.label ?? '',
 )
 
 const previewPeriodLabel = computed(() => {
-  if (selectedPeriod.value === 'today') return t('reports.preview.periodToday')
-  if (selectedPeriod.value === 'lastWeek') return t('reports.preview.periodLastWeek')
+  if (selectedPeriod.value === 'today')     return t('reports.preview.periodToday')
+  if (selectedPeriod.value === 'lastWeek')  return t('reports.preview.periodLastWeek')
   if (selectedPeriod.value === 'lastMonth') return t('reports.preview.periodLastMonth')
   return t('reports.preview.periodCustom')
 })
 
+/**
+ * Estimated rows: use the domain entity's logic when a config exists,
+ * otherwise fall back to the static map on ReportConfig.
+ */
 const estimatedRows = computed(() => {
-  const map = { inventory: '~1,240', alerts: '~87', distribution: '~342', all: '~1,669' }
-  return map[selectedModule.value] ?? '—'
+  if (analyticsStore.currentConfig) {
+    return analyticsStore.currentConfig.estimatedRows
+  }
+  // Build a temporary entity just for the label (no fetch needed)
+  const tmp = ReportConfigAssembler.toEntityFromSelection({
+    module: selectedModule.value,
+    period: selectedPeriod.value,
+    format: selectedFormat.value,
+  })
+  return tmp.estimatedRows
 })
 
+// ─── Convenience aliases from store ──────────────────────────────────────────
+const isGenerating = computed(() => analyticsStore.isGenerating)
+const showSuccess  = computed(() => analyticsStore.showSuccess)
 
-async function generateReport() {
-  isGenerating.value = true
-  await new Promise((r) => setTimeout(r, 1400))
-  isGenerating.value = false
-  showSuccess.value = true
-  setTimeout(() => (showSuccess.value = false), 4000)
+// ─── Actions ─────────────────────────────────────────────────────────────────
+function generateReport() {
+  // 1. Assemble domain entity from current UI selections
+  const config = ReportConfigAssembler.toEntityFromSelection({
+    module: selectedModule.value,
+    period: selectedPeriod.value,
+    format: selectedFormat.value,
+  })
+  // 2. Push config into the store (enables filtered computed props)
+  analyticsStore.setConfig(config)
+  // 3. Trigger generation
+  analyticsStore.generateReport()
 }
 
 function dismissSuccess() {
-  showSuccess.value = false
+  analyticsStore.dismissSuccess()
 }
+
+// ─── Lifecycle ───────────────────────────────────────────────────────────────
+onMounted(() => {
+  analyticsStore.fetchAll()
+})
 </script>
 
 <template>
@@ -95,7 +104,6 @@ function dismissSuccess() {
       <button class="reports-tab">{{ t('reports.tabs.trends') }}</button>
     </div>
 
-
     <Transition name="toast-slide">
       <div v-if="showSuccess" class="reports-success-toast">
         <span class="reports-success-toast__icon pi pi-check-circle" />
@@ -107,17 +115,15 @@ function dismissSuccess() {
       </div>
     </Transition>
 
-
     <div class="reports-card">
       <h1 class="reports-card__title">{{ t('reports.card.title') }}</h1>
 
-
+      <!-- Step 1: Module -->
       <section class="reports-section">
         <h2 class="reports-section__heading">
           <span class="reports-section__badge">1</span>
           {{ t('reports.steps.step1') }}
         </h2>
-
         <div class="reports-modules-grid">
           <button
               v-for="mod in reportModules"
@@ -139,13 +145,12 @@ function dismissSuccess() {
         </div>
       </section>
 
-
+      <!-- Step 2: Period -->
       <section class="reports-section">
         <h2 class="reports-section__heading">
           <span class="reports-section__badge">2</span>
           {{ t('reports.steps.step2') }}
         </h2>
-
         <div class="reports-period-group">
           <button
               v-for="period in periodOptions"
@@ -160,13 +165,12 @@ function dismissSuccess() {
         </div>
       </section>
 
-
+      <!-- Step 3: Format -->
       <section class="reports-section">
         <h2 class="reports-section__heading">
           <span class="reports-section__badge">3</span>
           {{ t('reports.steps.step3') }}
         </h2>
-
         <div class="reports-format-group">
           <button
               v-for="fmt in formatOptions"
@@ -184,7 +188,7 @@ function dismissSuccess() {
         </div>
       </section>
 
-
+      <!-- Preview -->
       <section class="reports-preview">
         <h3 class="reports-preview__title">
           <span class="pi pi-eye reports-preview__eye" />
@@ -204,7 +208,7 @@ function dismissSuccess() {
         </div>
       </section>
 
-
+      <!-- CTA -->
       <div class="reports-cta">
         <button
             class="reports-cta__btn"
@@ -221,7 +225,6 @@ function dismissSuccess() {
 </template>
 
 <style scoped>
-
 .reports-page {
   position: relative;
 }
@@ -251,7 +254,6 @@ function dismissSuccess() {
   border-bottom-color: var(--regula-orange, #e85d04);
 }
 
-
 .reports-card {
   background: #fff;
   border: 1px solid #e5e7eb;
@@ -266,7 +268,6 @@ function dismissSuccess() {
   color: #111827;
   margin: 0 0 1.75rem;
 }
-
 
 .reports-section {
   margin-bottom: 1.75rem;
@@ -295,7 +296,6 @@ function dismissSuccess() {
   justify-content: center;
   flex-shrink: 0;
 }
-
 
 .reports-modules-grid {
   display: grid;
@@ -350,7 +350,6 @@ function dismissSuccess() {
   margin-bottom: 0.5rem;
 }
 
-
 .reports-module-card__icon--selected {
   color: var(--regula-orange, #e85d04);
 }
@@ -367,7 +366,6 @@ function dismissSuccess() {
   color: #6b7280;
   margin: 0;
 }
-
 
 .reports-period-group {
   display: flex;
@@ -399,7 +397,6 @@ function dismissSuccess() {
 .reports-period-btn__icon {
   font-size: 0.8rem;
 }
-
 
 .reports-format-group {
   display: flex;
@@ -453,7 +450,6 @@ function dismissSuccess() {
   font-size: 1.1rem;
 }
 
-
 .reports-preview {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
@@ -498,7 +494,6 @@ function dismissSuccess() {
   text-align: right;
 }
 
-
 .reports-cta {
   display: flex;
   justify-content: flex-end;
@@ -531,7 +526,6 @@ function dismissSuccess() {
   opacity: 0.65;
   cursor: not-allowed;
 }
-
 
 .reports-success-toast {
   position: absolute;
@@ -582,7 +576,6 @@ function dismissSuccess() {
   padding: 0;
   line-height: 1;
 }
-
 
 .toast-slide-enter-active,
 .toast-slide-leave-active {
