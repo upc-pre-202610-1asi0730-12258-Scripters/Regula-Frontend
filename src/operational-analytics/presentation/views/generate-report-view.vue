@@ -7,14 +7,14 @@ import { useToast } from 'primevue/usetoast'
 const { t } = useI18n()
 const toast = useToast()
 
-// --- State ---
+
 const selectedModule = ref('inventory')
 const selectedPeriod = ref('lastWeek')
 const selectedFormat = ref('pdf')
 const showSuccess = ref(false)
 const isGenerating = ref(false)
 
-// --- Options ---
+
 const reportModules = computed(() => [
   {
     key: 'inventory',
@@ -54,7 +54,7 @@ const formatOptions = computed(() => [
   { key: 'excel', icon: 'pi pi-file-excel', label: t('reports.formats.excel'), iconColor: '#38a169' },
 ])
 
-// --- Preview computed ---
+
 const previewModuleLabel = computed(() =>
     reportModules.value.find((m) => m.key === selectedModule.value)?.label ?? '',
 )
@@ -71,7 +71,7 @@ const estimatedRows = computed(() => {
   return map[selectedModule.value] ?? '—'
 })
 
-// --- Actions ---
+
 async function generateReport() {
   isGenerating.value = true
   await new Promise((r) => setTimeout(r, 1400))
@@ -89,13 +89,13 @@ function dismissSuccess() {
   <Toast />
 
   <div class="reports-page">
-    <!-- Page header tabs -->
+
     <div class="reports-tabs">
       <button class="reports-tab reports-tab--active">{{ t('reports.tabs.generate') }}</button>
       <button class="reports-tab">{{ t('reports.tabs.trends') }}</button>
     </div>
 
-    <!-- Success toast -->
+
     <Transition name="toast-slide">
       <div v-if="showSuccess" class="reports-success-toast">
         <span class="reports-success-toast__icon pi pi-check-circle" />
@@ -107,11 +107,11 @@ function dismissSuccess() {
       </div>
     </Transition>
 
-    <!-- Card -->
+
     <div class="reports-card">
       <h1 class="reports-card__title">{{ t('reports.card.title') }}</h1>
 
-      <!-- Step 1 – Module -->
+
       <section class="reports-section">
         <h2 class="reports-section__heading">
           <span class="reports-section__badge">1</span>
@@ -139,7 +139,7 @@ function dismissSuccess() {
         </div>
       </section>
 
-      <!-- Step 2 – Period -->
+
       <section class="reports-section">
         <h2 class="reports-section__heading">
           <span class="reports-section__badge">2</span>
@@ -160,7 +160,7 @@ function dismissSuccess() {
         </div>
       </section>
 
-      <!-- Step 3 – Format -->
+
       <section class="reports-section">
         <h2 class="reports-section__heading">
           <span class="reports-section__badge">3</span>
@@ -184,7 +184,7 @@ function dismissSuccess() {
         </div>
       </section>
 
-      <!-- Preview -->
+
       <section class="reports-preview">
         <h3 class="reports-preview__title">
           <span class="pi pi-eye reports-preview__eye" />
@@ -204,7 +204,7 @@ function dismissSuccess() {
         </div>
       </section>
 
-      <!-- CTA -->
+
       <div class="reports-cta">
         <button
             class="reports-cta__btn"
@@ -221,7 +221,7 @@ function dismissSuccess() {
 </template>
 
 <style scoped>
-/* ── Layout ── */
+
 .reports-page {
   position: relative;
 }
@@ -251,7 +251,7 @@ function dismissSuccess() {
   border-bottom-color: var(--regula-orange, #e85d04);
 }
 
-/* ── Card ── */
+
 .reports-card {
   background: #fff;
   border: 1px solid #e5e7eb;
@@ -267,7 +267,7 @@ function dismissSuccess() {
   margin: 0 0 1.75rem;
 }
 
-/* ── Sections ── */
+
 .reports-section {
   margin-bottom: 1.75rem;
 }
@@ -296,7 +296,7 @@ function dismissSuccess() {
   flex-shrink: 0;
 }
 
-/* ── Module grid ── */
+
 .reports-modules-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -350,6 +350,7 @@ function dismissSuccess() {
   margin-bottom: 0.5rem;
 }
 
+
 .reports-module-card__icon--selected {
   color: var(--regula-orange, #e85d04);
 }
@@ -367,7 +368,7 @@ function dismissSuccess() {
   margin: 0;
 }
 
-/* ── Period buttons ── */
+
 .reports-period-group {
   display: flex;
   flex-wrap: wrap;
@@ -399,7 +400,7 @@ function dismissSuccess() {
   font-size: 0.8rem;
 }
 
-/* ── Format buttons ── */
+
 .reports-format-group {
   display: flex;
   gap: 0.75rem;
@@ -452,7 +453,7 @@ function dismissSuccess() {
   font-size: 1.1rem;
 }
 
-/* ── Preview ── */
+
 .reports-preview {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
@@ -497,7 +498,7 @@ function dismissSuccess() {
   text-align: right;
 }
 
-/* ── CTA ── */
+
 .reports-cta {
   display: flex;
   justify-content: flex-end;
@@ -531,7 +532,7 @@ function dismissSuccess() {
   cursor: not-allowed;
 }
 
-/* ── Success toast ── */
+
 .reports-success-toast {
   position: absolute;
   top: 0;
@@ -582,7 +583,7 @@ function dismissSuccess() {
   line-height: 1;
 }
 
-/* ── Toast transition ── */
+
 .toast-slide-enter-active,
 .toast-slide-leave-active {
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -594,7 +595,6 @@ function dismissSuccess() {
   transform: translateY(-8px);
 }
 
-/* ── Responsive ── */
 @media (max-width: 480px) {
   .reports-modules-grid {
     grid-template-columns: 1fr;
