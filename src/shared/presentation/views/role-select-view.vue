@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import Button from 'primevue/button'
 import { useRouter } from 'vue-router'
 
@@ -11,7 +11,7 @@ function goEnterprise() {
 
 function goDistributor() {
   sessionStorage.setItem('regula_role', 'distributor')
-  router.push({ name: 'inventory-distributor' })
+  router.push({ name: 'distribution-day-deliveries' })
 }
 </script>
 
@@ -43,7 +43,7 @@ function goDistributor() {
       </div>
 
       <div class="role-select__hint">
-        API simulada: ejecuta <code>npm run api</code> (usa <code>server/db.json</code>, puerto 3001).
+        Modo demo: los datos se cargan desde fixtures locales (100% frontend).
       </div>
     </div>
   </div>

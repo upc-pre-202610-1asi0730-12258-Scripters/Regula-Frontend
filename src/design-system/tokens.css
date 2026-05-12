@@ -1,0 +1,175 @@
+:root {
+  /* Regula palette */
+  --regula-color-primary: #172d40; /* navy */
+  --regula-color-primary-strong: #111111;
+  --regula-color-primary-soft: #555f6e;
+  --regula-color-accent: #f26e22; /* active orange */
+  --regula-color-accent-alert: #f25922; /* alert orange */
+  --regula-color-success: #15803d;
+  --regula-color-success-soft: #dcfce7;
+  --regula-color-warning-soft: #fef3c7;
+  --regula-color-danger: #dc2626;
+  --regula-color-danger-soft: #fee2e2;
+  --regula-color-steel: #a5b1bf;
+  --regula-color-border-soft: #e8ecf0;
+  --regula-color-bg-ice: #f8f8fb;
+  --regula-color-bg-pure: #ffffff;
+
+  /* Shell */
+  --regula-shell-bg: #172d40;
+  --regula-shell-surface: #1f3a50;
+  --regula-shell-border: #355269;
+  --regula-shell-text: #ffffff;
+  --regula-shell-text-muted: #cdd6df;
+  --regula-shell-active-bg: rgba(242, 110, 34, 0.16);
+  --regula-shell-active-border: #f26e22;
+
+  /* App surface */
+  --regula-app-bg: #f8f8fb;
+  --regula-app-card: #ffffff;
+  --regula-app-text: #111111;
+  --regula-app-text-muted: #555f6e;
+
+  /* Layout */
+  --regula-sidebar-width: 15.5rem; /* 248px */
+  --regula-sidebar-collapsed-width: 4rem; /* 64px */
+  --regula-header-height: 4rem;
+  --regula-max-content-width: 80rem; /* 1280px */
+  --regula-radius-sm: 0.5rem;
+  --regula-radius-md: 0.625rem;
+  --regula-radius-lg: 0.75rem;
+  --regula-space-1: 0.25rem; /* 4px */
+  --regula-space-2: 0.5rem; /* 8px */
+  --regula-space-3: 0.75rem; /* 12px */
+  --regula-space-4: 1rem; /* 16px */
+  --regula-space-6: 1.5rem; /* 24px */
+  --regula-space-8: 2rem; /* 32px */
+  --regula-space-12: 3rem; /* 48px */
+  --regula-space-16: 4rem; /* 64px */
+  --regula-shadow-card: 0 2px 8px rgba(23, 45, 64, 0.08);
+
+  /* Typography */
+  --regula-font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --regula-font-family-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --regula-font-size-xs: 0.75rem; /* caption */
+  --regula-font-size-sm: 0.875rem; /* small */
+  --regula-font-size-md: 1rem; /* body */
+  --regula-font-size-lg: 1.25rem; /* h3 */
+  --regula-font-size-xl: 1.5rem; /* h2 */
+  --regula-font-size-2xl: 2rem; /* h1 */
+
+  /* Breakpoints */
+  --regula-bp-mobile-max: 39.999rem; /* <640 */
+  --regula-bp-tablet: 40rem; /* >=640 */
+  --regula-bp-desktop: 64rem; /* >=1024 */
+  --regula-bp-wide: 80rem; /* >=1280 */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--regula-font-family);
+  background: var(--regula-app-bg);
+  color: var(--regula-app-text);
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(1.75rem, 3vw, var(--regula-font-size-2xl));
+  font-weight: 700;
+}
+
+h2 {
+  font-size: var(--regula-font-size-xl);
+  font-weight: 600;
+}
+
+h3 {
+  font-size: var(--regula-font-size-lg);
+  font-weight: 600;
+}
+
+code,
+.mono {
+  font-family: var(--regula-font-family-mono);
+}
+
+/* PrimeVue global alignment with design system */
+.p-button {
+  border-radius: var(--regula-radius-sm);
+  min-height: 2.75rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: all 150ms ease;
+}
+
+.p-button:not(.p-button-text):not(.p-button-outlined) {
+  background: var(--regula-color-accent);
+  border-color: var(--regula-color-accent);
+}
+
+.p-button:not(.p-button-text):not(.p-button-outlined):hover {
+  background: var(--regula-color-accent-alert);
+  border-color: var(--regula-color-accent-alert);
+}
+
+.p-button.p-button-outlined {
+  color: var(--regula-color-primary);
+  border-color: var(--regula-color-primary);
+}
+
+.p-button.p-button-outlined:hover {
+  background: var(--regula-color-primary);
+  color: #fff;
+}
+
+.p-button:focus-visible,
+.p-inputtext:focus-visible,
+.p-select:focus-visible,
+.p-datepicker-input:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(242, 110, 34, 0.4);
+  outline-offset: 2px;
+}
+
+.p-inputtext,
+.p-select,
+.p-datepicker-input {
+  border: 1px solid var(--regula-color-steel);
+  min-height: 2.75rem;
+}
+
+.p-inputtext:enabled:focus,
+.p-select.p-focus,
+.p-datepicker.p-focus > .p-inputtext {
+  border-color: var(--regula-color-accent);
+  box-shadow: 0 0 0 2px rgba(242, 110, 34, 0.15);
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: var(--regula-color-primary);
+  color: #fff;
+  min-height: 3rem;
+}
+
+.p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background: var(--regula-color-bg-ice);
+}

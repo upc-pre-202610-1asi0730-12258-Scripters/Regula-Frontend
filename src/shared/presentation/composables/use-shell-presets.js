@@ -2,21 +2,21 @@
 import { useRoute } from 'vue-router'
 
 const enterpriseNav = [
-    { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
+    { label: 'Dashboard', icon: 'pi pi-th-large', to: '/dashboard/empresa', matchPrefix: '/dashboard/empresa' },
     { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '#' },
     { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
     { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
-    { label: 'Distribución', icon: 'pi pi-truck', to: '#' },
+    { label: 'Distribución', icon: 'pi pi-truck', to: '/distribucion/repartos-del-dia', matchPrefix: '/distribucion' },
     { label: 'Reportes', icon: 'pi pi-chart-bar', to: '#' },
     { label: 'Mantenimiento', icon: 'pi pi-wrench', to: '#' },
     { label: 'Administración', icon: 'pi pi-cog', to: '#' },
 ]
 
 const distributorNav = [
-    { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
+    { label: 'Dashboard', icon: 'pi pi-th-large', to: '/dashboard/distribuidor', matchPrefix: '/dashboard/distribuidor' },
     { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '#' },
     { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
-    { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
+    { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '/distribucion/entregas-del-dia', matchPrefix: '/distribucion' },
     { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '#' },
     { label: 'Fiados y Cobranzas', icon: 'pi pi-wallet', to: '#' },
     { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#' },
