@@ -1,27 +1,31 @@
 import { CommercialApi } from '@/commercional-management/infrastructure/commercial-api.js'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { Sale } from '../domain/model/sale.entity.js'
+import { Client } from '../domain/model/client.entity.js'
+import { DebtMovement } from '../domain/model/debt-movement.entity.js'
+import { CylinderType } from '../domain/model/cylinder-type.entity.js'
 
 const commercialApi = new CommercialApi()
 
 export const useCommercialStore = defineStore('commercial', () => {
-    const cylinderTypes = ref([])
-    const sales = ref([])
+    const cylinderTypes = ref([]) // Array<CylinderType>
+    const sales = ref([]) // Array<Sale>
     const selectedPaymentFilter = ref('Todos')
     const searchQuery = ref('')
     const loaded = ref(false)
     const errors = ref([])
 
-    const clients = ref([])
-    const debtMovements = ref([])
+    const clients = ref([]) // Array<Client>
+    const debtMovements = ref([]) // Array<DebtMovement>
     const debtLoaded = ref(false)
 
     const clientsWithDebt = computed(() =>
-        clients.value.filter((client) => Number(client.activeDebt) > 0)
+        clients.value.filter((client) => client.activeDebt > 0)
     )
 
     const totalPendingDebt = computed(() =>
-        clientsWithDebt.value.reduce((total, client) => total + Number(client.activeDebt), 0)
+        clientsWithDebt.value.reduce((total, client) => total + client.activeDebt, 0)
     )
 
     const paymentFilters = computed(() => [
@@ -29,7 +33,7 @@ export const useCommercialStore = defineStore('commercial', () => {
         'Efectivo',
         'Yape/Plin',
         'Transferencia',
-        'Fiado',
+        'Deuda', // Cambiado de 'Fiado' a 'Deuda'
     ])
 
     const salesSummary = computed(() => {
@@ -42,7 +46,7 @@ export const useCommercialStore = defineStore('commercial', () => {
 
         sales.value.forEach((sale) => {
             if (summary[sale.cylinderType] !== undefined) {
-                summary[sale.cylinderType] += Number(sale.quantity)
+                summary[sale.cylinderType] += sale.quantity
             }
         })
 
@@ -76,6 +80,7 @@ export const useCommercialStore = defineStore('commercial', () => {
 
         return result
     })
+
     function fetchDebtData() {
         return Promise.all([
             commercialApi.getCommercialClients(),
@@ -93,27 +98,27 @@ export const useCommercialStore = defineStore('commercial', () => {
 
     function registerDebt(data) {
         const client = clients.value.find((item) => item.id === data.clientId)
-        const cylinder = getCylinderById(data.cylinderTypeId)
 
-        if (!client || !cylinder) return
+        if (!client) return
 
-        const updatedClient = {
-            ...client,
-            activeDebt: Number(client.activeDebt) + Number(data.amount),
-            debtCount: Number(client.debtCount) + 1,
-        }
+        const updatedClient = new Client(
+            client.id,
+            client.name,
+            client.activeDebt + data.amount,
+            client.debtCount + 1
+        )
 
-        const movement = {
-            id: `ID${String(debtMovements.value.length + 1).padStart(3, '0')}`,
-            date: new Date().toLocaleDateString('es-PE'),
-            time: new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' }),
-            type: 'Fiado',
-            client: client.name,
-            description: `${data.quantity} balón(es) ${cylinder.label}`,
-            amount: Number(data.amount),
-            balance: updatedClient.activeDebt,
-            user: 'Admin',
-        }
+        const movement = new DebtMovement(
+            `ID${String(debtMovements.value.length + 1).padStart(3, '0')}`,
+            new Date().toLocaleDateString('es-PE'),
+            new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' }),
+            'Deuda', // Cambiado de 'Fiado' a 'Deuda'
+            client.name,
+            `${data.quantity} balón(es) ${getCylinderById(data.cylinderTypeId)?.label}`,
+            data.amount,
+            updatedClient.activeDebt,
+            'Admin'
+        )
 
         return commercialApi
             .updateCommercialClient(client.id, updatedClient)
@@ -130,25 +135,26 @@ export const useCommercialStore = defineStore('commercial', () => {
 
         if (!client) return
 
-        const newBalance = Math.max(Number(client.activeDebt) - Number(data.amount), 0)
+        const newBalance = Math.max(client.activeDebt - data.amount, 0)
 
-        const updatedClient = {
-            ...client,
-            activeDebt: newBalance,
-            debtCount: newBalance === 0 ? 0 : client.debtCount,
-        }
+        const updatedClient = new Client(
+            client.id,
+            client.name,
+            newBalance,
+            newBalance === 0 ? 0 : client.debtCount
+        )
 
-        const movement = {
-            id: `ID${String(debtMovements.value.length + 1).padStart(3, '0')}`,
-            date: new Date().toLocaleDateString('es-PE'),
-            time: new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' }),
-            type: 'Pago',
-            client: client.name,
-            description: newBalance === 0 ? 'Pago total' : 'Pago parcial',
-            amount: Number(data.amount),
-            balance: newBalance,
-            user: 'Admin',
-        }
+        const movement = new DebtMovement(
+            `ID${String(debtMovements.value.length + 1).padStart(3, '0')}`,
+            new Date().toLocaleDateString('es-PE'),
+            new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' }),
+            'Pago',
+            client.name,
+            newBalance === 0 ? 'Pago total' : 'Pago parcial',
+            data.amount,
+            newBalance,
+            'Admin'
+        )
 
         return commercialApi
             .updateCommercialClient(client.id, updatedClient)
@@ -159,6 +165,7 @@ export const useCommercialStore = defineStore('commercial', () => {
                 debtMovements.value.unshift(movement)
             })
     }
+
     function setPaymentFilter(paymentType) {
         selectedPaymentFilter.value = paymentType
     }
@@ -186,18 +193,18 @@ export const useCommercialStore = defineStore('commercial', () => {
             })
     }
 
-    function registerSale(newSale) {
-        const cylinder = getCylinderById(newSale.cylinderTypeId)
+    function registerSale(newSaleData) {
+        const cylinder = getCylinderById(newSaleData.cylinderTypeId)
 
         if (!cylinder) {
             return Promise.reject(new Error('No se encontró el tipo de balón seleccionado.'))
         }
 
-        if (Number(newSale.quantity) <= 0) {
+        if (newSaleData.quantity <= 0) {
             return Promise.reject(new Error('La cantidad debe ser mayor a cero.'))
         }
 
-        if (cylinder.stock < Number(newSale.quantity)) {
+        if (cylinder.stock < newSaleData.quantity) {
             return Promise.reject(new Error('No hay stock suficiente para registrar la venta.'))
         }
 
@@ -210,22 +217,24 @@ export const useCommercialStore = defineStore('commercial', () => {
 
         const nextNumber = 921 + sales.value.length
 
-        const sale = {
-            id: `#VT-${String(nextNumber).padStart(4, '0')}`,
+        const sale = new Sale(
+            `#VT-${String(nextNumber).padStart(4, '0')}`,
             time,
-            cylinderType: cylinder.label,
-            cylinderTypeId: cylinder.id,
-            quantity: Number(newSale.quantity),
-            paymentType: newSale.paymentType,
-            client: newSale.client || '—',
-            distributor: newSale.distributor || 'Carlos M.',
-            isNew: true,
-        }
+            cylinder.label,
+            cylinder.id,
+            newSaleData.quantity,
+            newSaleData.paymentType === 'Fiado' ? 'Deuda' : newSaleData.paymentType, // Transformamos Fiado -> Deuda
+            newSaleData.client || '—',
+            newSaleData.distributor || 'Carlos M.',
+            true
+        )
 
-        const updatedCylinder = {
-            ...cylinder,
-            stock: cylinder.stock - Number(newSale.quantity),
-        }
+        const updatedCylinder = new CylinderType(
+            cylinder.id,
+            cylinder.label,
+            cylinder.price,
+            cylinder.stock - newSaleData.quantity
+        )
 
         return commercialApi
             .createDistributorSale(sale)
