@@ -24,10 +24,10 @@ const distributorNav = [
         matchPrefix: '/comercial/distribuidor/ventas',
     },
     {
-        label: 'Fiados y Cobranzas',
+        label: 'Deudas y Cobranzas',
         icon: 'pi pi-wallet',
-        to: '/comercial/distribuidor/fiados',
-        matchPrefix: '/comercial/distribuidor/fiados',
+        to: '/comercial/distribuidor/deudas',
+        matchPrefix: '/comercial/distribuidor/deudas',
     },
     { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#' },
 ]
