@@ -20,7 +20,7 @@ function getPaymentClass(paymentType) {
   if (paymentType === 'Efectivo') return 'sales-view__badge--cash'
   if (paymentType === 'Yape/Plin') return 'sales-view__badge--digital'
   if (paymentType === 'Transferencia') return 'sales-view__badge--transfer'
-  if (paymentType === 'Fiado') return 'sales-view__badge--debt'
+  if (paymentType === 'Deuda') return 'sales-view__badge--debt' // Cambiado a Deuda
   return ''
 }
 
@@ -147,7 +147,7 @@ onMounted(() => {
                 v-for="sale in filteredSales"
                 :key="sale.id"
                 :class="{
-                  'sales-view__row--debt': sale.paymentType === 'Fiado',
+                  'sales-view__row--debt': sale.paymentType === 'Deuda', // Cambiado a Deuda
                   'sales-view__row--new': sale.isNew,
                 }"
             >
@@ -160,7 +160,7 @@ onMounted(() => {
               <td>{{ sale.quantity }}</td>
               <td>
                   <span class="sales-view__badge" :class="getPaymentClass(sale.paymentType)">
-                    <i v-if="sale.paymentType === 'Fiado'" class="pi pi-wallet" aria-hidden="true" />
+                    <i v-if="sale.paymentType === 'Deuda'" class="pi pi-wallet" aria-hidden="true" />
                     {{ sale.paymentType }}
                   </span>
               </td>
