@@ -8,6 +8,16 @@ import ProgressSpinner from 'primevue/progressspinner'
 import { onMounted } from 'vue'
 
 const store = useCommercialStore()
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const panels = computed(() => [
+  { key: 'pendientes', header: t('commercial.debts.pending') },
+  { key: 'registrar-deuda', header: t('commercial.debts.registerDebt') },
+  { key: 'registrar-pago', header: t('commercial.debts.registerPayment') },
+  { key: 'historial', header: t('commercial.debts.history') },
+])
 
 onMounted(() => {
   if (!store.loaded) {
