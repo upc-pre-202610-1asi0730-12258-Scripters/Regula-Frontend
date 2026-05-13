@@ -1,19 +1,39 @@
 export const securityRoutes = [
   {
-    path: '/seguridad',
+    path: '', // <-- Se corrige la ruta relativa
     name: 'security-hub',
     component: () => import('./views/security-hub.view.vue'),
-    redirect: { name: 'active-alerts' },
+    redirect: () => {
+        try {
+            return sessionStorage.getItem('regula_role') === 'distributor'
+                ? { name: 'distributor-active-alerts' }
+                : { name: 'enterprise-active-alerts' };
+        } catch {
+            return { name: 'enterprise-active-alerts' };
+        }
+    },
     meta: {
       title: 'Alertas y Seguridad',
       requiresAuth: true
     },
     children: [
       {
-        path: 'active-alerts',
-        name: 'active-alerts',
+        path: 'empresa/active-alerts',
+        name: 'enterprise-active-alerts',
         component: () => import('./views/active-alerts.view.vue'),
-        meta: { title: 'Alertas Activas' }
+        meta: {
+            title: 'Alertas Activas · Empresa',
+            shellPreset: 'enterprise'
+        }
+      },
+      {
+        path: 'distribuidor/active-alerts',
+        name: 'distributor-active-alerts',
+        component: () => import('./views/active-alerts.view.vue'),
+        meta: {
+            title: 'Alertas Activas · Distribuidor',
+            shellPreset: 'distributor'
+        }
       },
       {
         path: 'alert-history',

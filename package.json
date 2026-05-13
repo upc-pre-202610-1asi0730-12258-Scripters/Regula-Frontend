@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "api": "json-server --watch server/db.json --port 3001",
-    "seed:inventory": "node scripts/seed-inventory-history.mjs",
+    "api": "json-server --watch src/inventory-management/infrastructure/fixtures/db.json --port 3001",
+    "seed:inventory": "node scripts/seed-inventory-history.js",
     "build": "vite build",
     "preview": "vite preview"
   },

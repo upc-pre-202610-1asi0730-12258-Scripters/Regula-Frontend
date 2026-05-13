@@ -6,25 +6,18 @@ export function useShellPresets() {
     const route = useRoute()
     const { t } = useI18n()
 
-    // Este ref almacenará el último shellPreset explícitamente establecido o inferido.
-    const lastKnownPreset = ref('enterprise'); // Inicializar con un valor por defecto
+    const lastKnownPreset = ref('enterprise');
 
-    // Observar cambios en la ruta para actualizar lastKnownPreset
     watch(() => route.meta?.shellPreset, (newPreset) => {
         if (newPreset) {
             lastKnownPreset.value = newPreset;
-        } else if (route.path.includes('/inventario/distribuidor') || route.path.includes('/comercial/distribuidor')) {
-            // Si no hay preset explícito, pero la ruta indica distribuidor, se establece.
+        } else if (route.path.includes('/inventario/distribuidor') || route.path.includes('/comercial/distribuidor') || route.path.includes('/reportes/distribuidor') || route.path.includes('/seguridad/distribuidor')) {
             lastKnownPreset.value = 'distributor';
-        } else if (route.path.includes('/inventario/empresa')) {
-            // Si no hay preset explícito, pero la ruta indica empresa, se establece.
+        } else if (route.path.includes('/inventario/empresa') || route.path.includes('/reportes/empresa') || route.path.includes('/seguridad/empresa')) {
             lastKnownPreset.value = 'enterprise';
         }
-        // Para rutas como /seguridad que no tienen un shellPreset explícito,
-        // lastKnownPreset conservará su valor anterior.
-    }, { immediate: true }); // Ejecutar inmediatamente al montar el componente
+    }, { immediate: true });
 
-    // La propiedad computada 'preset' ahora usará lastKnownPreset si no se encuentra un preset explícito en la ruta actual.
     const preset = computed(() => {
         if (route.meta?.shellPreset) {
             return route.meta.shellPreset;
@@ -34,21 +27,21 @@ export function useShellPresets() {
 
     const navigationItems = computed(() => {
         const enterpriseNav = [
-            { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-            { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
+            { label: 'Dashboard', icon: 'pi pi-th-large', to: '/dashboard/empresa', matchPrefix: '/dashboard/empresa' },
+            { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad/empresa/active-alerts', matchPrefix: '/seguridad' },
             { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
             { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
-            { label: 'Distribución', icon: 'pi pi-truck', to: '#' },
-            { label: 'Reportes', icon: 'pi pi-chart-bar', to: '/reportes/generar', matchPrefix: '/reportes' },
+            { label: 'Distribución', icon: 'pi pi-truck', to: '/distribucion/repartos-del-dia', matchPrefix: '/distribucion' },
+            { label: 'Reportes', icon: 'pi pi-chart-bar', to: '/reportes/empresa/generar', matchPrefix: '/reportes/empresa' },
             { label: 'Mantenimiento', icon: 'pi pi-wrench', to: '#' },
             { label: 'Administración', icon: 'pi pi-cog', to: '#' },
         ]
 
         const distributorNav = [
-            { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-            { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
+            { label: 'Dashboard', icon: 'pi pi-th-large', to: '/dashboard/distribuidor', matchPrefix: '/dashboard/distribuidor' },
+            { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad/distribuidor/active-alerts', matchPrefix: '/seguridad' },
             { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
-            { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
+            { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '/distribucion/entregas-del-dia', matchPrefix: '/distribucion' },
             {
                 label: 'Ventas',
                 icon: 'pi pi-shopping-cart',
@@ -61,7 +54,7 @@ export function useShellPresets() {
                 to: '/comercial/distribuidor/deudas',
                 matchPrefix: '/comercial/distribuidor/deudas',
             },
-            { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '/reportes/generar', matchPrefix: '/reportes' },
+            { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '/reportes/distribuidor/generar', matchPrefix: '/reportes/distribuidor' },
         ]
         
         return preset.value === 'distributor' ? distributorNav : enterpriseNav;

@@ -1,0 +1,351 @@
+{
+  "meta": {
+    "appTitle": "REGULA — Distribution & Logistics",
+    "appDescription": "Operational console for distribution, deliveries, and logistics workflows."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "alertsSecurity": "Alerts & Security",
+    "inventory": "Inventory",
+    "distribution": "Distribution / Deliveries",
+    "sales": "Sales",
+    "creditCollections": "Credit & Collections",
+    "reportsAnalysis": "Reports & Analysis"
+  },
+  "shell": {
+    "brand": "REGULA",
+    "languageLabel": "Language",
+    "localeSpanish": "Spanish",
+    "localeEnglish": "English",
+    "logout": "Log out",
+    "mainNavLabel": "Primary navigation",
+    "userCardLabel": "Signed-in user",
+    "mockUserName": "Carlos Mendoza",
+    "mockUserRole": "Distributor",
+    "sessionNavLabel": "Session",
+    "notificationsLabel": "Notifications",
+    "notificationsUnread": "{count} unread notifications",
+    "openUserMenu": "Open user menu",
+    "sessionAdminName": "Admin User",
+    "sessionAdminRole": "Superadmin",
+    "mobileMenuOpen": "Open navigation menu",
+    "mobileMenuClose": "Close navigation menu"
+  },
+  "common": {
+    "loading": "Loading…",
+    "errorGeneric": "Something went wrong. Try again.",
+    "actions": "Actions",
+    "openDetails": "Open details",
+    "ownerTag": "Owner"
+  },
+  "distribution": {
+    "breadcrumbRoot": "REGULA",
+    "pageTitle": "Distribution",
+    "tabs": {
+      "dayDeliveries": "Today’s deliveries",
+      "liveMap": "Live map",
+      "history": "Delivery history"
+    },
+    "dayBoard": {
+      "columnInRoute": "In route",
+      "columnCompleted": "Completed",
+      "columnFailed": "Failed / incidents",
+      "statusInRoute": "IN ROUTE",
+      "statusCompleted": "Completed",
+      "vehicleMotorcycle": "Motorcycle",
+      "vehicleVan": "Van",
+      "eta": "ETA: {time}",
+      "punctualityOnTime": "On time",
+      "punctualityDelayed": "{minutes} min late",
+      "seeMap": "View map",
+      "columnMenu": "Column options",
+      "failedEmptyTitle": "No failed deliveries today",
+      "failedEmptyBody": "All scheduled routes are progressing without incidents."
+    },
+    "map": {
+      "activeDriversTitle": "Active drivers ({count})",
+      "refreshSubtitle": "refreshes every {seconds} sec.",
+      "legendInRoute": "In route",
+      "legendCompleted": "Completed",
+      "legendNoSignal": "No signal",
+      "mapTitle": "Fleet map",
+      "mapIframeTitle": "Operational map preview",
+      "popupEta": "ETA: {time}",
+      "popupLoad": "Cargo",
+      "popupDestination": "Destination",
+      "popupDelivery": "Active delivery",
+      "positionRefreshNote": "Position refreshes every {seconds} sec.",
+      "noSignalTitle": "No signal since {time}",
+      "noSignalLastKnown": "Last known position",
+      "refreshIn": "Refresh in {seconds} sec.",
+      "selectDriver": "Select driver on map"
+    },
+    "history": {
+      "filtersDate": "Date",
+      "filtersDriver": "All drivers",
+      "filtersStatus": "All outcomes",
+      "searchPlatePlaceholder": "Search by plate…",
+      "export": "Export",
+      "exportQueued": "Export has been queued.",
+      "summaryCompleted": "Completed: {count}",
+      "summaryNotDelivered": "Not delivered: {count}",
+      "tableId": "ID",
+      "tableDate": "Date",
+      "tableDriverVehicle": "Driver / vehicle",
+      "tableLoad": "Load",
+      "tableDestinationStatus": "Destination / status",
+      "tableEta": "ETA",
+      "tableActual": "Actual time",
+      "outcomeCompleted": "Completed",
+      "outcomeNotDelivered": "Not delivered",
+      "deltaMinutes": "{sign}{minutes}m",
+      "drawerTitle": "Delivery detail",
+      "drawerDownload": "Download receipt",
+      "drawerDriver": "Driver",
+      "drawerVehicle": "Vehicle",
+      "drawerLoadDestination": "Load & destination",
+      "drawerTimes": "Times",
+      "drawerEta": "ETA",
+      "drawerActual": "Actual time",
+      "drawerDelta": "Difference",
+      "tableEmpty": "No more records for this period",
+      "statusFilterAll": "All outcomes",
+      "statusFilterCompleted": "Completed",
+      "statusFilterNotDelivered": "Not delivered"
+    },
+    "load": {
+      "cylindersKg": "{count} cylinders of {sizeKg} kg",
+      "cylindersShort": "{count} cylinders"
+    },
+    "mock": {
+      "destination": {
+        "centerDelivery": "Center delivery",
+        "northHub": "North hub",
+        "southStore": "South store"
+      },
+      "customer": {
+        "pedroSalas": "Pedro Salas",
+        "luciaPrado": "Lucía Prado",
+        "jorgeNunez": "Jorge Núñez",
+        "ricardoPaz": "Ricardo Paz",
+        "martaQuispe": "Marta Quispe",
+        "danielFlores": "Daniel Flores",
+        "elenaRios": "Elena Ríos",
+        "pabloSoto": "Pablo Soto"
+      },
+      "driver": {
+        "juanLopez": "Juan López",
+        "mariaRojas": "María Rojas",
+        "luisVargas": "Luis Vargas",
+        "anaTorres": "Ana Torres",
+        "carlosIbanez": "Carlos Ibáñez",
+        "patriciaGomez": "Patricia Gómez",
+        "fernandaLima": "Fernanda Lima",
+        "oscarReyes": "Óscar Reyes",
+        "raulMendez": "Raúl Méndez",
+        "pedroSalas": "Pedro Salas"
+      },
+      "address": {
+        "pinos": "Av. Los Pinos 234",
+        "miraflores": "Malecón de Miraflores 120"
+      }
+    }
+  },
+  "pages": {
+    "dashboardTitle": "Dashboard",
+    "alertsTitle": "Alerts & Security",
+    "inventoryTitle": "Inventory",
+    "salesTitle": "Sales",
+    "creditTitle": "Credit & Collections",
+    "reportsTitle": "Reports & Analysis"
+  },
+  "distributionEnterprise": {
+    "tabs": {
+      "day": "Daily dispatches",
+      "liveMap": "Live map",
+      "supervision": "Route supervision",
+      "history": "Dispatch history"
+    },
+    "common": {
+      "today": "Today",
+      "inRoute": "In route",
+      "active": "Active",
+      "destination": "Destination",
+      "driver": "Driver",
+      "load": "Load",
+      "plate": "Plate: {plate}",
+      "completed": "Completed",
+      "delivered": "Delivered",
+      "pending": "Pending",
+      "allStatuses": "All statuses"
+    },
+    "day": {
+      "pendingTitle": "Pending dispatches ({count})",
+      "completedTitle": "Completed dispatches ({count})",
+      "dispatchId": "Dispatch {id}",
+      "etaEstimated": "Estimated ETA",
+      "delayed": "{minutes} min late",
+      "markCompleted": "Mark as completed",
+      "deliveredAt": "Delivery time",
+      "viewFullHistory": "View full history"
+    },
+    "liveMap": {
+      "vehiclesActiveTitle": "Active vehicles",
+      "refreshNote": "Position refreshes every 30 sec.",
+      "lastSeen": "Last seen: 15 sec ago"
+    },
+    "supervision": {
+      "alertLine": "Route deviation • Vehicle ABC-123 • 14:22 • Stop 2 • Medium severity",
+      "viewOnMap": "View on map",
+      "activeDispatch": "Active dispatch:",
+      "searchPlaceholder": "Select active or completed dispatch…",
+      "deviationActive": "1 active deviation",
+      "inProgress": "In progress",
+      "legendTitle": "LEGEND",
+      "legendPlanned": "Planned route",
+      "legendActual": "Actual route",
+      "legendCompleted": "Completed",
+      "legendPending": "Pending",
+      "legendRisk": "Deviation zone",
+      "routeDetail": "Route detail",
+      "inCourse": "In course",
+      "stopsTitle": "Stops",
+      "deviationLogTitle": "DEVIATION ALERTS",
+      "deviation": "Deviation",
+      "downloadPdf": "Download PDF summary"
+    },
+    "history": {
+      "searchPlaceholder": "Search by plate…",
+      "search": "Search",
+      "clear": "Clear",
+      "export": "Export",
+      "total": "Total dispatches",
+      "avgEta": "Avg. ETA",
+      "date": "Date",
+      "responsible": "Responsible",
+      "vehicle": "Vehicle",
+      "zone": "Destination zone",
+      "load": "Load",
+      "status": "Status",
+      "realTime": "Actual time",
+      "showing": "Showing {a}–{b} of {total} dispatches"
+    }
+  }
+  ,
+  "dashboardEnterprise": {
+    "kicker": "Dashboard · Enterprise",
+    "greeting": "Good morning, {name}",
+    "subtitle": "Operational summary for {period}",
+    "periodLabel": "Select period",
+    "period": {
+      "today": "Today",
+      "week": "Last week",
+      "month": "Last month"
+    },
+    "kpis": {
+      "orders": "Orders",
+      "ordersSub": "Orders registered",
+      "dispatches": "Dispatches",
+      "dispatchesSub": "Scheduled dispatches",
+      "onTime": "On time",
+      "onTimeSub": "ETA compliance",
+      "incidents": "Incidents",
+      "incidentsSub": "Events today"
+    },
+    "badges": {
+      "vsYesterday": "vs yesterday {value}",
+      "pending": "{value} pending",
+      "goal": "Goal {value}",
+      "open": "{value} open",
+      "closed": "{value} closed"
+    },
+    "sections": {
+      "opsLoad": "Today’s operational load",
+      "inventoryAlerts": "Inventory alerts",
+      "inventoryAlertsSub": "SKUs at risk of stockout",
+      "warehouses": "Warehouses",
+      "warehousesSub": "Capacity used",
+      "quickActions": "Quick actions"
+    },
+    "ops": {
+      "preparing": "Preparing",
+      "onRoute": "On route",
+      "delivered": "Delivered",
+      "dispatches": "dispatches"
+    },
+    "warehouses": {
+      "main": "Main warehouse",
+      "north": "North hub",
+      "south": "South store",
+      "capacity": "Capacity: {value}"
+    },
+    "inventory": {
+      "lowStock": "Low stock",
+      "reorderSoon": "Reorder soon",
+      "review": "Review",
+      "skuExample1": "10kg Cylinder Premium",
+      "skuExample2": "Gas regulator",
+      "skuExample3": "Reinforced hose"
+    },
+    "actions": {
+      "newDispatch": "New dispatch",
+      "export": "Export",
+      "viewRoutes": "View routes",
+      "liveMap": "Live map",
+      "inventory": "Inventory",
+      "alerts": "Alerts"
+    }
+  },
+  "dashboardDistributor": {
+    "noticeTitle": "System notice",
+    "noticeText": "Operational alerts were detected. Review stock, routes, and collections before starting your day.",
+    "kpis": {
+      "alerts": "Alerts",
+      "alertsSub": "Operational & security",
+      "stock": "Stock",
+      "stockSub": "SKUs needing attention",
+      "deliveries": "Deliveries",
+      "deliveriesSub": "Today’s routes",
+      "credits": "Credits",
+      "creditsSub": "Accounts receivable"
+    },
+    "badges": {
+      "open": "{value} open",
+      "critical": "{value} critical",
+      "low": "{value} low",
+      "pending": "{value} pending",
+      "dueToday": "{value} today"
+    },
+    "sections": {
+      "sales": "Today’s sales summary",
+      "salesSub": "Totals and commercial activity",
+      "topProducts": "Top products",
+      "topProductsSub": "Best sellers today",
+      "quickActions": "Quick actions"
+    },
+    "actions": {
+      "viewReport": "View report",
+      "export": "Export",
+      "todayDeliveries": "Today’s deliveries",
+      "checkStock": "Check stock",
+      "newSale": "New sale",
+      "collect": "Collect credit"
+    },
+    "sales": {
+      "gross": "Gross sales",
+      "net": "Net sales",
+      "items": "Items",
+      "tickets": "Tickets",
+      "today": "today",
+      "units": "units",
+      "ticketsTag": "tickets"
+    },
+    "topProducts": {
+      "p1": "10kg Cylinder Premium",
+      "p2": "5kg Cylinder",
+      "p3": "Regulator",
+      "p4": "Hose",
+      "units": "units"
+    }
+  }
+}

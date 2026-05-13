@@ -1,0 +1,351 @@
+{
+  "meta": {
+    "appTitle": "REGULA — Distribución y logística",
+    "appDescription": "Consola operativa para distribución, entregas y flujos logísticos."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "alertsSecurity": "Alertas y Seguridad",
+    "inventory": "Inventario",
+    "distribution": "Distribución / Entregas",
+    "sales": "Ventas",
+    "creditCollections": "Fiados y Cobranzas",
+    "reportsAnalysis": "Reportes y Análisis"
+  },
+  "shell": {
+    "brand": "REGULA",
+    "languageLabel": "Idioma",
+    "localeSpanish": "Español",
+    "localeEnglish": "English",
+    "logout": "Cerrar sesión",
+    "mainNavLabel": "Navegación principal",
+    "userCardLabel": "Usuario en sesión",
+    "mockUserName": "Carlos Mendoza",
+    "mockUserRole": "Distribuidor",
+    "sessionNavLabel": "Sesión",
+    "notificationsLabel": "Notificaciones",
+    "notificationsUnread": "{count} notificaciones sin leer",
+    "openUserMenu": "Abrir menú de usuario",
+    "sessionAdminName": "Admin User",
+    "sessionAdminRole": "Superadmin",
+    "mobileMenuOpen": "Abrir menú de navegación",
+    "mobileMenuClose": "Cerrar menú de navegación"
+  },
+  "common": {
+    "loading": "Cargando…",
+    "errorGeneric": "Ocurrió un error. Inténtalo de nuevo.",
+    "actions": "Acciones",
+    "openDetails": "Abrir detalle",
+    "ownerTag": "PROPIETARIO"
+  },
+  "distribution": {
+    "breadcrumbRoot": "REGULA",
+    "pageTitle": "Distribución",
+    "tabs": {
+      "dayDeliveries": "Entregas del Día",
+      "liveMap": "Mapa en Tiempo Real",
+      "history": "Historial de Repartos"
+    },
+    "dayBoard": {
+      "columnInRoute": "En Ruta",
+      "columnCompleted": "Completadas",
+      "columnFailed": "Fallidas",
+      "statusInRoute": "EN RUTA",
+      "statusCompleted": "Completado",
+      "vehicleMotorcycle": "Motorizado",
+      "vehicleVan": "Camión",
+      "eta": "ETA: {time}",
+      "punctualityOnTime": "A tiempo",
+      "punctualityDelayed": "Atrasado {minutes} min",
+      "seeMap": "Ver mapa",
+      "columnMenu": "Opciones de columna",
+      "failedEmptyTitle": "Sin entregas fallidas hoy",
+      "failedEmptyBody": "Todas las rutas programadas se están cumpliendo sin incidencias."
+    },
+    "map": {
+      "activeDriversTitle": "Repartidores activos ({count})",
+      "refreshSubtitle": "actualiza cada {seconds} seg.",
+      "legendInRoute": "En ruta",
+      "legendCompleted": "Completado",
+      "legendNoSignal": "Sin señal",
+      "mapTitle": "Mapa de flota",
+      "mapIframeTitle": "Vista previa del mapa operativo",
+      "popupEta": "ETA: {time}",
+      "popupLoad": "Carga",
+      "popupDestination": "Destino",
+      "popupDelivery": "Entrega activa",
+      "positionRefreshNote": "Posición actualizada cada {seconds} seg.",
+      "noSignalTitle": "Sin señal desde las {time}",
+      "noSignalLastKnown": "Última posición conocida",
+      "refreshIn": "Actualiza en {seconds} seg.",
+      "selectDriver": "Seleccionar repartidor en el mapa"
+    },
+    "history": {
+      "filtersDate": "Fecha",
+      "filtersDriver": "Todos los repartidores",
+      "filtersStatus": "Todos los estados",
+      "searchPlatePlaceholder": "Buscar por placa…",
+      "export": "Exportar",
+      "exportQueued": "La exportación ha sido encolada.",
+      "summaryCompleted": "Completados: {count}",
+      "summaryNotDelivered": "No entregados: {count}",
+      "tableId": "ID",
+      "tableDate": "Fecha",
+      "tableDriverVehicle": "Repartidor/Vehículo",
+      "tableLoad": "Carga",
+      "tableDestinationStatus": "Destino/Estado",
+      "tableEta": "ETA",
+      "tableActual": "Hora real",
+      "outcomeCompleted": "Completado",
+      "outcomeNotDelivered": "No entregado",
+      "deltaMinutes": "{sign}{minutes}m",
+      "drawerTitle": "Detalle de Entrega",
+      "drawerDownload": "Descargar comprobante",
+      "drawerDriver": "Repartidor",
+      "drawerVehicle": "Vehículo",
+      "drawerLoadDestination": "Carga y Destino",
+      "drawerTimes": "Tiempos",
+      "drawerEta": "ETA",
+      "drawerActual": "Hora real",
+      "drawerDelta": "Diferencia",
+      "tableEmpty": "No hay más registros para este periodo",
+      "statusFilterAll": "Todos los estados",
+      "statusFilterCompleted": "Completado",
+      "statusFilterNotDelivered": "No entregado"
+    },
+    "load": {
+      "cylindersKg": "{count} balones de {sizeKg} kg",
+      "cylindersShort": "{count} balones"
+    },
+    "mock": {
+      "destination": {
+        "centerDelivery": "Entrega Centro",
+        "northHub": "Hub Norte",
+        "southStore": "Tienda Sur"
+      },
+      "customer": {
+        "pedroSalas": "Pedro Salas",
+        "luciaPrado": "Lucía Prado",
+        "jorgeNunez": "Jorge Núñez",
+        "ricardoPaz": "Ricardo Paz",
+        "martaQuispe": "Marta Quispe",
+        "danielFlores": "Daniel Flores",
+        "elenaRios": "Elena Ríos",
+        "pabloSoto": "Pablo Soto"
+      },
+      "driver": {
+        "juanLopez": "Juan López",
+        "mariaRojas": "María Rojas",
+        "luisVargas": "Luis Vargas",
+        "anaTorres": "Ana Torres",
+        "carlosIbanez": "Carlos Ibáñez",
+        "patriciaGomez": "Patricia Gómez",
+        "fernandaLima": "Fernanda Lima",
+        "oscarReyes": "Óscar Reyes",
+        "raulMendez": "Raúl Méndez",
+        "pedroSalas": "Pedro Salas"
+      },
+      "address": {
+        "pinos": "Av. Los Pinos 234",
+        "miraflores": "Malecón de Miraflores 120"
+      }
+    }
+  },
+  "pages": {
+    "dashboardTitle": "Dashboard",
+    "alertsTitle": "Alertas y Seguridad",
+    "inventoryTitle": "Inventario",
+    "salesTitle": "Ventas",
+    "creditTitle": "Fiados y Cobranzas",
+    "reportsTitle": "Reportes y Análisis"
+  },
+  "distributionEnterprise": {
+    "tabs": {
+      "day": "Repartos del Día",
+      "liveMap": "Mapa en Tiempo Real",
+      "supervision": "Supervisión de Rutas",
+      "history": "Historial de Repartos"
+    },
+    "common": {
+      "today": "Hoy",
+      "inRoute": "En ruta",
+      "active": "Activo",
+      "destination": "Destino",
+      "driver": "Conductor",
+      "load": "Carga",
+      "plate": "Placa: {plate}",
+      "completed": "Completado",
+      "delivered": "Entregado",
+      "pending": "Pendiente",
+      "allStatuses": "Todos los estados"
+    },
+    "day": {
+      "pendingTitle": "Repartos Pendientes ({count})",
+      "completedTitle": "Repartos Completados ({count})",
+      "dispatchId": "Reparto {id}",
+      "etaEstimated": "ETA Estimado",
+      "delayed": "Atrasado {minutes} min",
+      "markCompleted": "Marcar como Completado",
+      "deliveredAt": "Hora entrega",
+      "viewFullHistory": "Ver historial completo"
+    },
+    "liveMap": {
+      "vehiclesActiveTitle": "Vehículos activos",
+      "refreshNote": "Posición actualizada cada 30 seg.",
+      "lastSeen": "Última señal: hace 15 seg."
+    },
+    "supervision": {
+      "alertLine": "Desvío de ruta • Vehículo ABC-123 • 14:22 hrs • Punto de entrega 2 • Criticidad Media",
+      "viewOnMap": "Ver en mapa",
+      "activeDispatch": "Reparto activo:",
+      "searchPlaceholder": "Seleccionar reparto activo o completado…",
+      "deviationActive": "1 desvío activo",
+      "inProgress": "En progreso",
+      "legendTitle": "LEYENDA",
+      "legendPlanned": "Ruta Planificada",
+      "legendActual": "Ruta Recorrida",
+      "legendCompleted": "Completado",
+      "legendPending": "Pendiente",
+      "legendRisk": "Zona de desvío",
+      "routeDetail": "Detalle de Ruta",
+      "inCourse": "En curso",
+      "stopsTitle": "Puntos de entrega",
+      "deviationLogTitle": "ALERTAS DE DESVÍO REGISTRADAS",
+      "deviation": "Con desvío",
+      "downloadPdf": "Descargar resumen PDF"
+    },
+    "history": {
+      "searchPlaceholder": "Buscar por placa…",
+      "search": "Buscar",
+      "clear": "Limpiar",
+      "export": "Exportar",
+      "total": "Total repartos",
+      "avgEta": "ETA promedio",
+      "date": "Fecha",
+      "responsible": "Responsable",
+      "vehicle": "Vehículo",
+      "zone": "Zona destino",
+      "load": "Carga",
+      "status": "Estado",
+      "realTime": "Hora real",
+      "showing": "Mostrando {a}–{b} de {total} repartos"
+    }
+  }
+  ,
+  "dashboardEnterprise": {
+    "kicker": "Dashboard · Empresas",
+    "greeting": "Buenos días, {name}",
+    "subtitle": "Resumen operativo para {period}",
+    "periodLabel": "Seleccionar periodo",
+    "period": {
+      "today": "Hoy",
+      "week": "Última semana",
+      "month": "Último mes"
+    },
+    "kpis": {
+      "orders": "Órdenes",
+      "ordersSub": "Órdenes registradas",
+      "dispatches": "Repartos",
+      "dispatchesSub": "Repartos programados",
+      "onTime": "A tiempo",
+      "onTimeSub": "Cumplimiento de ETA",
+      "incidents": "Incidencias",
+      "incidentsSub": "Eventos del día"
+    },
+    "badges": {
+      "vsYesterday": "vs ayer {value}",
+      "pending": "{value} pendientes",
+      "goal": "Meta {value}",
+      "open": "{value} abiertas",
+      "closed": "{value} cerradas"
+    },
+    "sections": {
+      "opsLoad": "Carga Operativa del Día",
+      "inventoryAlerts": "Alertas de Inventario",
+      "inventoryAlertsSub": "Revisa SKUs con riesgo de quiebre",
+      "warehouses": "Almacenes",
+      "warehousesSub": "Capacidad utilizada",
+      "quickActions": "Acciones rápidas"
+    },
+    "ops": {
+      "preparing": "Preparación",
+      "onRoute": "En ruta",
+      "delivered": "Entregado",
+      "dispatches": "repartos"
+    },
+    "warehouses": {
+      "main": "Almacén Principal",
+      "north": "Hub Norte",
+      "south": "Tienda Sur",
+      "capacity": "Capacidad: {value}"
+    },
+    "inventory": {
+      "lowStock": "Stock bajo",
+      "reorderSoon": "Reponer pronto",
+      "review": "Revisar",
+      "skuExample1": "Balón 10kg Premium",
+      "skuExample2": "Regulador de gas",
+      "skuExample3": "Manguera reforzada"
+    },
+    "actions": {
+      "newDispatch": "Nuevo reparto",
+      "export": "Exportar",
+      "viewRoutes": "Ver rutas",
+      "liveMap": "Mapa en vivo",
+      "inventory": "Inventario",
+      "alerts": "Alertas"
+    }
+  },
+  "dashboardDistributor": {
+    "noticeTitle": "Aviso del Sistema",
+    "noticeText": "Se detectaron alertas operativas. Revisa stock, rutas y cobranzas antes de iniciar tu jornada.",
+    "kpis": {
+      "alerts": "Alertas",
+      "alertsSub": "Operativas y de seguridad",
+      "stock": "Stock",
+      "stockSub": "SKUs con observación",
+      "deliveries": "Entregas",
+      "deliveriesSub": "Rutas del día",
+      "credits": "Fiados",
+      "creditsSub": "Cuentas por cobrar"
+    },
+    "badges": {
+      "open": "{value} abiertas",
+      "critical": "{value} críticas",
+      "low": "{value} bajos",
+      "pending": "{value} pendientes",
+      "dueToday": "{value} hoy"
+    },
+    "sections": {
+      "sales": "Resumen de Ventas del Día",
+      "salesSub": "Totales y actividad comercial",
+      "topProducts": "Top productos",
+      "topProductsSub": "Más vendidos hoy",
+      "quickActions": "Acciones rápidas"
+    },
+    "actions": {
+      "viewReport": "Ver reporte",
+      "export": "Exportar",
+      "todayDeliveries": "Entregas de hoy",
+      "checkStock": "Revisar stock",
+      "newSale": "Nueva venta",
+      "collect": "Cobrar fiado"
+    },
+    "sales": {
+      "gross": "Venta bruta",
+      "net": "Venta neta",
+      "items": "Productos",
+      "tickets": "Tickets",
+      "today": "hoy",
+      "units": "unid.",
+      "ticketsTag": "tickets"
+    },
+    "topProducts": {
+      "p1": "Balón 10kg Premium",
+      "p2": "Balón 5kg",
+      "p3": "Regulador",
+      "p4": "Manguera",
+      "units": "unid."
+    }
+  }
+}

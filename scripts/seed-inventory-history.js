@@ -1,9 +1,9 @@
-﻿import fs from 'node:fs'
+import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const dbPath = path.join(__dirname, '..', 'server', 'db.json')
+const dbPath = path.join(__dirname, '..', 'src', 'inventory-management', 'infrastructure', 'fixtures', 'db.json')
 
 const origins = [
     'Planta Callao Norte',
@@ -136,10 +136,119 @@ for (let i = 7; i < 87; i++) {
 auditLogs.sort((a, b) => b.id.localeCompare(a.id))
 
 const base = JSON.parse(fs.readFileSync(dbPath, 'utf8'))
+
+const enterpriseStockRows = [
+    {
+        "id": "1",
+        "badgeLabel": "5kg",
+        "tipoNombre": "Balón estándar 5 kg",
+        "disponible": 150,
+        "enTransito": 20,
+        "observado": 5,
+        "fueraServicio": 0,
+        "total": 175,
+        "warnDisponible": false,
+        "warnObservado": true,
+        "highlightDisponible": false,
+        "highlightObservado": false
+    },
+    {
+        "id": "2",
+        "badgeLabel": "10kg",
+        "tipoNombre": "Balón doméstico 10 kg",
+        "disponible": 300,
+        "enTransito": 50,
+        "observado": 10,
+        "fueraServicio": 2,
+        "total": 362,
+        "warnDisponible": false,
+        "warnObservado": false,
+        "highlightDisponible": true,
+        "highlightObservado": false
+    },
+    {
+        "id": "3",
+        "badgeLabel": "15kg",
+        "tipoNombre": "Balón industrial 15 kg",
+        "disponible": 40,
+        "enTransito": 10,
+        "observado": 2,
+        "fueraServicio": 0,
+        "total": 52,
+        "warnDisponible": true,
+        "warnObservado": false,
+        "highlightDisponible": false,
+        "highlightObservado": false
+    },
+    {
+        "id": "4",
+        "badgeLabel": "45kg",
+        "tipoNombre": "Cilindro industrial 45 kg",
+        "disponible": 80,
+        "enTransito": 5,
+        "observado": 1,
+        "fueraServicio": 1,
+        "total": 87,
+        "warnDisponible": false,
+        "warnObservado": false,
+        "highlightDisponible": false,
+        "highlightObservado": false
+    }
+]
+
+const distributorStockCards = [
+    {
+        "id": "dist-1",
+        "title": "Stock 5 kg",
+        "subtitle": "Balón de fierro estándar",
+        "unidades": 45,
+        "statusKey": "ok",
+        "statusLabel": "Stock óptimo",
+        "accent": "success",
+        "footerHint": "Actualizado hace 5 min",
+        "showRegistrarEntrada": false
+    },
+    {
+        "id": "dist-2",
+        "title": "Stock 10 kg",
+        "subtitle": "Uso doméstico regular",
+        "unidades": 12,
+        "statusKey": "low",
+        "statusLabel": "Stock bajo",
+        "accent": "warning",
+        "footerHint": "Actualizado hace 15 min",
+        "showRegistrarEntrada": true
+    },
+    {
+        "id": "dist-3",
+        "title": "Stock 15 kg",
+        "subtitle": "Uso comercial / restaurantes",
+        "unidades": 0,
+        "statusKey": "empty",
+        "statusLabel": "Agotado",
+        "accent": "danger",
+        "footerHint": "Sin stock desde ayer",
+        "showRegistrarEntrada": true
+    },
+    {
+        "id": "dist-4",
+        "title": "Stock 45 kg",
+        "subtitle": "Cilindro industrial",
+        "unidades": 8,
+        "statusKey": "ok",
+        "statusLabel": "Stock suficiente",
+        "accent": "success",
+        "footerHint": "Actualizado hace 1 hora",
+        "showRegistrarEntrada": false
+    }
+]
+
+base.enterpriseStockRows = enterpriseStockRows
+base.distributorStockCards = distributorStockCards
 base.enterpriseMovements = enterpriseMovements
 base.distributorMovements = distributorMovements
 base.auditLogs = auditLogs
 fs.writeFileSync(dbPath, `${JSON.stringify(base, null, 2)}\n`)
 console.log(
-    `Wrote enterpriseMovements=${enterpriseMovements.length}, distributorMovements=${distributorMovements.length}, auditLogs=${auditLogs.length}`,
+    `Wrote enterpriseStockRows=${enterpriseStockRows.length}, distributorStockCards=${distributorStockCards.length}, enterpriseMovements=${enterpriseMovements.length}, distributorMovements=${distributorMovements.length}, auditLogs=${auditLogs.length}`,
 )

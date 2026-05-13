@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Generic CRUD helper for a single REST resource path.
  */
 export class BaseEndpoint {

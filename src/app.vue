@@ -3,6 +3,6 @@ import Toast from 'primevue/toast'
 </script>
 
 <template>
-  <Toast position="top-right" />
   <RouterView />
+  <Toast position="bottom-right" />
 </template>

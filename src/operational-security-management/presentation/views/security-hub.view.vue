@@ -29,17 +29,31 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
-const tabs = [
-  { name: 'Alertas Activas', localeKey: 'active_alerts', routeName: 'active-alerts' },
-  { name: 'Historial de Alertas', localeKey: 'alert_history', routeName: 'alert-history' },
-  { name: 'Estado del Sensor', localeKey: 'sensor_status', routeName: 'sensor-status' },
-  { name: 'Desvíos de Ruta', localeKey: 'route_deviations', routeName: 'route-deviations' },
-  { name: 'Análisis por Zona', localeKey: 'zone_analysis', routeName: 'zone-analysis' }
-];
+const getRole = () => {
+    try {
+        return sessionStorage.getItem('regula_role') === 'distributor' ? 'distributor' : 'enterprise';
+    } catch {
+        return 'enterprise';
+    }
+};
+
+const tabs = computed(() => {
+    const role = getRole();
+    const activeAlertsRoute = role === 'distributor' ? 'distributor-active-alerts' : 'enterprise-active-alerts';
+
+    return [
+      { name: 'Alertas Activas', localeKey: 'active_alerts', routeName: activeAlertsRoute },
+      { name: 'Historial de Alertas', localeKey: 'alert_history', routeName: 'alert-history' },
+      { name: 'Estado del Sensor', localeKey: 'sensor_status', routeName: 'sensor-status' },
+      { name: 'Desvíos de Ruta', localeKey: 'route_deviations', routeName: 'route-deviations' },
+      { name: 'Análisis por Zona', localeKey: 'zone_analysis', routeName: 'zone-analysis' }
+    ];
+});
 </script>
 
 <style scoped>
