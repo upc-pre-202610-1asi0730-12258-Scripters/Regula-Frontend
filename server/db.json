@@ -108,5 +108,100 @@
       "status": "Inactiva",
       "metrics": { "alta": 0, "media": 0, "baja": 0, "incidentes": 0 }
     }
+  ],
+  "commercialCylinderTypes": [
+    {
+      "id": "5kg",
+      "label": "5 kg",
+      "price": 28,
+      "stock": 40
+    },
+    {
+      "id": "10kg",
+      "label": "10 kg",
+      "price": 50,
+      "stock": 50
+    },
+    {
+      "id": "15kg",
+      "label": "15 kg",
+      "price": 72,
+      "stock": 35
+    },
+    {
+      "id": "45kg",
+      "label": "45 kg",
+      "price": 195,
+      "stock": 12
+    }
+  ],
+  "distributorSales": [
+    {
+      "id": "#VT-0921",
+      "time": "14:30",
+      "cylinderType": "10 kg",
+      "cylinderTypeId": "10kg",
+      "quantity": 2,
+      "paymentType": "Efectivo",
+      "client": "Bodega Doña Lucha",
+      "distributor": "Carlos M.",
+      "isNew": false
+    },
+    {
+      "id": "#VT-0922",
+      "time": "14:45",
+      "cylinderType": "15 kg",
+      "cylinderTypeId": "15kg",
+      "quantity": 1,
+      "paymentType": "Yape/Plin",
+      "client": "Restaurante El Buen Sabor",
+      "distributor": "Propietario",
+      "isNew": false
+    },
+    {
+      "id": "#VT-0923",
+      "time": "15:10",
+      "cylinderType": "45 kg",
+      "cylinderTypeId": "45kg",
+      "quantity": 3,
+      "paymentType": "Fiado",
+      "client": "Panadería San José",
+      "distributor": "Luis A.",
+      "isNew": false
+    },
+    {
+      "id": "#VT-0924",
+      "time": "15:30",
+      "cylinderType": "5 kg",
+      "cylinderTypeId": "5kg",
+      "quantity": 5,
+      "paymentType": "Transferencia",
+      "client": "Minimarket Los Pinos",
+      "distributor": "Carlos M.",
+      "isNew": false
+    },
+    {
+      "id": "#VT-0925",
+      "time": "16:05",
+      "cylinderType": "10 kg",
+      "cylinderTypeId": "10kg",
+      "quantity": 10,
+      "paymentType": "Efectivo",
+      "client": "Comedor Popular 24",
+      "distributor": "Propietario",
+      "isNew": false
+    }
+  ],
+  "commercialClients": [
+    { "id": 1, "name": "Juan García", "initials": "JG", "activeDebt": 120, "debtCount": 3, "oldestDebt": "01/03/2025" },
+    { "id": 2, "name": "Maria Lopez", "initials": "ML", "activeDebt": 75, "debtCount": 2, "oldestDebt": "05/03/2025" },
+    { "id": 3, "name": "Carlos Ruiz", "initials": "CR", "activeDebt": 45, "debtCount": 1, "oldestDebt": "10/03/2025" },
+    { "id": 4, "name": "Ana Belén", "initials": "AB", "activeDebt": 15, "debtCount": 1, "oldestDebt": "12/03/2025" }
+  ],
+  "commercialDebtMovements": [
+    { "id": "ID001", "date": "15/03/2025", "time": "10:30", "type": "Pago", "client": "Juan García", "description": "Pago parcial", "amount": 30, "balance": 50, "user": "Admin" },
+    { "id": "ID002", "date": "12/03/2025", "time": "14:20", "type": "Fiado", "client": "Juan García", "description": "2 balones 10kg", "amount": 50, "balance": 80, "user": "Admin" },
+    { "id": "ID003", "date": "10/03/2025", "time": "09:15", "type": "Pago", "client": "Rosa Huanca", "description": "Pago total", "amount": 45, "balance": 0, "user": "Admin" },
+    { "id": "ID004", "date": "08/03/2025", "time": "16:45", "type": "Fiado", "client": "Maria Lopez", "description": "1 balón 15kg", "amount": 75, "balance": 75, "user": "Admin" }
   ]
 }

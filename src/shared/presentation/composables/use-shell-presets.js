@@ -1,4 +1,4 @@
-﻿import { computed } from 'vue'
+﻿import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
@@ -6,15 +6,31 @@ export function useShellPresets() {
     const route = useRoute()
     const { t } = useI18n()
 
+    // Este ref almacenará el último shellPreset explícitamente establecido o inferido.
+    const lastKnownPreset = ref('enterprise'); // Inicializar con un valor por defecto
+
+    // Observar cambios en la ruta para actualizar lastKnownPreset
+    watch(() => route.meta?.shellPreset, (newPreset) => {
+        if (newPreset) {
+            lastKnownPreset.value = newPreset;
+        } else if (route.path.includes('/inventario/distribuidor') || route.path.includes('/comercial/distribuidor')) {
+            // Si no hay preset explícito, pero la ruta indica distribuidor, se establece.
+            lastKnownPreset.value = 'distributor';
+        } else if (route.path.includes('/inventario/empresa')) {
+            // Si no hay preset explícito, pero la ruta indica empresa, se establece.
+            lastKnownPreset.value = 'enterprise';
+        }
+        // Para rutas como /seguridad que no tienen un shellPreset explícito,
+        // lastKnownPreset conservará su valor anterior.
+    }, { immediate: true }); // Ejecutar inmediatamente al montar el componente
+
+    // La propiedad computada 'preset' ahora usará lastKnownPreset si no se encuentra un preset explícito en la ruta actual.
     const preset = computed(() => {
         if (route.meta?.shellPreset) {
-            return route.meta.shellPreset
+            return route.meta.shellPreset;
         }
-        if (route.name === 'inventory-distributor') {
-            return 'distributor'
-        }
-        return 'enterprise'
-    })
+        return lastKnownPreset.value;
+    });
 
     const navigationItems = computed(() => {
         const enterpriseNav = [

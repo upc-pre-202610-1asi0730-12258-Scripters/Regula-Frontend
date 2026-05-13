@@ -174,6 +174,24 @@
       "language": "Language",
       "spanish": "Español",
       "english": "English"
+    },
+    "commercial": {
+      "debts": {
+        "title": "Debts and Collections",
+        "pending": "Pending Debts",
+        "registerDebt": "Register Debt",
+        "registerPayment": "Register Payment",
+        "history": "History",
+        "activeDebtClients": "Clients with active debt",
+        "orderedByDebt": "Sorted by highest debt",
+        "totalPending": "Total pending collection",
+        "clientsWithDebt": "clients with debt"
+      },
+      "sales": {
+        "title": "Sales",
+        "registerSale": "Register Sale",
+        "dailySales": "Daily Sales"
+      }
     }
   },
 
