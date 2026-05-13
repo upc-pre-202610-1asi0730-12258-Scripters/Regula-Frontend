@@ -175,5 +175,67 @@
       "spanish": "Español",
       "english": "English"
     }
+  },
+
+  "reports": {
+    "tabs": {
+      "generate": "Generate Report",
+      "trends": "Security Trends"
+    },
+    "card": {
+      "title": "Generate Operational Report"
+    },
+    "steps": {
+      "step1": "What data to include?",
+      "step2": "Period",
+      "step3": "Export format"
+    },
+    "modules": {
+      "inventory": {
+        "label": "Inventory",
+        "description": "Stock, movements and shrinkage."
+      },
+      "alerts": {
+        "label": "Alerts",
+        "description": "Incidents and security breaches."
+      },
+      "distribution": {
+        "label": "Distribution",
+        "description": "Routes, times and deliveries."
+      },
+      "all": {
+        "label": "All",
+        "description": "General system summary."
+      }
+    },
+    "periods": {
+      "today": "Today",
+      "lastWeek": "Last week",
+      "lastMonth": "Last month",
+      "custom": "Custom range"
+    },
+    "formats": {
+      "pdf": "PDF Document",
+      "excel": "Excel Spreadsheet"
+    },
+    "preview": {
+      "title": "Report preview",
+      "selectedModule": "Selected module:",
+      "period": "Period:",
+      "estimatedRows": "Estimated records:",
+      "rows": "rows",
+      "periodToday": "Today",
+      "periodLastWeek": "Last week (Oct 12 – Oct 19)",
+      "periodLastMonth": "Last month",
+      "periodCustom": "Custom range"
+    },
+    "cta": {
+      "generate": "Generate report",
+      "generating": "Generating…"
+    },
+    "toast": {
+      "title": "Report generated",
+      "subtitle": "Your file is ready to download."
+    }
   }
 }
