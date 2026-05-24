@@ -12,7 +12,7 @@ const enterpriseNav = [
   { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
   { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
   { label: 'Distribución', icon: 'pi pi-truck', to: '#' },
-  { label: 'Reportes', icon: 'pi pi-chart-bar', to: '#' },
+  { label: 'Reportes', icon: 'pi pi-chart-bar', to: '/reportes/generar', matchPrefix: '/reportes' },
   { label: 'Mantenimiento', icon: 'pi pi-wrench', to: '#' },
   { label: 'Administración', icon: 'pi pi-cog', to: '#' },
 ]
@@ -24,7 +24,7 @@ const distributorNav = [
   { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
   { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '#' },
   { label: 'Fiados y Cobranzas', icon: 'pi pi-wallet', to: '#' },
-  { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#' },
+  { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '/reportes/generar', matchPrefix: '/reportes' },
 ]
 
 const preset = computed(() => {
