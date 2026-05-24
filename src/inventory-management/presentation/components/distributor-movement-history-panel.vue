@@ -1,5 +1,5 @@
 ﻿<script setup>
-import { useInventoryStore } from '@/inventory-management/application/inventory.store.js'
+import useInventoryStore from '@/inventory-management/application/inventory.store.js'
 import { downloadCsv, printHtmlDocument } from '@/inventory-management/infrastructure/csv-download.helper.js'
 import Button from 'primevue/button'
 import Card from 'primevue/card'

@@ -1,6 +1,6 @@
 ﻿<script setup>
+import useInventoryStore from '@/inventory-management/application/inventory.store.js'
 import CylinderTypePicker from '@/inventory-management/presentation/components/cylinder-type-picker.vue'
-import { InventoryApi } from '@/inventory-management/infrastructure/inventory-api.js'
 import { pickWeightsMap } from '@/inventory-management/infrastructure/movement-reference.helper.js'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
@@ -9,12 +9,13 @@ import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
 import Select from 'primevue/select'
 import Textarea from 'primevue/textarea'
-import { computed, onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-
-const api = new InventoryApi()
+const store = useInventoryStore()
+const { origins, stockKgMaps } = storeToRefs(store)
 
 const selectedKg = ref(null)
 const quantity = ref(null)
@@ -24,9 +25,6 @@ const entryTime = ref('09:30')
 const observations = ref('')
 const maxObs = 500
 
-const origins = ref([])
-const weightsMap = ref({})
-
 const weightOptions = computed(() => [
   { key: '5', title: t('inventory.forms.weights.kg5') },
   { key: '10', title: t('inventory.forms.weights.kg10') },
@@ -34,23 +32,24 @@ const weightOptions = computed(() => [
   { key: '45', title: t('inventory.forms.weights.kg45') },
 ])
 
-onMounted(async () => {
-  try {
-    const [oRes, mRes] = await Promise.all([
-      api.getOrigins(),
-      api.getStockKgMaps(),
-    ])
-    origins.value = oRes.data || []
-    weightsMap.value = pickWeightsMap(mRes.data, 'enterpriseEntry')
-    if (!originId.value && origins.value.length) {
-      originId.value = origins.value[0].id
-    }
-    const d = new Date()
-    entryDate.value = d.toISOString().slice(0, 10)
-  } catch {
-    origins.value = []
-  }
+const weightsMap = computed(() => pickWeightsMap(stockKgMaps.value, 'enterpriseEntry'))
+
+onMounted(() => {
+  store.fetchOrigins()
+  store.fetchStockKgMaps()
+  const d = new Date()
+  entryDate.value = d.toISOString().slice(0, 10)
 })
+
+watch(
+    origins,
+    (list) => {
+      if (!originId.value && list.length) {
+        originId.value = list[0].id
+      }
+    },
+    { immediate: true },
+)
 
 const currentStock = computed(() => {
   if (!selectedKg.value) {
@@ -74,6 +73,8 @@ function resetForm() {
   observations.value = ''
   if (origins.value.length) {
     originId.value = origins.value[0].id
+  } else {
+    originId.value = null
   }
   const d = new Date()
   entryDate.value = d.toISOString().slice(0, 10)

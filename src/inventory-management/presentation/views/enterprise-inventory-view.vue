@@ -1,6 +1,5 @@
 ﻿<script setup>
-import { useInventoryUiStore } from '@/inventory-management/application/inventory-ui.store.js'
-import { useInventoryStore } from '@/inventory-management/application/inventory.store.js'
+import useInventoryStore from '@/inventory-management/application/inventory.store.js'
 import EnterpriseRegisterEntryPanel from '@/inventory-management/presentation/components/enterprise-register-entry-panel.vue'
 import EnterpriseRegisterExitPanel from '@/inventory-management/presentation/components/enterprise-register-exit-panel.vue'
 import InventoryEnterpriseStockPanel from '@/inventory-management/presentation/components/inventory-enterprise-stock-panel.vue'
@@ -13,8 +12,6 @@ import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const inventoryUi = useInventoryUiStore()
-
 const store = useInventoryStore()
 const { enterpriseRows, enterpriseTotals, enterpriseLoaded } = storeToRefs(store)
 
@@ -31,7 +28,7 @@ const panels = computed(() => [
 ])
 
 function onSectionChange({ key }) {
-  inventoryUi.setInventorySectionKey(key)
+  store.setInventorySectionKey(key)
 }
 
 onMounted(() => {

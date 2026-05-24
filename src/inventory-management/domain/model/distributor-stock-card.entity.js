@@ -1,27 +1,19 @@
 ﻿/**
- * Distributor-facing stock card for a single product SKU.
+ * @summary entity class representing a domain model within the application.
+ * Stores and manages the main attributes of a business object.
+ * @class DistributorStockCard
+ * @author Kevin Lopez
  */
+
 export class DistributorStockCard {
-    /**
-     * @param {Object} card
-     * @param {number|string} card.id
-     * @param {string} card.title
-     * @param {string} card.subtitle
-     * @param {number} card.unidades
-     * @param {string} card.statusKey
-     * @param {string} card.statusLabel
-     * @param {'danger'|'warning'|'success'} card.accent
-     * @param {string|null} [card.footerHint]
-     * @param {boolean} [card.showRegistrarEntrada]
-     */
     constructor({
-                    id,
-                    title,
-                    subtitle,
-                    unidades,
-                    statusKey,
-                    statusLabel,
-                    accent,
+                    id = null,
+                    title = '',
+                    subtitle = '',
+                    unidades = 0,
+                    statusKey = '',
+                    statusLabel = '',
+                    accent = 'success',
                     footerHint = null,
                     showRegistrarEntrada = false,
                 }) {

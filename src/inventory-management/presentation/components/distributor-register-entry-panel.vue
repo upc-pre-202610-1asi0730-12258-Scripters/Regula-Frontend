@@ -1,6 +1,6 @@
 ﻿<script setup>
+import useInventoryStore from '@/inventory-management/application/inventory.store.js'
 import CylinderTypePicker from '@/inventory-management/presentation/components/cylinder-type-picker.vue'
-import { InventoryApi } from '@/inventory-management/infrastructure/inventory-api.js'
 import { pickWeightsMap } from '@/inventory-management/infrastructure/movement-reference.helper.js'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
@@ -8,18 +8,17 @@ import InputNumber from 'primevue/inputnumber'
 import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
 import Select from 'primevue/select'
-import { computed, onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const api = new InventoryApi()
+const store = useInventoryStore()
+const { providers, stockKgMaps } = storeToRefs(store)
 
 const selectedKg = ref(null)
 const quantity = ref(null)
 const providerId = ref(null)
-const providers = ref([])
-const weightsMap = ref({})
-
 const weightOptions = computed(() => [
   { key: '5', title: t('inventory.forms.weights.kg5'), subtitle: t('inventory.forms.weights.domestic') },
   { key: '10', title: t('inventory.forms.weights.kg10'), subtitle: t('inventory.forms.weights.standard') },
@@ -27,18 +26,22 @@ const weightOptions = computed(() => [
   { key: '45', title: t('inventory.forms.weights.kg45'), subtitle: t('inventory.forms.weights.industrial') },
 ])
 
-onMounted(async () => {
-  try {
-    const [pRes, mRes] = await Promise.all([api.getProviders(), api.getStockKgMaps()])
-    providers.value = pRes.data || []
-    weightsMap.value = pickWeightsMap(mRes.data, 'distributorEntry')
-    if (!providerId.value && providers.value.length) {
-      providerId.value = providers.value[0].id
-    }
-  } catch {
-    providers.value = []
-  }
+const weightsMap = computed(() => pickWeightsMap(stockKgMaps.value, 'distributorEntry'))
+
+onMounted(() => {
+  store.fetchProviders()
+  store.fetchStockKgMaps()
 })
+
+watch(
+    providers,
+    (list) => {
+      if (!providerId.value && list.length) {
+        providerId.value = list[0].id
+      }
+    },
+    { immediate: true },
+)
 
 const selectedLabel = computed(() => {
   const opt = weightOptions.value.find((w) => w.key === selectedKg.value)

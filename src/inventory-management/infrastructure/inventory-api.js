@@ -1,4 +1,11 @@
-﻿import { BaseApi } from '@/shared/infrastructure/base-api.js'
+﻿/**
+ * @summary Infrastructure API service for a bounded context.
+ * Provides communication with backend REST endpoints through reusable endpoint clients.
+ *
+ * @author Kevin Lopez
+ */
+
+import { BaseApi } from '@/shared/infrastructure/base-api.js'
 import { BaseEndpoint } from '@/shared/infrastructure/base-endpoint.js'
 
 const enterprisePath = import.meta.env.VITE_ENTERPRISE_STOCK_ENDPOINT

@@ -1,48 +1,13 @@
 ﻿<script setup>
-import { useInventoryUiStore } from '@/inventory-management/application/inventory-ui.store.js'
-import InputText from 'primevue/inputtext'
-import { storeToRefs } from 'pinia'
-import { computed, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const { t } = useI18n()
-const inventoryUi = useInventoryUiStore()
-const { sectionKey } = storeToRefs(inventoryUi)
 
-const TAB_TO_I18N = {
-  stock: 'stock',
-  entrada: 'entry',
-  salida: 'exit',
-  historial: 'history',
-  auditoria: 'audit',
-}
-
-const title = computed(() => route.meta?.pageTitle || 'Inventario')
-
-const breadcrumbs = computed(() => {
-  const base = route.meta?.breadcrumbs?.slice() || ['Regula', 'Inventario']
-  if (route.name === 'inventory-enterprise' || route.name === 'inventory-distributor') {
-    const tk = TAB_TO_I18N[sectionKey.value] || 'stock'
-    return [...base, t(`inventory.tabs.${tk}`)]
-  }
-  return base
-})
-
-watch(
-    () => route.name,
-    (name) => {
-      if (name !== 'inventory-enterprise' && name !== 'inventory-distributor') {
-        inventoryUi.resetInventorySection()
-      }
-    },
-)
+const title = computed(() => route.meta?.pageTitle || '')
 
 const avatarUrl =
     'https://ui-avatars.com/api/?name=Usuario&background=e8ecf0&color=172d40&size=128'
-
-const searchQuery = ref('')
 
 function noop() {}
 </script>
@@ -52,37 +17,9 @@ function noop() {}
     <div class="regula-navbar__top">
       <div class="regula-navbar__left">
         <h1 class="regula-navbar__title">{{ title }}</h1>
-        <span class="regula-navbar__sep" aria-hidden="true" />
-        <nav class="regula-navbar__crumbs" aria-label="Ubicación en la aplicación">
-          <template v-for="(crumb, index) in breadcrumbs" :key="`${crumb}-${index}`">
-            <span v-if="index > 0" class="regula-navbar__crumb-sep">›</span>
-            <span
-                class="regula-navbar__crumb"
-                :class="{ 'regula-navbar__crumb--muted': index < breadcrumbs.length - 1 }"
-            >
-              {{ crumb }}
-            </span>
-          </template>
-        </nav>
       </div>
 
       <div class="regula-navbar__actions">
-        <div
-            class="regula-navbar__search"
-            v-tooltip.bottom="'Busca referencias, balones o movimientos en tu operación'"
-        >
-          <label class="regula-sr-only" for="regula-global-search">Buscar en Regula</label>
-          <i class="pi pi-search regula-navbar__search-icon" aria-hidden="true" />
-          <InputText
-              id="regula-global-search"
-              v-model="searchQuery"
-              placeholder="Buscar..."
-              class="regula-navbar__input"
-              autocomplete="off"
-              type="search"
-          />
-        </div>
-
         <div class="regula-navbar__quick-actions">
           <button
               type="button"
@@ -144,33 +81,6 @@ function noop() {}
   white-space: nowrap;
 }
 
-.regula-navbar__sep {
-  width: 1px;
-  height: 1.5rem;
-  background: var(--regula-gray-light);
-  flex-shrink: 0;
-}
-
-.regula-navbar__crumbs {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: var(--regula-type-small-size);
-  color: var(--regula-text-muted);
-  flex-wrap: wrap;
-  line-height: 1.5;
-}
-
-.regula-navbar__crumb--muted {
-  color: var(--regula-steel);
-}
-
-.regula-navbar__crumb-sep {
-  color: var(--regula-steel);
-  font-size: 0.85rem;
-  padding: 0 0.15rem;
-}
-
 .regula-navbar__actions {
   display: flex;
   align-items: center;
@@ -185,39 +95,6 @@ function noop() {}
   align-items: center;
   gap: 0.65rem;
   flex-shrink: 0;
-}
-
-.regula-navbar__search {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  flex: 1 1 200px;
-  max-width: 320px;
-  min-width: min(100%, 200px);
-}
-
-.regula-navbar__search-icon {
-  position: absolute;
-  left: 0.75rem;
-  color: var(--regula-steel);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.regula-navbar__search :deep(.p-inputtext) {
-  width: 100%;
-  min-height: 44px;
-  border-radius: var(--regula-radius-btn);
-  padding-left: 2.35rem;
-  font-size: var(--regula-type-body-size);
-  background: var(--regula-white);
-  border: 1px solid var(--regula-steel);
-  color: var(--regula-text-primary);
-}
-
-.regula-navbar__search :deep(.p-inputtext:enabled:focus) {
-  border-color: var(--regula-orange);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--regula-orange) 22%, transparent);
 }
 
 .regula-navbar__icon-btn {
@@ -290,19 +167,10 @@ function noop() {}
     gap: 0.35rem;
   }
 
-  .regula-navbar__sep {
-    display: none;
-  }
-
   .regula-navbar__actions {
     width: 100%;
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .regula-navbar__search {
-    max-width: none;
-    width: 100%;
   }
 
   .regula-navbar__quick-actions {
