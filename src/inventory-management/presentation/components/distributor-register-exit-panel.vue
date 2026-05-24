@@ -1,23 +1,23 @@
 ﻿<script setup>
+import useInventoryStore from '@/inventory-management/application/inventory.store.js'
 import CylinderTypePicker from '@/inventory-management/presentation/components/cylinder-type-picker.vue'
-import { InventoryApi } from '@/inventory-management/infrastructure/inventory-api.js'
 import { pickWeightsMap } from '@/inventory-management/infrastructure/movement-reference.helper.js'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import InputNumber from 'primevue/inputnumber'
 import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
+import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const api = new InventoryApi()
+const store = useInventoryStore()
+const { stockKgMaps } = storeToRefs(store)
 
 const selectedKg = ref(null)
 const quantity = ref(null)
 const exitKind = ref(null)
-const weightsMap = ref({})
-
 const weightOptions = computed(() => [
   { key: '5', title: t('inventory.forms.weights.kg5'), subtitle: t('inventory.forms.weights.domestic') },
   { key: '10', title: t('inventory.forms.weights.kg10'), subtitle: t('inventory.forms.weights.standard') },
@@ -31,13 +31,10 @@ const exitKindOptions = computed(() => [
   { key: 'devol', title: t('inventory.forms.distExit.returnSupplier'), icon: 'pi pi-replay' },
 ])
 
-onMounted(async () => {
-  try {
-    const mRes = await api.getStockKgMaps()
-    weightsMap.value = pickWeightsMap(mRes.data, 'distributorExit')
-  } catch {
-    weightsMap.value = {}
-  }
+const weightsMap = computed(() => pickWeightsMap(stockKgMaps.value, 'distributorExit'))
+
+onMounted(() => {
+  store.fetchStockKgMaps()
 })
 
 const stockAvailable = computed(() => {

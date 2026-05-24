@@ -1,6 +1,5 @@
 ﻿<script setup>
-import { useInventoryUiStore } from '@/inventory-management/application/inventory-ui.store.js'
-import { useInventoryStore } from '@/inventory-management/application/inventory.store.js'
+import useInventoryStore from '@/inventory-management/application/inventory.store.js'
 import DistributorRegisterEntryPanel from '@/inventory-management/presentation/components/distributor-register-entry-panel.vue'
 import DistributorRegisterExitPanel from '@/inventory-management/presentation/components/distributor-register-exit-panel.vue'
 import InventoryDistributorStockPanel from '@/inventory-management/presentation/components/inventory-distributor-stock-panel.vue'
@@ -12,8 +11,6 @@ import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const inventoryUi = useInventoryUiStore()
-
 const store = useInventoryStore()
 const { distributorCards, distributorLoaded } = storeToRefs(store)
 
@@ -25,7 +22,7 @@ const panels = computed(() => [
 ])
 
 function onSectionChange({ key }) {
-  inventoryUi.setInventorySectionKey(key)
+  store.setInventorySectionKey(key)
 }
 
 onMounted(() => {
