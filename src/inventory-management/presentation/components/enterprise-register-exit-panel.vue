@@ -1,6 +1,6 @@
 ﻿<script setup>
+import useInventoryStore from '@/inventory-management/application/inventory.store.js'
 import CylinderTypePicker from '@/inventory-management/presentation/components/cylinder-type-picker.vue'
-import { InventoryApi } from '@/inventory-management/infrastructure/inventory-api.js'
 import { pickWeightsMap } from '@/inventory-management/infrastructure/movement-reference.helper.js'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
@@ -9,11 +9,13 @@ import InputText from 'primevue/inputtext'
 import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
 import Textarea from 'primevue/textarea'
+import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const api = new InventoryApi()
+const store = useInventoryStore()
+const { stockKgMaps } = storeToRefs(store)
 
 const selectedKg = ref(null)
 const quantity = ref(null)
@@ -24,8 +26,6 @@ const exitTime = ref('14:15')
 const observations = ref('')
 const maxObs = 500
 
-const weightsMap = ref({})
-
 const weightOptions = computed(() => [
   { key: '5', title: t('inventory.forms.weights.kg5'), warn: false },
   { key: '10', title: t('inventory.forms.weights.kg10'), warn: true },
@@ -33,15 +33,12 @@ const weightOptions = computed(() => [
   { key: '45', title: t('inventory.forms.weights.kg45'), warn: false },
 ])
 
-onMounted(async () => {
-  try {
-    const mRes = await api.getStockKgMaps()
-    weightsMap.value = pickWeightsMap(mRes.data, 'enterpriseExit')
-    const d = new Date()
-    exitDate.value = d.toISOString().slice(0, 10)
-  } catch {
-    weightsMap.value = {}
-  }
+const weightsMap = computed(() => pickWeightsMap(stockKgMaps.value, 'enterpriseExit'))
+
+onMounted(() => {
+  store.fetchStockKgMaps()
+  const d = new Date()
+  exitDate.value = d.toISOString().slice(0, 10)
 })
 
 const stockAvailable = computed(() => {
