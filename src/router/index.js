@@ -14,7 +14,7 @@ const DistributorSalesView = () =>
     import('@/commercional-management/presentation/views/distributor-sales-view.vue')
 const DistributorDebtsView = () =>
     import('@/commercional-management/presentation/views/distributor-debts-view.vue')
-
+import { distributionRoutes } from '@/distribution-logistics-management/presentation/distribution-routes.js'
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -61,6 +61,10 @@ export const router = createRouter({
             component: AppShellLayout,
             // Aquí inyectamos todo el hub de seguridad que a su vez tiene las sub-rutas
             children: securityRoutes
+        },{
+            path: '/distribucion',
+            component: AppShellLayout,
+            children: distributionRoutes,
         },
         {
             path: '/comercial',

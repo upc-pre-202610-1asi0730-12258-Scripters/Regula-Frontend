@@ -13,7 +13,7 @@ export function useShellPresets() {
     watch(() => route.meta?.shellPreset, (newPreset) => {
         if (newPreset) {
             lastKnownPreset.value = newPreset;
-        } else if (route.path.includes('/inventario/distribuidor') || route.path.includes('/comercial/distribuidor')) {
+        } else if (route.path.includes('/inventario/distribuidor') || route.path.includes('/comercial/distribuidor') || route.path.includes('/distribucion')) {
             // Si no hay preset explícito, pero la ruta indica distribuidor, se establece.
             lastKnownPreset.value = 'distributor';
         } else if (route.path.includes('/inventario/empresa')) {
@@ -48,7 +48,7 @@ export function useShellPresets() {
             { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
             { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
             { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
-            { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
+            { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '/distribucion', matchPrefix: '/distribucion' },
             {
                 label: 'Ventas',
                 icon: 'pi pi-shopping-cart',
