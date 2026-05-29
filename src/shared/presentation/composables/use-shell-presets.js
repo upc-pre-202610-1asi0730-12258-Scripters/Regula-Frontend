@@ -38,8 +38,7 @@ export function useShellPresets() {
             { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
             { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
             { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
-            { label: 'Distribución', icon: 'pi pi-truck', to: '#' },
-            { label: 'Reportes', icon: 'pi pi-chart-bar', to: '/reportes/generar', matchPrefix: '/reportes' },
+            { label: 'Distribución', icon: 'pi pi-truck', to: '/empresa/distribucion', matchPrefix: '/empresa/distribucion' },            { label: 'Reportes', icon: 'pi pi-chart-bar', to: '/reportes/generar', matchPrefix: '/reportes' },
             { label: 'Mantenimiento', icon: 'pi pi-wrench', to: '#' },
             { label: 'Administración', icon: 'pi pi-cog', to: '#' },
         ]

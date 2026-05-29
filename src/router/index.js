@@ -15,6 +15,8 @@ const DistributorSalesView = () =>
 const DistributorDebtsView = () =>
     import('@/commercional-management/presentation/views/distributor-debts-view.vue')
 import { distributionRoutes } from '@/distribution-logistics-management/presentation/distribution-routes.js'
+import { enterpriseDistributionRoutes } from '@/distribution-logistics-management/presentation/enterprise-distribution-routes.js'
+
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -65,6 +67,12 @@ export const router = createRouter({
             path: '/distribucion',
             component: AppShellLayout,
             children: distributionRoutes,
+        },
+        {
+            // Distribución dentro de la sección Empresas
+            path: '/empresa/distribucion',
+            component: AppShellLayout,
+            children: enterpriseDistributionRoutes,
         },
         {
             path: '/comercial',
