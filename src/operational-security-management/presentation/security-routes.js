@@ -38,7 +38,14 @@ export const securityRoutes = [
         name: 'zone-analysis',
         component: () => import('./views/zone-analysis.view.vue'),
         meta: { title: 'Análisis por Zona' }
+      },
+      {
+        path:'warehouse-status',
+        name: 'warehouse-status',
+        component: () => import('./views/warehouse-status.view.vue'),
+        meta: { title: 'Estado de almacenes' },
       }
+
     ]
   }
 ];

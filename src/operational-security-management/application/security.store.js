@@ -8,6 +8,8 @@ export const useSecurityStore = defineStore('security', {
     sensorsMetadata: null,
     routeDeviations: [],
     zones: [],
+    warehouses: [],
+    companyAlerts: [],
     isLoading: false,
     error: null,
   }),
@@ -71,6 +73,30 @@ export const useSecurityStore = defineStore('security', {
       } finally {
         this.isLoading = false;
       }
+    },
+//alamcenes
+    async fetchWarehouses() {
+      this.isLoading = true;
+      try {
+        this.warehouses = await securityApi.getWarehouses();
+      } catch (e) {
+        this.error = 'Error al cargar almacenes';
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    //alerta de empresas
+    async fetchCompanyAlerts(){
+      this.isLoading = true;
+      try{
+        this.companyAlerts= await securityApi.getCompanyAlerts();
+      } catch (e){
+        this.error = 'Error al cargar alerta de empresas';
+      } finally {
+        this.isLoading = false;
+      }
     }
+
   }
 });

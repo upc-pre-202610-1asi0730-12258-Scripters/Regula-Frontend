@@ -108,5 +108,81 @@
       "status": "Inactiva",
       "metrics": { "alta": 0, "media": 0, "baja": 0, "incidentes": 0 }
     }
+  ],
+  "warehouses": [
+    {
+      "id": "WH-001",
+      "name": "Almacén Principal",
+      "zone": "Zona A",
+      "gasConcentration": 320,
+      "status": "Activo",
+      "alertLevel": "ALERTA",
+      "lastReading": "10:43 a.m."
+    },
+    {
+      "id": "WH-002",
+      "name": "Depósito Secundario",
+      "zone": "Zona B",
+      "gasConcentration": 12,
+      "status": "Activo",
+      "alertLevel": "OK",
+      "lastReading": "10:45 a.m."
+    },
+    {
+      "id": "WH-003",
+      "name": "Silo de Reserva",
+      "zone": "Zona C",
+      "gasConcentration": null,
+      "status": "Offline",
+      "alertLevel": "SIN SEÑAL",
+      "lastReading": "Sin datos desde las 10:00 a.m."
+    },
+    {
+      "id": "WH-004",
+      "name": "Planta de Procesamiento",
+      "zone": "Zona Principal",
+      "gasConcentration": 8,
+      "status": "Activo",
+      "alertLevel": "OK",
+      "lastReading": "10:44 a.m."
+    }
+  ],
+  "companyAlerts": [
+    {
+      "id": "AL-890",
+      "zone": "Zona C",
+      "type": "Fuga",
+      "criticality": "BAJA",
+      "dateTime": "21/04/2025 08:05",
+      "status": "ATENDIDA",
+      "operator": "Carlos R.",
+      "attentionTime": "08:05",
+      "hasViewAction": true,
+      "hasAttendAction": false
+    },
+    {
+      "id": "AL-891",
+      "zone": "Zona B",
+      "type": "Presión",
+      "criticality": "MEDIA",
+      "dateTime": "21/04/2025 09:15",
+      "status": "ATENDIDA",
+      "operator": "Carlos R.",
+      "attentionTime": "09:22",
+      "hasViewAction": true,
+      "hasAttendAction": false
+    },
+    {
+      "id": "AL-892",
+      "zone": "Zona A",
+      "type": "Fuga",
+      "criticality": "ALTA",
+      "dateTime": "21/04/2025 10:43",
+      "status": "PENDIENTE",
+      "operator": null,
+      "attentionTime": "--",
+      "hasViewAction": true,
+      "hasAttendAction": true
+    }
   ]
 }

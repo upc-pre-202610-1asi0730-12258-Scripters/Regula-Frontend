@@ -107,6 +107,51 @@
     "common": {
       "loading": "Cargando...",
       "error": "Error al cargar los datos."
+    },
+    "warehouses": {
+      "title": "Estado actual de almacenes y zonas operativas",
+      "subtitle": "",
+      "actions":{
+        "attend_alert": "Atender alerta",
+        "view_detail": "Ver detalles",
+        "check_connection": "Revisar coneccion"
+      },
+      "system_active": "Sistema activo",
+      "last_reading": "Ultima lectura"
+    },
+    "company_alerts": {
+      "title": "Historial de Alertas",
+      "showing": "Mostrando",
+      "of": "de",
+      "alerts": "alertas",
+      "export": "Exportar",
+      "search": "Buscar",
+      "attend": "Atender",
+      "view": "Ver",
+
+      "filters": {
+        "status": "ESTADO",
+        "type": "TIPO",
+        "from": "DESDE",
+        "to": "HASTA",
+        "all": "Todas",
+        "pending": "Pendiente",
+        "attended": "Atendida",
+        "leak": "Fuga",
+        "pressure": "Presión"
+      },
+
+      "columns": {
+        "id": "ID",
+        "zone": "Zona",
+        "type": "Tipo",
+        "criticality": "Criticidad",
+        "datetime": "Fecha y hora",
+        "status": "Estado",
+        "operator": "Operador",
+        "attention_time": "Hora atención",
+        "actions": "Acciones"
+      }
     }
   }
 }
