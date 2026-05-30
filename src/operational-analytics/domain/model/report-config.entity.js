@@ -15,7 +15,7 @@ export class ReportConfig {
     }
 
 
-    static ESTIMATED_ROWS = {
+    /*static ESTIMATED_ROWS = {
         inventory:    '~1,240',
         alerts:       '~87',
         distribution: '~342',
@@ -24,7 +24,7 @@ export class ReportConfig {
 
     get estimatedRows() {
         return ReportConfig.ESTIMATED_ROWS[this.module] ?? '—'
-    }
+    }*/
 
     get periodLabel() {
         return ReportConfig.PERIOD_LABELS[this.period] ?? '—'

@@ -12,7 +12,7 @@ const enterpriseNav = [
   { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
   { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
   { label: 'Distribución', icon: 'pi pi-truck', to: '#' },
-  { label: 'Reportes', icon: 'pi pi-chart-bar', to: '#' },
+  { label: 'Reportes', icon: 'pi pi-chart-bar', to: '/reportes/generar', matchPrefix: '/reportes' },
   { label: 'Mantenimiento', icon: 'pi pi-wrench', to: '#' },
   { label: 'Administración', icon: 'pi pi-cog', to: '#' },
 ]
@@ -24,19 +24,18 @@ const distributorNav = [
   { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
   { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '#' },
   { label: 'Fiados y Cobranzas', icon: 'pi pi-wallet', to: '#' },
-  { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#' },
+  { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#'  },
+
 ]
 
 const preset = computed(() => {
-  if (route.meta?.shellPreset) {
-    return route.meta.shellPreset
-  }
-  if (route.name === 'inventory-distributor') {
-    return 'distributor'
-  }
+  const savedRole = sessionStorage.getItem('regula_role')  // 'enterprise' o 'distributor'
+  if (savedRole === 'distributor') return 'distributor'
+  if (savedRole === 'enterprise')  return 'enterprise'
+  // fallback por nombre de ruta
+  if (route.name === 'inventory-distributor') return 'distributor'
   return 'enterprise'
 })
-
 const navigationItems = computed(() =>
     preset.value === 'distributor' ? distributorNav : enterpriseNav,
 )

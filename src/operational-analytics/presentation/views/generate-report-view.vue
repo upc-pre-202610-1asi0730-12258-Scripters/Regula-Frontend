@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import Toast from 'primevue/toast'
 
 import { useAnalyticsStore }   from '@/operational-analytics/application/analytics.store.js'
@@ -8,16 +9,19 @@ import { useAnalyticsUiStore } from '@/operational-analytics/application/analyti
 import { ReportConfigAssembler } from '@/operational-analytics/infrastructure/report-config.assembler.js'
 
 const { t } = useI18n()
+const router = useRouter()
 
 const analyticsStore   = useAnalyticsStore()
 const analyticsUiStore = useAnalyticsUiStore()
 
-// ─── Local UI selections (assembled into a domain entity on submit) ──────────
+// Solo enterprise puede ver esta sección
+const isEnterprise = sessionStorage.getItem("regula_role") !== "distributor"
+if (!isEnterprise) router.replace({ name: "role-select" })
+
 const selectedModule = ref('inventory')
 const selectedPeriod = ref('lastWeek')
 const selectedFormat = ref('pdf')
 
-// ─── Static option lists (labels come from i18n) ────────────────────────────
 const reportModules = computed(() => [
   { key: 'inventory',    icon: 'pi pi-box',      label: t('reports.modules.inventory.label'),    description: t('reports.modules.inventory.description')    },
   { key: 'alerts',       icon: 'pi pi-shield',   label: t('reports.modules.alerts.label'),       description: t('reports.modules.alerts.description')       },
@@ -37,7 +41,6 @@ const formatOptions = computed(() => [
   { key: 'excel', icon: 'pi pi-file-excel', label: t('reports.formats.excel'), iconColor: '#38a169' },
 ])
 
-// ─── Preview: derived from domain entity via store ───────────────────────────
 const previewModuleLabel = computed(() =>
     reportModules.value.find((m) => m.key === selectedModule.value)?.label ?? '',
 )
@@ -49,38 +52,32 @@ const previewPeriodLabel = computed(() => {
   return t('reports.preview.periodCustom')
 })
 
-/**
- * Estimated rows: use the domain entity's logic when a config exists,
- * otherwise fall back to the static map on ReportConfig.
- */
 const estimatedRows = computed(() => {
-  if (analyticsStore.currentConfig) {
-    return analyticsStore.currentConfig.estimatedRows
+  if (!analyticsStore.currentConfig) {
+    const counts = {
+      inventory:    analyticsStore.enterpriseMovements.length,
+      alerts:       analyticsStore.auditLogs.length,
+      distribution: analyticsStore.distributorMovements.length,
+      all:          analyticsStore.enterpriseMovements.length
+          + analyticsStore.auditLogs.length
+          + analyticsStore.distributorMovements.length,
+    }
+    return `~${counts[selectedModule.value] ?? 0}`
   }
-  // Build a temporary entity just for the label (no fetch needed)
-  const tmp = ReportConfigAssembler.toEntityFromSelection({
-    module: selectedModule.value,
-    period: selectedPeriod.value,
-    format: selectedFormat.value,
-  })
-  return tmp.estimatedRows
+  return `~${analyticsStore.actualRowCount}`
 })
 
-// ─── Convenience aliases from store ──────────────────────────────────────────
 const isGenerating = computed(() => analyticsStore.isGenerating)
 const showSuccess  = computed(() => analyticsStore.showSuccess)
 
-// ─── Actions ─────────────────────────────────────────────────────────────────
 function generateReport() {
-  // 1. Assemble domain entity from current UI selections
   const config = ReportConfigAssembler.toEntityFromSelection({
     module: selectedModule.value,
     period: selectedPeriod.value,
     format: selectedFormat.value,
   })
-  // 2. Push config into the store (enables filtered computed props)
+
   analyticsStore.setConfig(config)
-  // 3. Trigger generation
   analyticsStore.generateReport()
 }
 
@@ -88,7 +85,6 @@ function dismissSuccess() {
   analyticsStore.dismissSuccess()
 }
 
-// ─── Lifecycle ───────────────────────────────────────────────────────────────
 onMounted(() => {
   analyticsStore.fetchAll()
 })
@@ -100,8 +96,8 @@ onMounted(() => {
   <div class="reports-page">
 
     <div class="reports-tabs">
-      <button class="reports-tab reports-tab--active">{{ t('reports.tabs.generate') }}</button>
-      <button class="reports-tab">{{ t('reports.tabs.trends') }}</button>
+      <router-link to="/reportes/generar" class="reports-tab" active-class="reports-tab--active">{{ t('reports.tabs.generate') }}</router-link>
+      <router-link to="/reportes/tendencias" class="reports-tab" active-class="reports-tab--active">{{ t('reports.tabs.trends') }}</router-link>
     </div>
 
     <Transition name="toast-slide">
@@ -227,6 +223,9 @@ onMounted(() => {
 <style scoped>
 .reports-page {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .reports-tabs {
@@ -234,6 +233,8 @@ onMounted(() => {
   gap: 0;
   border-bottom: 2px solid #e5e7eb;
   margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 700px;
 }
 
 .reports-tab {
@@ -247,6 +248,7 @@ onMounted(() => {
   border-bottom: 3px solid transparent;
   margin-bottom: -2px;
   transition: color 0.15s, border-color 0.15s;
+  text-decoration: none;
 }
 
 .reports-tab--active {
@@ -259,6 +261,7 @@ onMounted(() => {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 2rem;
+  width: 100%;
   max-width: 700px;
 }
 
@@ -528,9 +531,9 @@ onMounted(() => {
 }
 
 .reports-success-toast {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
