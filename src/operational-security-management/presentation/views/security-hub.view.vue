@@ -38,7 +38,9 @@ const tabs = [
   { name: 'Historial de Alertas', localeKey: 'alert_history', routeName: 'alert-history' },
   { name: 'Estado del Sensor', localeKey: 'sensor_status', routeName: 'sensor-status' },
   { name: 'Desvíos de Ruta', localeKey: 'route_deviations', routeName: 'route-deviations' },
-  { name: 'Análisis por Zona', localeKey: 'zone_analysis', routeName: 'zone-analysis' }
+  { name: 'Análisis por Zona', localeKey: 'zone_analysis', routeName: 'zone-analysis' },
+  { name: 'Estado de Almacenes', localeKey: 'warehouse_status', routeName: 'warehouse-status' },
+  { name: 'Historial de Alertas de Compañía', localeKey: 'company_alert_history', routeName: 'company-alert-history' }
 ];
 </script>
 

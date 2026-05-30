@@ -11,7 +11,8 @@
         "sensor_status": "Sensor Status",
         "route_deviations": "Route Deviations",
         "zone_analysis": "Zone Analysis",
-        "warehouses_status": "Warehouses Status"
+        "warehouse_status": "Warehouse Status",
+        "company_alert_history": "Company Alert History"
       }
     },
     "active_alerts": {

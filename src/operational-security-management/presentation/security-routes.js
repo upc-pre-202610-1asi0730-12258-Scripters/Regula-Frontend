@@ -44,8 +44,13 @@ export const securityRoutes = [
         name: 'warehouse-status',
         component: () => import('./views/warehouse-status.view.vue'),
         meta: { title: 'Estado de almacenes' },
+      },
+      {
+        path: 'company-alert-history',
+        name: 'company-alert-history',
+        component: () => import('./views/company-alerts-history.view.vue'), // Corrected filename here
+        meta: { title: 'Historial de Alertas de Compañía' }
       }
-
     ]
   }
 ];

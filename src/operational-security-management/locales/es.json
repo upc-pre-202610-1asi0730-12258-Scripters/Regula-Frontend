@@ -10,7 +10,9 @@
         "alert_history": "Historial de Alertas",
         "sensor_status": "Estado del Sensor",
         "route_deviations": "Desvíos de Ruta",
-        "zone_analysis": "Análisis por Zona"
+        "zone_analysis": "Análisis por Zona",
+        "warehouse_status": "Estado de Almacenes",
+        "company_alert_history": "Historial de Alertas de Compañía"
       }
     },
     "active_alerts": {
