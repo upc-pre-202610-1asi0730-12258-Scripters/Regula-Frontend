@@ -3660,5 +3660,231 @@
       "valorNuevo": "136",
       "accionEstado": "voidable"
     }
+  ],
+  "securityAlerts": [
+    {
+      "id": "2024-11-norte",
+      "monthKey": "2024-11",
+      "monthLabel": "Nov 24",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 33,
+      "medium": 28,
+      "low": 17,
+      "total": 78
+    },
+    {
+      "id": "2024-11-sur",
+      "monthKey": "2024-11",
+      "monthLabel": "Nov 24",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 14,
+      "medium": 29,
+      "low": 13,
+      "total": 56
+    },
+    {
+      "id": "2024-11-centro",
+      "monthKey": "2024-11",
+      "monthLabel": "Nov 24",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 29,
+      "medium": 22,
+      "low": 14,
+      "total": 65
+    },
+    {
+      "id": "2024-12-norte",
+      "monthKey": "2024-12",
+      "monthLabel": "Dic 24",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 18,
+      "medium": 34,
+      "low": 20,
+      "total": 72
+    },
+    {
+      "id": "2024-12-sur",
+      "monthKey": "2024-12",
+      "monthLabel": "Dic 24",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 11,
+      "medium": 20,
+      "low": 13,
+      "total": 44
+    },
+    {
+      "id": "2024-12-centro",
+      "monthKey": "2024-12",
+      "monthLabel": "Dic 24",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 23,
+      "medium": 25,
+      "low": 15,
+      "total": 63
+    },
+    {
+      "id": "2025-01-norte",
+      "monthKey": "2025-01",
+      "monthLabel": "Ene 25",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 37,
+      "medium": 28,
+      "low": 23,
+      "total": 88
+    },
+    {
+      "id": "2025-01-sur",
+      "monthKey": "2025-01",
+      "monthLabel": "Ene 25",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 20,
+      "medium": 22,
+      "low": 9,
+      "total": 51
+    },
+    {
+      "id": "2025-01-centro",
+      "monthKey": "2025-01",
+      "monthLabel": "Ene 25",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 30,
+      "medium": 28,
+      "low": 11,
+      "total": 69
+    },
+    {
+      "id": "2025-02-norte",
+      "monthKey": "2025-02",
+      "monthLabel": "Feb 25",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 20,
+      "medium": 51,
+      "low": 21,
+      "total": 92
+    },
+    {
+      "id": "2025-02-sur",
+      "monthKey": "2025-02",
+      "monthLabel": "Feb 25",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 22,
+      "medium": 29,
+      "low": 12,
+      "total": 63
+    },
+    {
+      "id": "2025-02-centro",
+      "monthKey": "2025-02",
+      "monthLabel": "Feb 25",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 31,
+      "medium": 28,
+      "low": 15,
+      "total": 74
+    },
+    {
+      "id": "2025-03-norte",
+      "monthKey": "2025-03",
+      "monthLabel": "Mar 25",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 37,
+      "medium": 45,
+      "low": 24,
+      "total": 106
+    },
+    {
+      "id": "2025-03-sur",
+      "monthKey": "2025-03",
+      "monthLabel": "Mar 25",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 19,
+      "medium": 28,
+      "low": 8,
+      "total": 55
+    },
+    {
+      "id": "2025-03-centro",
+      "monthKey": "2025-03",
+      "monthLabel": "Mar 25",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 17,
+      "medium": 27,
+      "low": 11,
+      "total": 55
+    },
+    {
+      "id": "2025-04-norte",
+      "monthKey": "2025-04",
+      "monthLabel": "Abr 25",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 23,
+      "medium": 30,
+      "low": 17,
+      "total": 70
+    },
+    {
+      "id": "2025-04-sur",
+      "monthKey": "2025-04",
+      "monthLabel": "Abr 25",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 19,
+      "medium": 22,
+      "low": 11,
+      "total": 52
+    },
+    {
+      "id": "2025-04-centro",
+      "monthKey": "2025-04",
+      "monthLabel": "Abr 25",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 17,
+      "medium": 26,
+      "low": 18,
+      "total": 61
+    }
+  ],
+  "securityZones": [
+    {
+      "id": "norte",
+      "label": "Zona Norte",
+      "type": "Sector industrial — Alta densidad",
+      "criticality": "Critica",
+      "criticalityColor": "danger",
+      "percentage": 34.5
+    },
+    {
+      "id": "sur",
+      "label": "Zona Sur",
+      "type": "Sector residencial — Media densidad",
+      "criticality": "Moderada",
+      "criticalityColor": "warning",
+      "percentage": 21.2
+    },
+    {
+      "id": "centro",
+      "label": "Zona Centro",
+      "type": "Sector comercial — Alta densidad",
+      "criticality": "Moderada",
+      "criticalityColor": "warning",
+      "percentage": 25.1
+    }
   ]
 }
