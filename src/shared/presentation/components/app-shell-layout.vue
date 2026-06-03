@@ -22,8 +22,8 @@ const distributorNav = [
   { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '#' },
   { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
   { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
-  { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '#' },
-  { label: 'Fiados y Cobranzas', icon: 'pi pi-wallet', to: '#' },
+  { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '/comercial/ventas', matchPrefix: '/comercial/ventas' },
+  { label: 'Deudas y Cobranzas', icon: 'pi pi-wallet', to: '/comercial/deudas', matchPrefix: '/comercial/deudas' },
   { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#' },
 ]
 
@@ -31,9 +31,15 @@ const preset = computed(() => {
   if (route.meta?.shellPreset) {
     return route.meta.shellPreset
   }
-  if (route.name === 'inventory-distributor') {
+
+  if (
+      route.name === 'inventory-distributor' ||
+      route.name === 'commercial-sales-distributor' ||
+      route.name === 'commercial-debts-distributor'
+  ) {
     return 'distributor'
   }
+
   return 'enterprise'
 })
 
