@@ -12,7 +12,7 @@
 
     <div v-else class="card">
       <DataTable
-        :value="securityStore.alertHistory"
+        :value="[...securityStore.alertHistory]"
         paginator
         :rows="10"
         :rowsPerPageOptions="[5, 10, 20, 50]"

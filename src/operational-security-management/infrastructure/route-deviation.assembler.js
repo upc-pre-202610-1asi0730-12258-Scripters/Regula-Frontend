@@ -1,31 +1,20 @@
 import { RouteDeviation } from '../domain/model/route-deviation.entity.js';
 
 export class RouteDeviationAssembler {
-  /**
-   * Transforms raw API data into a RouteDeviation entity.
-   * @param {Object} rawData - The raw JSON data from the API.
-   * @returns {RouteDeviation} The assembled RouteDeviation entity.
-   */
-  static toDomain(rawData) {
-    return new RouteDeviation(
-      rawData.id,
-      rawData.unit,
-      rawData.location,
-      rawData.distance,
-      rawData.time,
-      rawData.status
-    );
-  }
-
-  /**
-   * Transforms an array of raw API data into RouteDeviation entities.
-   * @param {Array} rawDataArray - The array of raw JSON data.
-   * @returns {Array<RouteDeviation>} An array of RouteDeviation entities.
-   */
-  static toDomainList(rawDataArray) {
-    if (!Array.isArray(rawDataArray)) {
-      return [];
+    static toEntityFromResource(resource) {
+      return new RouteDeviation({...resource});
     }
-    return rawDataArray.map((rawData) => this.toDomain(rawData));
-  }
+    static toEntitiesFromResponse(response) {
+      if (response.status !== 200) {
+        console.error(`${response.status} ${response.statusText}`);
+        return [];
+      }
+      let resources = response.data instanceof Array
+          ? response.data
+          : response.data['routeDeviations'];
+
+      return resources.map(resource =>
+          this.toEntityFromResource(resource)
+      );
+    }
 }

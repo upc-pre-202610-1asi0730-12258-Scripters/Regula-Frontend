@@ -1,159 +1,156 @@
 {
   "security": {
+    "title": "Seguridad Operacional",
+    "subtitle": "Monitoreo, alertas y control operacional",
+
     "shell": {
-      "main_link": "Alertas y Seguridad"
+      "main_link": "Seguridad"
     },
-    "hub": {
-      "title": "Alertas y Seguridad",
-      "tabs": {
-        "active_alerts": "Alertas Activas",
-        "alert_history": "Historial de Alertas",
-        "sensor_status": "Estado del Sensor",
-        "route_deviations": "Desvíos de Ruta",
-        "zone_analysis": "Análisis por Zona",
-        "warehouse_status": "Estado de Almacenes",
-        "company_alert_history": "Historial de Alertas de Compañía"
-      }
+
+    "menu": {
+      "active_alerts": "Alertas Activas",
+      "company_alerts": "Alertas de Empresa",
+      "warehouses": "Almacenes",
+      "sensors": "Sensores",
+      "route_deviations": "Desvíos de Ruta",
+      "zone_analysis": "Análisis por Zona",
+      "alert_history": "Historial de Alertas"
     },
+
+    "common": {
+      "error": "Ocurrió un error al cargar los datos"
+    },
+
     "active_alerts": {
       "title": "Alertas Activas",
+      "empty_state": "No existen alertas activas",
       "card": {
         "location": "Ubicación",
-        "timestamp": "Fecha y Hora",
+        "timestamp": "Fecha",
         "status": "Estado",
-        "resolve_button": "Resolver Alerta"
-      },
-      "empty_state": "No hay alertas activas en este momento."
-    },
-    "alert_history": {
-      "title": "Historial de Alertas",
-      "search_placeholder": "Buscar en el historial...",
-      "empty_state": "No se encontraron registros de alertas.",
-      "columns": {
-        "id": "ID",
-        "type": "Tipo de Alerta",
-        "location": "Ubicación",
-        "criticality": "Criticidad",
-        "timestamp": "Fecha y Hora",
-        "status": "Estado"
+        "resolve_button": "Resolver"
       }
     },
-    "route_deviations": {
-      "title": "Desvíos de Ruta",
-      "banner": "Se considera desvío de ruta cuando la unidad se aleja más de {distance} de su ruta planificada por un lapso superior a {time}.",
-      "search_placeholder": "Buscar unidad o ubicación...",
-      "pills": {
-        "total": "Total",
-        "pending": "Pendientes",
-        "attended": "Atendidas"
-      },
-      "columns": {
-        "id": "ID",
-        "unit": "Vehículo / Unidad",
-        "location": "Última Ubicación",
-        "distance": "Distancia Detectada",
-        "time": "Hora de Desvío",
-        "status": "Estado",
-        "action": "Acción"
-      },
-      "actions": {
-        "review": "Revisar",
-        "details": "Detalles"
-      }
-    },
-    "sensor_status": {
-      "main_card_title": "Distribuidor Lima Norte",
-      "ppm_label": "PPM (Gas)",
-      "range_label": "Rango Seguro",
-      "hw": {
-        "signal": "Señal {strength}",
-        "battery": "Batería {level}%",
-        "online": "En línea",
-        "offline": "Desconectado"
-      },
-      "warning_card": {
-        "title": "Sin señal del sensor",
-        "location": "{sensorName} (Hace {time})",
-        "reconnect_button": "Reconectar"
-      },
-      "ok_card": {
-        "title": "Todo en orden",
-        "desc": "Todos los sensores están reportando correctamente."
-      },
-      "meta": {
-        "last_read": "Última lectura global",
-        "active_sensors": "Sensores activos",
-        "critical_battery": "Batería crítica"
-      }
-    },
-    "zone_analysis": {
-      "title": "Zonas con mayor frecuencia de alertas",
-      "filters": {
-        "period": "Seleccionar Período",
-        "type": "Tipo de Alerta"
-      },
-      "metrics": {
-        "high": "Alta",
-        "medium": "Media",
-        "low": "Baja",
-        "incidents": "Incidentes"
-      },
-      "legend": {
-        "title": "Leyenda de Criticidad:",
-        "high": "Alta (Prioridad 1)",
-        "medium": "Media (Prioridad 2)",
-        "low": "Baja (Preventiva)",
-        "stable": "Sin Riesgo / Estable"
-      }
-    },
-    "common": {
-      "loading": "Cargando...",
-      "error": "Error al cargar los datos."
-    },
-    "warehouses": {
-      "title": "Estado actual de almacenes y zonas operativas",
-      "subtitle": "",
-      "actions":{
-        "attend_alert": "Atender alerta",
-        "view_detail": "Ver detalles",
-        "check_connection": "Revisar coneccion"
-      },
-      "system_active": "Sistema activo",
-      "last_reading": "Ultima lectura"
-    },
+
     "company_alerts": {
-      "title": "Historial de Alertas",
+      "title": "Historial de Alertas de Empresa",
+
+      "filters": {
+        "status": "Estado",
+        "type": "Tipo",
+        "from": "Desde",
+        "to": "Hasta"
+      },
+
+      "search": "Buscar",
       "showing": "Mostrando",
       "of": "de",
       "alerts": "alertas",
       "export": "Exportar",
-      "search": "Buscar",
-      "attend": "Atender",
-      "view": "Ver",
-
-      "filters": {
-        "status": "ESTADO",
-        "type": "TIPO",
-        "from": "DESDE",
-        "to": "HASTA",
-        "all": "Todas",
-        "pending": "Pendiente",
-        "attended": "Atendida",
-        "leak": "Fuga",
-        "pressure": "Presión"
-      },
 
       "columns": {
         "id": "ID",
         "zone": "Zona",
         "type": "Tipo",
         "criticality": "Criticidad",
-        "datetime": "Fecha y hora",
+        "datetime": "Fecha y Hora",
         "status": "Estado",
         "operator": "Operador",
-        "attention_time": "Hora atención",
+        "attention_time": "Hora de Atención",
         "actions": "Acciones"
+      },
+
+      "attend": "Atender",
+      "view": "Ver"
+    },
+
+    "warehouses": {
+      "title": "Monitoreo de Almacenes",
+      "subtitle": "Seguimiento de concentración de gas en tiempo real",
+
+      "system_active": "Sistema Activo",
+
+      "banner": "Las lecturas se actualizan automáticamente cada {time}.",
+
+      "last_reading": "Última lectura",
+
+      "actions": {
+        "attend_alert": "Atender Alerta",
+        "check_connection": "Verificar Conexión",
+        "view_detail": "Ver Detalle"
+      },
+
+      "footer_info": "Los datos de almacenes están sincronizados con los sensores conectados."
+    },
+
+    "sensors": {
+      "title": "Estado de Sensores",
+      "subtitle": "Monitoreo de dispositivos conectados",
+
+      "summary": {
+        "active": "Sensores Activos",
+        "total": "Total Sensores",
+        "critical": "Bateria Crítica",
+        "last_read": "Última Lectura"
+      },
+
+      "warning": {
+        "offline": "Sensor fuera de servicio"
+      },
+
+      "status": {
+        "online": "En Línea",
+        "offline": "Fuera de Línea"
+      },
+
+      "battery": "Batería",
+      "signal": "Señal",
+      "ppm": "PPM",
+
+      "actions": {
+        "details": "Ver Detalles",
+        "reconnect": "Reconectar"
       }
+    },
+
+    "route_deviations": {
+      "title": "Desvíos de Ruta",
+
+      "columns": {
+        "id": "ID",
+        "unit": "Unidad",
+        "location": "Ubicación",
+        "distance": "Distancia (m)",
+        "time": "Hora",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+
+      "view": "Ver",
+      "attend": "Atender"
+    },
+
+    "zone_analysis": {
+      "title": "Análisis por Zona",
+      "subtitle": "Riesgo operacional por zona",
+
+      "metrics": {
+        "high": "Alta",
+        "medium": "Media",
+        "low": "Baja",
+        "incidents": "Incidentes"
+      },
+
+      "status": {
+        "critical": "Crítica",
+        "stable": "Estable",
+        "inactive": "Inactiva"
+      }
+    },
+
+    "alert_history": {
+      "title": "Historial de Alertas",
+      "subtitle": "Alertas resueltas e históricas"
     }
   }
 }

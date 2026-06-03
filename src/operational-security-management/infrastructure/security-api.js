@@ -1,89 +1,61 @@
-import { BaseApi } from '../../shared/infrastructure/base-api.js';
-import { AlertAssembler } from './alert.assembler.js';
-import { RouteDeviationAssembler } from './route-deviation.assembler.js';
-import { ZoneAnalysisAssembler } from './zone-analysis.assembler.js';
-import {WarehouseAssembler} from "@/operational-security-management/infrastructure/warehouse.assembler.js";
-import {CompanyAlertAssembler} from "@/operational-security-management/infrastructure/company-alert.assembler.js";
+import { BaseApi } from "../../shared/infrastructure/base-api.js";
+import { BaseEndpoint } from "../../shared/infrastructure/base-endpoint.js";
+
+const alertsEndpointPath = import.meta.env.VITE_ALERTS_ENDPOINT;
+const sensorsEndpointPath = import.meta.env.VITE_SENSORS_ENDPOINT;
+const sensorsMetadataEndpointPath = import.meta.env.VITE_SENSORS_METADATA_ENDPOINT;
+const routeDeviationsEndpointPath = import.meta.env.VITE_ROUTE_DEVIATIONS_ENDPOINT;
+const zoneAnalysisEndpointPath = import.meta.env.VITE_ZONE_ANALYSIS_ENDPOINT;
+const warehousesEndpointPath = import.meta.env.VITE_WAREHOUSES_ENDPOINT;
+const companyAlertsEndpointPath = import.meta.env.VITE_COMPANY_ALERTS_ENDPOINT;
 
 export class SecurityApi extends BaseApi {
+
+  #alertsEndpoint;
+  #sensorsEndpoint;
+  #sensorsMetadataEndpoint;
+  #routeDeviationsEndpoint;
+  #zoneAnalysisEndpoint;
+  #warehousesEndpoint;
+  #companyAlertsEndpoint;
+
   constructor() {
     super();
-    this.endpoint = ''; 
+
+    this.#alertsEndpoint = new BaseEndpoint(this, alertsEndpointPath);
+    this.#sensorsEndpoint = new BaseEndpoint(this, sensorsEndpointPath);
+    this.#sensorsMetadataEndpoint = new BaseEndpoint(this, sensorsMetadataEndpointPath);
+    this.#routeDeviationsEndpoint = new BaseEndpoint(this, routeDeviationsEndpointPath);
+    this.#zoneAnalysisEndpoint = new BaseEndpoint(this, zoneAnalysisEndpointPath);
+    this.#warehousesEndpoint = new BaseEndpoint(this, warehousesEndpointPath);
+    this.#companyAlertsEndpoint = new BaseEndpoint(this, companyAlertsEndpointPath);
   }
 
-  async getAlerts() {
-    try {
-      const response = await this.http.get(`${this.endpoint}/alerts`);
-      return AlertAssembler.toDomainList(response.data);
-    } catch (error) {
-      console.error('Error fetching alerts:', error);
-      throw error;
-    }
+  getAlerts() {
+    return this.#alertsEndpoint.getAll();
   }
 
-  // Sensores y su metadata (Crudos para adaptarlos en la UI)
-  async getSensors() {
-    try {
-      const response = await this.http.get(`${this.endpoint}/sensors`);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching sensors:', error);
-      throw error;
-    }
-  }
-  
-  async getSensorsMetadata() {
-    try {
-      const response = await this.http.get(`${this.endpoint}/sensors_metadata`);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching sensors metadata:', error);
-      throw error;
-    }
+  getSensors() {
+    return this.#sensorsEndpoint.getAll();
   }
 
-  // Desvíos de Ruta
-  async getRouteDeviations() {
-    try {
-      const response = await this.http.get(`${this.endpoint}/routeDeviations`);
-      return RouteDeviationAssembler.toDomainList(response.data);
-    } catch (error) {
-      console.error('Error fetching route deviations:', error);
-      throw error;
-    }
+  getSensorsMetadata() {
+    return this.#sensorsMetadataEndpoint.getAll();
   }
 
-  // Análisis de Zona
-  async getZoneAnalysis() {
-    try {
-      const response = await this.http.get(`${this.endpoint}/zoneAnalysis`);
-      return ZoneAnalysisAssembler.toDomainList(response.data);
-    } catch (error) {
-      console.error('Error fetching zone analysis:', error);
-      throw error;
-    }
+  getRouteDeviations() {
+    return this.#routeDeviationsEndpoint.getAll();
   }
 
-  // Almacenes
-  async getWarehouses() {
-    try {
-      const response = await this.http.get(`${this.endpoint}/warehouses`);
-      return WarehouseAssembler.toDomainList(response.data);
-    } catch (error) {
-      console.error('Error fetching Warehouses :', error);
-      throw error;
-    }
+  getZoneAnalysis() {
+    return this.#zoneAnalysisEndpoint.getAll();
   }
 
-  async getCompanyAlerts(){
-    try{
-      const response = await this.http.get(`${this.endpoint}/companyAlerts`);
-      return CompanyAlertAssembler.toDomainList(response.data);
-    }catch (error) {
-      console.error('Error fetching CompanyAlerts:', error);
-      throw error;
-    }
+  getWarehouses() {
+    return this.#warehousesEndpoint.getAll();
+  }
+
+  getCompanyAlerts() {
+    return this.#companyAlertsEndpoint.getAll();
   }
 }
-
-export const securityApi = new SecurityApi();

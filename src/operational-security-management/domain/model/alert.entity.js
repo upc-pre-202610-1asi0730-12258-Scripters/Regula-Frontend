@@ -1,5 +1,12 @@
 export class Alert {
-  constructor(id, type, criticality, location, timestamp, status) {
+  constructor({
+                id = '',
+                type = '',
+                criticality = '',
+                location = '',
+                timestamp = '',
+                status = ''
+              }) {
     this.id = id;
     this.type = type;
     this.criticality = criticality;

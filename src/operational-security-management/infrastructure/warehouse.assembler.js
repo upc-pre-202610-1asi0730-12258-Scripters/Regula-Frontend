@@ -1,22 +1,18 @@
 import {Warehouse} from "@/operational-security-management/domain/model/warehouse.entity.js";
 
 export class WarehouseAssembler {
-    static toDomain(rawData){
-        return new Warehouse(
-            rawData.id,
-            rawData.name,
-            rawData.zone,
-            rawData.gasConcentration,
-            rawData.status,
-            rawData.alertLevel,
-            rawData.lastReading
-        );
-    }
+   static toEntityFromResource(resource) {
+       return new Warehouse({ ...resource });
+   }
+   static toEntitiesFromResponse(response) {
+       if (response.status !== 200) {
+           console.error(`${response.status} ${response.statusText}`);
+           return [];
+       }
+       let resources = response.data instanceof Array
+           ? response.data
+           : response.data['warehouses'];
 
-    static toDomainList(rawDataArray) {
-        if (!Array.isArray(rawDataArray)) {
-            return [];
-        }
-        return rawDataArray.map((rawData) => this.toDomain(rawData));
-    }
+       return resources.map(resource => this.toEntityFromResource(resource));
+   }
 }

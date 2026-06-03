@@ -19,7 +19,7 @@ export function useShellPresets() {
     const navigationItems = computed(() => {
         const enterpriseNav = [
             { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-            { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
+            { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad/empresa/active-alerts', matchPrefix: '/seguridad' },
             { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
             { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
             { label: 'Distribución', icon: 'pi pi-truck', to: '#' },
@@ -30,7 +30,7 @@ export function useShellPresets() {
 
         const distributorNav = [
             { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-            { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad', matchPrefix: '/seguridad' },
+            { label: t('security.shell.main_link'), icon: 'pi pi-shield', to: '/seguridad/distribuidor/active-alerts', matchPrefix: '/seguridad' },
             { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
             { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
             { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '#' },

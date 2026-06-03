@@ -1,29 +1,21 @@
 import { ZoneAnalysis } from '../domain/model/zone-analysis.entity.js';
 
 export class ZoneAnalysisAssembler {
-  /**
-   * Transforms raw API data into a ZoneAnalysis entity.
-   * @param {Object} rawData - The raw JSON data from the API.
-   * @returns {ZoneAnalysis} The assembled ZoneAnalysis entity.
-   */
-  static toDomain(rawData) {
-    return new ZoneAnalysis(
-      rawData.id,
-      rawData.name,
-      rawData.status,
-      rawData.metrics
-    );
+  static toEntityFromResource(resource) {
+    return new ZoneAnalysis({ ...resource });
   }
 
-  /**
-   * Transforms an array of raw API data into ZoneAnalysis entities.
-   * @param {Array} rawDataArray - The array of raw JSON data.
-   * @returns {Array<ZoneAnalysis>} An array of ZoneAnalysis entities.
-   */
-  static toDomainList(rawDataArray) {
-    if (!Array.isArray(rawDataArray)) {
+  static toEntitiesFromResponse(response) {
+    if (response.status !== 200) {
+      console.error(`${response.status} ${response.statusText}`);
       return [];
     }
-    return rawDataArray.map((rawData) => this.toDomain(rawData));
+    let resources = response.data instanceof Array
+        ? response.data
+        : response.data['zoneAnalysis'];
+
+    return resources.map(resource =>
+        this.toEntityFromResource(resource)
+    );
   }
 }

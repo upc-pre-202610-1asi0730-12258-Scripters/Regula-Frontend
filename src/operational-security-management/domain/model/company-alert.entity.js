@@ -1,14 +1,16 @@
-export class CompanyAlert{
-    constructor(id,
-    zone,
-    type,
-    criticality,
-    dateTime,
-    status,
-    operator,
-    attentionTime,
-    hasViewAction,
-    hasAttendAction){
+export class CompanyAlert {
+    constructor({
+                    id = '',
+                    zone = '',
+                    type = '',
+                    criticality = '',
+                    dateTime = '',
+                    status = '',
+                    operator = '',
+                    attentionTime = '',
+                    hasViewAction = false,
+                    hasAttendAction = false
+                }) {
         this.id = id;
         this.zone = zone;
         this.type = type;

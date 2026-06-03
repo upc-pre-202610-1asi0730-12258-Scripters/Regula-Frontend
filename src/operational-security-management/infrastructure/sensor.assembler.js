@@ -1,29 +1,34 @@
-import { Sensor } from '../domain/model/sensor.entity.js';
+import { Sensor } from "@/operational-security-management/domain/model/sensor.entity.js";
 
 export class SensorAssembler {
-  /**
-   * Transforms raw API data into a Sensor entity.
-   * @param {Object} rawData - The raw JSON data from the API.
-   * @returns {Sensor} The assembled Sensor entity.
-   */
-  static toDomain(rawData) {
-    return new Sensor(
-      rawData.ppm,
-      rawData.signalStrength,
-      rawData.battery,
-      rawData.status
-    );
+
+  static toEntityFromResource(resource) {
+
+    return new Sensor({
+      id: resource.id,
+      name: resource.name,
+      status: resource.status,
+      ppm: resource.ppm,
+      lastConnection: resource.last_connection,
+      hardware: resource.hardware
+    });
+
   }
 
-  /**
-   * Transforms an array of raw API data into Sensor entities.
-   * @param {Array} rawDataArray - The array of raw JSON data.
-   * @returns {Array<Sensor>} An array of Sensor entities.
-   */
-  static toDomainList(rawDataArray) {
-    if (!Array.isArray(rawDataArray)) {
+  static toEntitiesFromResponse(response) {
+
+    if (response.status !== 200) {
+      console.error(`${response.status} ${response.statusText}`);
       return [];
     }
-    return rawDataArray.map((rawData) => this.toDomain(rawData));
+
+    let resources =
+        response.data instanceof Array
+            ? response.data
+            : response.data['sensors'];
+
+    return resources.map(resource =>
+        this.toEntityFromResource(resource)
+    );
   }
 }

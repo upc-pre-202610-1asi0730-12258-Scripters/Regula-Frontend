@@ -24,7 +24,7 @@
           <InputText v-model="filters['global'].value" :placeholder="$t('security.route_deviations.search_placeholder')" class="w-full" />
         </span>
       </div>
-      
+
       <div class="summary-pills">
         <div class="pill">
           <span class="circle circle-gray"></span>
@@ -59,13 +59,13 @@
         <Column field="id" :header="$t('security.route_deviations.columns.id')" :sortable="true"></Column>
         <Column field="unit" :header="$t('security.route_deviations.columns.unit')" :sortable="true"></Column>
         <Column field="location" :header="$t('security.route_deviations.columns.location')" :sortable="true"></Column>
-        
+
         <Column field="distance" :header="$t('security.route_deviations.columns.distance')" :sortable="true">
           <template #body="slotProps">
             <span class="mono-text">{{ slotProps.data.distance }} m</span>
           </template>
         </Column>
-        
+
         <Column field="time" :header="$t('security.route_deviations.columns.time')" :sortable="true">
           <template #body="slotProps">
             <span class="mono-text">{{ slotProps.data.time }}</span>
@@ -80,8 +80,8 @@
 
         <Column :header="$t('security.route_deviations.columns.action')">
           <template #body="slotProps">
-             <Button 
-               :label="slotProps.data.status === 'Pendiente' ? $t('security.route_deviations.actions.review') : $t('security.route_deviations.actions.details')" 
+             <Button
+               :label="slotProps.data.status === 'Pendiente' ? $t('security.route_deviations.actions.review') : $t('security.route_deviations.actions.details')"
                :icon="slotProps.data.status === 'Pendiente' ? 'pi pi-exclamation-triangle' : 'pi pi-eye'"
                :severity="slotProps.data.status === 'Pendiente' ? 'warn' : 'secondary'"
                size="small"

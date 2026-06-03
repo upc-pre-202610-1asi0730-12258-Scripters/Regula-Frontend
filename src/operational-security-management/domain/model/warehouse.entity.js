@@ -1,11 +1,13 @@
 export class Warehouse {
-    constructor(id,
-    name,
-    zone,
-    gasConcentration,
-    status,
-    alertLevel,
-    lastReading) {
+    constructor({
+                    id = '',
+                    name = '',
+                    zone = '',
+                    gasConcentration = 0,
+                    status = '',
+                    alertLevel = '',
+                    lastReading = ''
+                }) {
         this.id = id;
         this.name = name;
         this.zone = zone;

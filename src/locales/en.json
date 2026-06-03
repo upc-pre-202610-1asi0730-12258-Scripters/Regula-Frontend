@@ -1,179 +1,156 @@
 ﻿{
-  "common": {
-    "loading": "Loading…",
-    "loadingInventory": "Loading inventory…",
-    "loadingStock": "Loading stock…"
-  },
-  "inventory": {
-    "tabs": {
-      "stock": "Current stock",
-      "entry": "Register inbound",
-      "exit": "Register outbound",
-      "history": "Movement history",
-      "audit": "Audit",
-      "auditBadge": "Admin only"
+  "security": {
+    "title": "Operational Security",
+    "subtitle": "Monitoring, alerts and operational control",
+
+    "shell": {
+      "main_link": "Security"
     },
-    "history": {
-      "filtersTitle": "Search filters",
+
+    "menu": {
+      "active_alerts": "Active Alerts",
+      "company_alerts": "Company Alerts",
+      "warehouses": "Warehouses",
+      "sensors": "Sensors",
+      "route_deviations": "Route Deviations",
+      "zone_analysis": "Zone Analysis",
+      "alert_history": "Alert History"
+    },
+
+    "common": {
+      "error": "An error occurred while loading data"
+    },
+
+    "active_alerts": {
+      "title": "Active Alerts",
+      "empty_state": "No active alerts found",
+      "card": {
+        "location": "Location",
+        "timestamp": "Date",
+        "status": "Status",
+        "resolve_button": "Resolve"
+      }
+    },
+
+    "company_alerts": {
+      "title": "Company Alert History",
+
       "filters": {
-        "all": "All",
-        "entry": "Inbound",
-        "exit": "Outbound",
+        "status": "Status",
         "type": "Type",
-        "cylinderType": "Cylinder type",
         "from": "From",
-        "to": "To",
-        "user": "User",
-        "search": "Search",
-        "responsible": "Responsible"
+        "to": "To"
       },
+
       "search": "Search",
-      "exportCsv": "Export CSV",
-      "print": "Print",
-      "keywordPh": "Search keywords…",
-      "recordsFound": "{n} records found",
-      "loadingMovements": "Loading movements…",
-      "noResults": "No rows match the selected filters.",
-      "clearFilters": "Clear filters",
-      "cols": {
+      "showing": "Showing",
+      "of": "of",
+      "alerts": "alerts",
+      "export": "Export",
+
+      "columns": {
         "id": "ID",
-        "idShort": "#ID",
-        "datetime": "DATE & TIME",
-        "kind": "TYPE",
-        "cylinder": "CYLINDER TYPE",
-        "qty": "QTY",
-        "originDest": "ORIGIN / DESTINATION",
-        "reason": "REASON",
-        "user": "USER",
-        "notes": "NOTES"
+        "zone": "Zone",
+        "type": "Type",
+        "criticality": "Criticality",
+        "datetime": "Date & Time",
+        "status": "Status",
+        "operator": "Operator",
+        "attention_time": "Attention Time",
+        "actions": "Actions"
       },
-      "enterprise": {
-        "title": "Movement history",
-        "subtitle": "Full log of inventory inbound and outbound movements.",
-        "destinationOrigin": "Destination / origin",
-        "destinationPh": "e.g. Central warehouse",
-        "tableTitle": "Recorded movements"
+
+      "attend": "Attend",
+      "view": "View"
+    },
+
+    "warehouses": {
+      "title": "Warehouse Monitoring",
+      "subtitle": "Real-time gas concentration monitoring",
+
+      "system_active": "System Active",
+
+      "banner": "Readings are automatically updated every {time}.",
+
+      "last_reading": "Last reading",
+
+      "actions": {
+        "attend_alert": "Attend Alert",
+        "check_connection": "Check Connection",
+        "view_detail": "View Details"
       },
-      "distributor": {
-        "title": "Movement history",
-        "subtitle": "Review inbound and outbound movements for your inventory.",
-        "searchPh": "ID, supplier, type…",
-        "movementsTitle": "Movements",
-        "exportExcel": "Export Excel",
-        "colProvider": "SUPPLIER / OUTBOUND TYPE",
-        "ownerBadge": "Owner"
+
+      "footer_info": "Warehouse data is synchronized with connected sensors."
+    },
+
+    "sensors": {
+      "title": "Sensor Status",
+      "subtitle": "Monitoring of connected devices",
+
+      "summary": {
+        "active": "Active Sensors",
+        "total": "Total Sensors",
+        "critical": "Critical Battery",
+        "last_read": "Last Reading"
+      },
+
+      "warning": {
+        "offline": "Sensor offline"
+      },
+
+      "status": {
+        "online": "Online",
+        "offline": "Offline"
+      },
+
+      "battery": "Battery",
+      "signal": "Signal",
+      "ppm": "PPM",
+
+      "actions": {
+        "details": "Details",
+        "reconnect": "Reconnect"
       }
     },
-    "audit": {
-      "title": "Audit log — Immutable operation record",
-      "subtitle": "Visible to system administrators only.",
-      "immutableHint": "Audit entries are immutable and are never deleted or overwritten. Using “Void record” creates a linked corrective entry to preserve full traceability.",
-      "module": "Module",
-      "actionType": "Action type",
-      "eventsCount": "{n} events recorded",
-      "adminViewBadge": "Admin-only view",
-      "searchPh": "Search the log…",
-      "loading": "Loading audit log…",
-      "voidAction": "Void record",
-      "alreadyVoided": "Already voided",
-      "notVoidable": "Cannot void",
-      "voidToastTitle": "Demo",
-      "voidToastDetail": "Real voiding will connect to the backend. Entry: #{id}",
-      "cols": {
-        "uniqueId": "UNIQUE ID",
-        "module": "MODULE",
-        "op": "OP. TYPE",
-        "details": "INPUT DATA",
-        "prev": "PREVIOUS VALUE",
-        "next": "NEW VALUE",
-        "actions": "ACTIONS"
+
+    "route_deviations": {
+      "title": "Route Deviations",
+
+      "columns": {
+        "id": "ID",
+        "unit": "Unit",
+        "location": "Location",
+        "distance": "Distance (m)",
+        "time": "Time",
+        "status": "Status",
+        "actions": "Actions"
+      },
+
+      "view": "View",
+      "attend": "Attend"
+    },
+
+    "zone_analysis": {
+      "title": "Zone Analysis",
+      "subtitle": "Operational risk by zone",
+
+      "metrics": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low",
+        "incidents": "Incidents"
+      },
+
+      "status": {
+        "critical": "Critical",
+        "stable": "Stable",
+        "inactive": "Inactive"
       }
     },
-    "forms": {
-      "common": {
-        "requiredHint": "All fields marked with * are required",
-        "cylinderType": "Cylinder type",
-        "quantity": "Quantity",
-        "quantityHelpEntry": "Enter the number of cylinders received",
-        "quantityHelpEntryDist": "Units entering stock",
-        "quantityHelpExit": "Units leaving stock",
-        "observations": "Notes",
-        "obsPlaceholder": "Additional notes for this inbound…",
-        "obsPlaceholderExit": "Invoice, route or delivery conditions…",
-        "clear": "Clear",
-        "clearForm": "Reset form",
-        "saveEntry": "Save inbound",
-        "saveExit": "Save outbound",
-        "previewDynamic": "Live preview",
-        "impactPreview": "Impact preview",
-        "footerLockEntry": "Every inbound is logged in movement history with date and time.",
-        "footerLockExit": "Every outbound is logged in movement history with date and time."
-      },
-      "enterpriseEntry": {
-        "title": "New cylinder inbound",
-        "subtitle": "All fields marked with * are required",
-        "origin": "Origin",
-        "originPh": "Select origin",
-        "entryDate": "Inbound date",
-        "entryTime": "Inbound time",
-        "previewLine": "Current {kg} kg stock: {current}",
-        "previewArrow": "Stock after save:",
-        "previewFooter": "+{qty} units when you confirm"
-      },
-      "distEntry": {
-        "title": "New cylinder inbound",
-        "subtitle": "Register stock entering inventory.",
-        "provider": "Supplier",
-        "providerPh": "Select supplier",
-        "selectedType": "Selected type:",
-        "qtyIncoming": "Quantity to add:",
-        "units": "units",
-        "stockNow": "CURRENT STOCK",
-        "stockNew": "NEW STOCK",
-        "providerLabel": "Supplier:"
-      },
-      "enterpriseExit": {
-        "title": "New cylinder outbound",
-        "destination": "Destination",
-        "destinationHelp": "Where the cylinders are going",
-        "destinationPh": "North distributor - Trujillo",
-        "reasonTitle": "Reason",
-        "reasonSale": "Sale",
-        "reasonDist": "Distribution",
-        "reasonMove": "Internal transfer",
-        "exitDate": "Outbound date",
-        "exitTime": "Outbound time",
-        "stockInsufficient": "Insufficient stock: only {n} {kg} kg cylinders available",
-        "previewWarn": "−{qty} units when you confirm",
-        "previewLine": "Current {nombre} stock: {current} → After save: {next} ↓"
-      },
-      "distExit": {
-        "title": "New cylinder outbound",
-        "subtitle": "Register stock leaving inventory.",
-        "exitKindTitle": "Outbound type",
-        "saleDirect": "Direct sale",
-        "delivery": "Home delivery",
-        "returnSupplier": "Return to supplier",
-        "selectedLine": "Selected:",
-        "qtyOut": "Quantity to remove:",
-        "exitKindLine": "Outbound type:",
-        "stockLine": "{kg} kg stock: {a} → {b}"
-      },
-      "weights": {
-        "kg5": "5 kg",
-        "kg10": "10 kg",
-        "kg15": "15 kg",
-        "kg45": "45 kg",
-        "domestic": "Domestic",
-        "standard": "Standard home",
-        "commercial": "Light commercial",
-        "industrial": "Industrial / restaurants"
-      }
-    },
-    "sidebar": {
-      "language": "Language",
-      "spanish": "Español",
-      "english": "English"
+
+    "alert_history": {
+      "title": "Alert History",
+      "subtitle": "Resolved and historical alerts"
     }
   }
 }

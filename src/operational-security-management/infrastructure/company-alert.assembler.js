@@ -1,24 +1,19 @@
 import {CompanyAlert} from "@/operational-security-management/domain/model/company-alert.entity.js";
 
 export class CompanyAlertAssembler{
-    static toDomain(rawData){
-        return new CompanyAlert(
-            rawData.id,
-            rawData.zone,
-            rawData.type,
-            rawData.criticality,
-            rawData.dateTime,
-            rawData.status,
-            rawData.operator,
-            rawData.attentionTime,
-            rawData.hasViewAction,
-            rawData.hasAttendAction
-        )
+    static toEntityFromResource(resource) {
+        return new CompanyAlert({ ...resource });
     }
-    static toDomainList(rawDataArray) {
-        if (!Array.isArray(rawDataArray)) {
+    static toEntitiesFromResponse(response) {
+        if (response.status !== 200) {
+            console.error(`${response.status} ${response.statusText}`);
             return [];
         }
-        return rawDataArray.map((rawData) => this.toDomain(rawData));
+        let resources = response.data instanceof Array
+            ? response.data
+            : response.data['companyAlerts'];
+
+        return resources.map(resource =>
+            this.toEntityFromResource(resource));
     }
 }
