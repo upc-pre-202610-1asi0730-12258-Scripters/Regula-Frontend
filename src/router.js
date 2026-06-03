@@ -1,13 +1,7 @@
-﻿/**
- * @summary Main router configuration for the application.
- * Defines navigation routes, history mode, and global route guards.
- *
- * @author Kevin Lopez
- */
-
+﻿import { createRouter, createWebHistory } from 'vue-router'
 import AppShellLayout from '@/shared/presentation/components/app-shell-layout.vue'
 import inventoryRoutes from '@/inventory-management/presentation/inventory-routes.js'
-import { createRouter, createWebHistory } from 'vue-router'
+import commercialRoutes from '@/commercional-management/presentation/commercial-routes.js'
 
 const RoleSelectView = () => import('@/shared/presentation/views/role-select-view.vue')
 
@@ -25,9 +19,21 @@ export const router = createRouter({
         {
             path: '/inventario',
             component: AppShellLayout,
-            redirect: '/',
-            meta: {},
             children: inventoryRoutes,
+        },
+        {
+            path: '/comercial',
+            component: AppShellLayout,
+            redirect: '/comercial/ventas',
+            children: commercialRoutes,
+        },
+        {
+            path: '/ventas',
+            redirect: '/comercial/ventas',
+        },
+        {
+            path: '/deudas',
+            redirect: '/comercial/deudas',
         },
         {
             path: '/:pathMatch(.*)*',
