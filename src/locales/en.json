@@ -147,7 +147,6 @@
         "inactive": "Inactive"
       }
     },
-
     "alert_history": {
       "title": "Alert History",
       "subtitle": "Resolved and historical alerts"
