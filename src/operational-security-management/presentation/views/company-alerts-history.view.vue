@@ -427,16 +427,12 @@ const getCriticalitySeverity = (criticality) => {
 };
 
 const getStatusSeverity = (status) => {
-
   if (!status) return 'secondary';
-
   const st = status.toLowerCase();
-
   if (st.includes('pendiente')) return 'warning';
-
   if (st.includes('atendida')) return 'success';
-
   return 'info';
+
 };
 
 const getTypeIcon = (type) => {

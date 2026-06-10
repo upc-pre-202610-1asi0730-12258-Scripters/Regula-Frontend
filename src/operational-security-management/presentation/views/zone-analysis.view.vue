@@ -8,28 +8,28 @@
         <Select v-model="selectedType" :options="types" optionLabel="label" :placeholder="$t('security.zone_analysis.filters.type')" class="w-14rem" />
       </div>
     </div>
-    
+
     <div v-if="securityStore.isLoading" class="flex justify-content-center my-5">
       <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
     </div>
-    
+
     <div v-else-if="securityStore.error" class="p-error mb-4">
       {{ $t('security.common.error') }}
     </div>
 
     <!-- 2. Grid de Zonas -->
     <div v-else class="zones-grid">
-      <div 
-        v-for="zone in securityStore.zones" 
-        :key="zone.id"
-        class="card-panel zone-card"
-        :class="getZoneClass(zone.status)"
+      <div
+          v-for="zone in securityStore.zones"
+          :key="zone.id"
+          class="card-panel zone-card"
+          :class="getZoneClass(zone.status)"
       >
         <div class="zone-card-header">
           <h3>{{ zone.name }}</h3>
           <Tag :value="zone.status" :severity="getZoneTagSeverity(zone.status)" />
         </div>
-        
+
         <div class="metrics-container">
           <div class="metric-square metric-alta">
             <span class="metric-val mono-text">{{ zone.metrics.alta }}</span>
@@ -112,6 +112,7 @@ const getZoneTagSeverity = (status) => {
   if (status === 'Crítica') return 'danger';
   if (status === 'Estable') return 'success';
   return 'secondary';
+
 };
 </script>
 
@@ -208,7 +209,7 @@ const getZoneTagSeverity = (status) => {
 
 .metric-square {
   /* Flexbox approach: Toma el 50% menos la mitad del gap, creando una grilla 2x2 */
-  flex: 1 1 calc(50% - 0.75rem); 
+  flex: 1 1 calc(50% - 0.75rem);
   display: flex;
   flex-direction: column;
   align-items: center;

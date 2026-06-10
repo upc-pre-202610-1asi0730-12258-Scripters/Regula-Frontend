@@ -8,6 +8,7 @@ export class Warehouse {
                     alertLevel = '',
                     lastReading = ''
                 }) {
+
         this.id = id;
         this.name = name;
         this.zone = zone;
@@ -15,5 +16,6 @@ export class Warehouse {
         this.status = status;
         this.alertLevel = alertLevel;
         this.lastReading = lastReading;
+
     }
 }

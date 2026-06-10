@@ -1,8 +1,8 @@
 export const securityRoutes = [
 
-  // =========================
+  // ========================
   // EMPRESA
-  // =========================
+  // ========================
   {
     path: 'empresa',
     component: () =>
@@ -44,13 +44,13 @@ export const securityRoutes = [
     ]
   },
 
-  // =========================
+  // ========================
   // DISTRIBUIDOR
-  // =========================
+  // ========================
   {
     path: 'distribuidor',
     component: () =>
-        import('./views/distributor-operational-security-view.vue'),
+        import('./views/distributor-operational-security.view.vue'),
 
     redirect: { name: 'distributor-active-alerts' },
 

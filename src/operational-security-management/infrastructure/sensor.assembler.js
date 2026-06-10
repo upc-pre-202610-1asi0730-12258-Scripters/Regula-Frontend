@@ -20,6 +20,7 @@ export class SensorAssembler {
     if (response.status !== 200) {
       console.error(`${response.status} ${response.statusText}`);
       return [];
+
     }
 
     let resources =

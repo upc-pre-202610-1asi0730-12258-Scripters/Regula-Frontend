@@ -376,7 +376,7 @@ function getDegree(ppm) {
 </script>
 <style scoped>
 
-/* ===================== LAYOUT PRINCIPAL ===================== */
+/* == LAYOUT PRINCIPAL === */
 
 .sensor-status-dashboard {
   display: grid;
@@ -384,7 +384,7 @@ function getDegree(ppm) {
   gap: 1.5rem;
 }
 
-/* ===================== TARJETA PRINCIPAL ===================== */
+/*==TARJETA PRINCIPAL==== */
 
 .main-sensor-card {
   display: flex;
@@ -415,7 +415,7 @@ function getDegree(ppm) {
   font-weight: 700;
 }
 
-/* ===================== CONTENIDO SENSOR ===================== */
+/*====CONTENIDO SENSOR=======*/
 
 .sensor-content {
   display: flex;
@@ -425,7 +425,7 @@ function getDegree(ppm) {
   gap: 2rem;
 }
 
-/* ===================== CÍRCULO PPM ===================== */
+/*===CÍRCULO PPM==*/
 
 .ppm-indicator-container {
   display: flex;
@@ -476,7 +476,7 @@ function getDegree(ppm) {
   text-transform: uppercase;
 }
 
-/* ===================== BARRA DE RANGO ===================== */
+/*===BARRA DE RANGO=====*/
 
 .safety-range {
   width: 100%;
@@ -529,7 +529,7 @@ function getDegree(ppm) {
   border-bottom: 8px solid var(--text-primary, #172D40);
 }
 
-/* ===================== PANEL HARDWARE ===================== */
+/*====PANEL HARDWARE=====*/
 
 .hardware-panel {
   display: flex;
@@ -571,7 +571,7 @@ function getDegree(ppm) {
   color: var(--status-alta-text, #EF4444);
 }
 
-/* ===================== GRID INFERIOR ===================== */
+/*=====GRID INFERIOR====*/
 
 .bottom-grid {
   display: grid;
@@ -587,7 +587,7 @@ function getDegree(ppm) {
 
 }
 
-/* ===================== WARNING CARD ===================== */
+/*====WARNING CARD=======*/
 
 .warning-card {
   display: flex;
@@ -650,7 +650,7 @@ function getDegree(ppm) {
   margin-left: auto;
 }
 
-/* ===================== METADATA ===================== */
+/*===METADATA === */
 
 .metadata-cards {
   display: grid;

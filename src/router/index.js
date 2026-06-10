@@ -12,7 +12,7 @@ const DistributorInventoryView = () =>
 const CompanyOperationalSecurityView = () =>
     import('@/operational-security-management/presentation/views/company-operational-security.view.vue')
 const DistributorOperationalSecurityView = () =>
-    import('@/operational-security-management/presentation/views/distributor-operational-security-view.vue')
+    import('@/operational-security-management/presentation/views/distributor-operational-security.view.vue')
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

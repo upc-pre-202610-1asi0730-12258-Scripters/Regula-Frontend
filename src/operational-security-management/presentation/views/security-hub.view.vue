@@ -7,11 +7,11 @@
     <div class="security-hub__tabs-container">
       <nav class="security-hub__tabs" aria-label="Navegación de Seguridad">
         <router-link
-          v-for="tab in tabs"
-          :key="tab.name"
-          :to="{ name: tab.routeName }"
-          class="security-hub__tab"
-          exact-active-class="security-hub__tab--active"
+            v-for="tab in tabs"
+            :key="tab.name"
+            :to="{ name: tab.routeName }"
+            class="security-hub__tab"
+            exact-active-class="security-hub__tab--active"
         >
           {{ $t(`security.hub.tabs.${tab.localeKey}`) }}
         </router-link>
@@ -32,6 +32,7 @@
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
+
 
 const tabs = [
   { name: 'Alertas Activas', localeKey: 'active_alerts', routeName: 'active-alerts' },

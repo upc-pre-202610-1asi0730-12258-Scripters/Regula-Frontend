@@ -1,15 +1,15 @@
 <template>
   <div class="active-alerts p-4">
     <h2 class="text-2xl font-bold mb-4">{{ $t('security.active_alerts.title') }}</h2>
-    
+
     <div v-if="securityStore.isLoading" class="flex justify-content-center my-5">
       <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
     </div>
-    
+
     <div v-else-if="securityStore.error" class="p-error mb-4">
       {{ $t('security.common.error') }}
     </div>
-    
+
     <div v-else class="grid">
       <div v-for="alert in securityStore.activeAlerts" :key="alert.id" class="col-12 md:col-6 lg:col-4">
         <Card class="h-full">
@@ -42,7 +42,7 @@
           </template>
         </Card>
       </div>
-      
+
       <div v-if="securityStore.activeAlerts.length === 0" class="col-12">
         <div class="flex flex-column align-items-center justify-content-center p-5 surface-100 border-round">
           <i class="pi pi-check-circle text-green-500 mb-3" style="font-size: 3rem"></i>
@@ -79,5 +79,6 @@ const formatDate = (dateString) => {
   if (!dateString) return 'N/A';
   const date = new Date(dateString);
   return date.toLocaleString();
+
 };
 </script>

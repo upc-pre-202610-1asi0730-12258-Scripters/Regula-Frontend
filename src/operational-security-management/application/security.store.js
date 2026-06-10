@@ -113,6 +113,7 @@ export const useSecurityStore = defineStore('security', () => {
         securityApi.getWarehouses()
             .then(response => {
                 warehouses.value = WarehouseAssembler.toEntitiesFromResponse(response)
+
                 warehousesLoaded.value = true
             })
             .catch(error => {

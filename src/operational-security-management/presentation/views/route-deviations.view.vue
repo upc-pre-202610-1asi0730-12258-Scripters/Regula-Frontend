@@ -44,15 +44,15 @@
     <!-- 3. DataTable -->
     <div class="card-panel table-container">
       <DataTable
-        :value="securityStore.routeDeviations"
-        paginator
-        :rows="10"
-        v-model:filters="filters"
-        filterDisplay="menu"
-        :globalFilterFields="['unit', 'location']"
-        stripedRows
-        :loading="securityStore.isLoading"
-        class="custom-table"
+          :value="securityStore.routeDeviations"
+          paginator
+          :rows="10"
+          v-model:filters="filters"
+          filterDisplay="menu"
+          :globalFilterFields="['unit', 'location']"
+          stripedRows
+          :loading="securityStore.isLoading"
+          class="custom-table"
       >
         <template #empty> {{ $t('security.alert_history.empty_state') }} </template>
 
@@ -80,13 +80,13 @@
 
         <Column :header="$t('security.route_deviations.columns.action')">
           <template #body="slotProps">
-             <Button
-               :label="slotProps.data.status === 'Pendiente' ? $t('security.route_deviations.actions.review') : $t('security.route_deviations.actions.details')"
-               :icon="slotProps.data.status === 'Pendiente' ? 'pi pi-exclamation-triangle' : 'pi pi-eye'"
-               :severity="slotProps.data.status === 'Pendiente' ? 'warn' : 'secondary'"
-               size="small"
-               outlined
-             />
+            <Button
+                :label="slotProps.data.status === 'Pendiente' ? $t('security.route_deviations.actions.review') : $t('security.route_deviations.actions.details')"
+                :icon="slotProps.data.status === 'Pendiente' ? 'pi pi-exclamation-triangle' : 'pi pi-eye'"
+                :severity="slotProps.data.status === 'Pendiente' ? 'warn' : 'secondary'"
+                size="small"
+                outlined
+            />
           </template>
         </Column>
       </DataTable>
@@ -107,7 +107,7 @@ import Button from 'primevue/button';
 const securityStore = useSecurityStore();
 
 const filters = ref({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
 onMounted(() => {
@@ -118,6 +118,7 @@ const getStatusSeverity = (status) => {
   if (status === 'Pendiente') return 'warn';
   if (status === 'Atendida') return 'success';
   return 'info';
+
 };
 </script>
 

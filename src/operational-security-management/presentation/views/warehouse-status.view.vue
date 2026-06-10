@@ -233,7 +233,6 @@ const getIconClass = (warehouse) => {
   if (warehouse.status === 'Offline') {
     return 'text-gray-400';
   }
-
   return 'text-green-500';
 };
 

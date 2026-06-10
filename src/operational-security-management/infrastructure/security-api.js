@@ -29,6 +29,7 @@ export class SecurityApi extends BaseApi {
     this.#zoneAnalysisEndpoint = new BaseEndpoint(this, zoneAnalysisEndpointPath);
     this.#warehousesEndpoint = new BaseEndpoint(this, warehousesEndpointPath);
     this.#companyAlertsEndpoint = new BaseEndpoint(this, companyAlertsEndpointPath);
+
   }
 
   getAlerts() {

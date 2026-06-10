@@ -10,7 +10,9 @@ export class CompanyAlert {
                     attentionTime = '',
                     hasViewAction = false,
                     hasAttendAction = false
-                }) {
+                })
+    {
+
         this.id = id;
         this.zone = zone;
         this.type = type;
@@ -21,5 +23,6 @@ export class CompanyAlert {
         this.attentionTime = attentionTime;
         this.hasViewAction = hasViewAction;
         this.hasAttendAction = hasAttendAction;
+
     }
 }
