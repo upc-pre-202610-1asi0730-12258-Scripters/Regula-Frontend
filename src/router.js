@@ -5,6 +5,7 @@ import commercialRoutes from '@/commercional-management/presentation/commercial-
 import { distributionRoutes } from '@/distribution-logistics-management/presentation/distribution-routes.js'
 import { enterpriseDistributionRoutes } from '@/distribution-logistics-management/presentation/enterprise-distribution-routes.js'
 import { securityRoutes } from '@/operational-security-management/presentation/security-routes.js'
+import dashboardRoutes from '@/dashboard-management/presentation/dashboard-routes.js'
 
 const RoleSelectView = () => import('@/shared/presentation/views/role-select-view.vue')
 const GenerateReportView = () => import('@/operational-analytics/presentation/views/generate-report-view.vue')
@@ -20,6 +21,12 @@ export const router = createRouter({
             meta: {
                 title: 'Seleccionar perfil · REGULA',
             },
+        },
+        {
+            path: '/dashboard',
+            component: AppShellLayout,
+            redirect: '/dashboard/empresa',
+            children: dashboardRoutes,
         },
         {
             path: '/inventario',

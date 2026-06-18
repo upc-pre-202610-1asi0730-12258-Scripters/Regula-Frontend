@@ -6,12 +6,12 @@ const router = useRouter()
 
 function goEnterprise() {
   sessionStorage.setItem('regula_role', 'enterprise')
-  router.push({ name: 'inventory-enterprise' })
+  router.push({ name: 'enterprise-dashboard' })
 }
 
 function goDistributor() {
   sessionStorage.setItem('regula_role', 'distributor')
-  router.push({ name: 'inventory-distributor' })
+  router.push({ name: 'distributor-dashboard' })
 }
 </script>
 

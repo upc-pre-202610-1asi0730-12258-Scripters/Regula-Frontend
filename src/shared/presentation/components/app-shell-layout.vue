@@ -7,7 +7,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const enterpriseNav = [
-  { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
+  { label: 'Dashboard', icon: 'pi pi-th-large', to: '/dashboard/empresa', matchPrefix: '/dashboard/empresa' },
   { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad/empresa/active-alerts', matchPrefix: '/seguridad/empresa' },
   { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
   { label: 'Distribución', icon: 'pi pi-truck', to: '/empresa/distribucion/repartos-del-dia', matchPrefix: '/empresa/distribucion' },
@@ -15,7 +15,7 @@ const enterpriseNav = [
 ]
 
 const distributorNav = [
-  { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
+  { label: 'Dashboard', icon: 'pi pi-th-large', to: '/dashboard/distribuidor', matchPrefix: '/dashboard/distribuidor' },
   { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad/distribuidor/active-alerts', matchPrefix: '/seguridad/distribuidor' },
   { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
   { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '/distribucion/entregas-del-dia', matchPrefix: '/distribucion' },
@@ -30,6 +30,7 @@ const preset = computed(() => {
   }
 
   if (
+      route.name === 'distributor-dashboard' ||
       route.name === 'inventory-distributor' ||
       route.name === 'commercial-sales-distributor' ||
       route.name === 'commercial-debts-distributor'
