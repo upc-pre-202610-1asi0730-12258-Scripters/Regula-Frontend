@@ -8,7 +8,7 @@ const route = useRoute()
 
 const enterpriseNav = [
   { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-  { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '#' },
+  { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad/empresa/active-alerts', matchPrefix: '/seguridad/empresa' },
   { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
   { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
   { label: 'Distribución', icon: 'pi pi-truck', to: '/empresa/distribucion/repartos-del-dia', matchPrefix: '/empresa/distribucion' },
@@ -19,12 +19,12 @@ const enterpriseNav = [
 
 const distributorNav = [
   { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-  { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '#' },
+  { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad/distribuidor/active-alerts', matchPrefix: '/seguridad/distribuidor' },
   { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
   { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '/distribucion/entregas-del-dia', matchPrefix: '/distribucion' },
   { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '/comercial/ventas', matchPrefix: '/comercial/ventas' },
   { label: 'Deudas y Cobranzas', icon: 'pi pi-wallet', to: '/comercial/deudas', matchPrefix: '/comercial/deudas' },
-  { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '/reportes/generar', matchPrefix: '/reportes' },
+  { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '/distribuidor/reportes/generar', matchPrefix: '/distribuidor/reportes' },
 ]
 
 const preset = computed(() => {

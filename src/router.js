@@ -4,6 +4,7 @@ import inventoryRoutes from '@/inventory-management/presentation/inventory-route
 import commercialRoutes from '@/commercional-management/presentation/commercial-routes.js'
 import { distributionRoutes } from '@/distribution-logistics-management/presentation/distribution-routes.js'
 import { enterpriseDistributionRoutes } from '@/distribution-logistics-management/presentation/enterprise-distribution-routes.js'
+import { securityRoutes } from '@/operational-security-management/presentation/security-routes.js'
 
 const RoleSelectView = () => import('@/shared/presentation/views/role-select-view.vue')
 const GenerateReportView = () => import('@/operational-analytics/presentation/views/generate-report-view.vue')
@@ -24,6 +25,11 @@ export const router = createRouter({
             path: '/inventario',
             component: AppShellLayout,
             children: inventoryRoutes,
+        },
+        {
+            path: '/seguridad',
+            component: AppShellLayout,
+            children: securityRoutes,
         },
         {
             path: '/comercial',
@@ -67,7 +73,33 @@ export const router = createRouter({
                 },
             ],
         },
-
+        {
+            path: '/distribuidor/reportes',
+            component: AppShellLayout,
+            redirect: '/distribuidor/reportes/generar',
+            children: [
+                {
+                    path: 'generar',
+                    name: 'distributor-reports-generate',
+                    component: GenerateReportView,
+                    meta: {
+                        shellPreset: 'distributor',
+                        pageTitle: 'Reportes',
+                        title: 'Reportes · Distribuidor · REGULA',
+                    },
+                },
+                {
+                    path: 'tendencias',
+                    name: 'distributor-reports-security-trends',
+                    component: SecurityTrendsView,
+                    meta: {
+                        shellPreset: 'distributor',
+                        pageTitle: 'Reportes',
+                        title: 'Tendencias de Seguridad · Distribuidor · REGULA',
+                    },
+                },
+            ],
+        },
         {
             path: '/ventas',
             redirect: '/comercial/ventas',
