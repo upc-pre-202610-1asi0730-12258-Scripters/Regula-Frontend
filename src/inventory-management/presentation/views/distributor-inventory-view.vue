@@ -9,6 +9,7 @@ import ProgressSpinner from 'primevue/progressspinner'
 import { storeToRefs } from 'pinia'
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import '../inventory.css'
 
 const { t } = useI18n()
 const store = useInventoryStore()
@@ -21,45 +22,22 @@ const panels = computed(() => [
   { key: 'historial', header: t('inventory.tabs.history') },
 ])
 
-function onSectionChange({ key }) {
-  store.setInventorySectionKey(key)
-}
-
 onMounted(() => {
   store.fetchDistributorStock()
 })
 </script>
 
 <template>
-  <div class="dist-inv">
-    <InventoryShellTabs :panels="panels" @section-change="onSectionChange">
-      <template #stock>
-        <div v-if="!distributorLoaded" class="dist-inv__loading">
-          <ProgressSpinner stroke-width="4" style="width: 42px; height: 42px" />
-          <span>{{ t('common.loadingStock') }}</span>
-        </div>
-        <InventoryDistributorStockPanel v-else :cards="distributorCards" />
-      </template>
-
-      <template #entrada>
-        <DistributorRegisterEntryPanel />
-      </template>
-      <template #salida>
-        <DistributorRegisterExitPanel />
-      </template>
-      <template #historial>
-        <DistributorMovementHistoryPanel />
-      </template>
-    </InventoryShellTabs>
-  </div>
+  <InventoryShellTabs :panels="panels" @section-change="({ key }) => store.setInventorySectionKey(key)">
+    <template #stock>
+      <div v-if="!distributorLoaded" class="inv-loading">
+        <ProgressSpinner stroke-width="4" style="width: 42px; height: 42px" />
+        <span>{{ t('common.loadingStock') }}</span>
+      </div>
+      <InventoryDistributorStockPanel v-else :cards="distributorCards" />
+    </template>
+    <template #entrada><DistributorRegisterEntryPanel /></template>
+    <template #salida><DistributorRegisterExitPanel /></template>
+    <template #historial><DistributorMovementHistoryPanel /></template>
+  </InventoryShellTabs>
 </template>
-
-<style scoped>
-.dist-inv__loading {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 0;
-  color: var(--regula-text-muted);
-}
-</style>
