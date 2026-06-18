@@ -2,6 +2,8 @@
 import AppShellLayout from '@/shared/presentation/components/app-shell-layout.vue'
 import inventoryRoutes from '@/inventory-management/presentation/inventory-routes.js'
 import commercialRoutes from '@/commercional-management/presentation/commercial-routes.js'
+import { distributionRoutes } from '@/distribution-logistics-management/presentation/distribution-routes.js'
+import { enterpriseDistributionRoutes } from '@/distribution-logistics-management/presentation/enterprise-distribution-routes.js'
 
 const RoleSelectView = () => import('@/shared/presentation/views/role-select-view.vue')
 const GenerateReportView = () => import('@/operational-analytics/presentation/views/generate-report-view.vue')
@@ -29,6 +31,17 @@ export const router = createRouter({
             redirect: '/comercial/ventas',
             children: commercialRoutes,
         },
+        {
+            path: '/distribucion',
+            component: AppShellLayout,
+            children: distributionRoutes,
+        },
+        {
+            path: '/empresa/distribucion',
+            component: AppShellLayout,
+            children: enterpriseDistributionRoutes,
+        },
+
         {
             path: '/reportes',
             component: AppShellLayout,

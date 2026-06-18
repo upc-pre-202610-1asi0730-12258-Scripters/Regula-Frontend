@@ -5115,5 +5115,120 @@
       "criticalityColor": "warning",
       "percentage": 25.1
     }
+  ],
+  "distributorDeliveries": [
+    {
+      "id": "#001",
+      "date": "24/10/2023",
+      "time": "14:25",
+      "delivererName": "Juan López",
+      "delivererId": "JL",
+      "vehicleType": "Moto",
+      "vehiclePlate": "A38-210",
+      "cargo": "3 balones",
+      "destination": "Entrega Centro",
+      "status": "En Ruta",
+      "eta": "14:30",
+      "realTime": null
+    },
+    {
+      "id": "#004",
+      "date": "24/10/2023",
+      "time": "14:50",
+      "delivererName": "Carlos Ruiz",
+      "delivererId": "CR",
+      "vehicleType": "Camión",
+      "vehiclePlate": "XYZ-787",
+      "cargo": "10 balones de 45 kg",
+      "destination": "Restaurante El Mar",
+      "status": "En Ruta",
+      "eta": "15:15",
+      "realTime": null
+    },
+    {
+      "id": "#002",
+      "date": "24/10/2023",
+      "time": "13:45",
+      "delivererName": "Pedro Salas",
+      "delivererId": "PS",
+      "vehicleType": "Camioneta",
+      "vehiclePlate": "C5R-982",
+      "cargo": "2 balones",
+      "destination": "Av. Los Pinos 456",
+      "status": "Completado",
+      "eta": "14:00",
+      "realTime": "13:45"
+    },
+    {
+      "id": "#003",
+      "date": "24/10/2023",
+      "time": "12:05",
+      "delivererName": "Ana Gómez",
+      "delivererId": "AG",
+      "vehicleType": "Moto",
+      "vehiclePlate": "B12-400",
+      "cargo": "1 balón",
+      "destination": "Jr. Las Flores 123",
+      "status": "Completado",
+      "eta": "12:15",
+      "realTime": "12:05"
+    },
+    {
+      "id": "#005",
+      "date": "24/10/2023",
+      "time": "11:15",
+      "delivererName": "Luis Torres",
+      "delivererId": "LT",
+      "vehicleType": "Moto",
+      "vehiclePlate": "D45-001",
+      "cargo": "5 balones",
+      "destination": "Calle Lima 88",
+      "status": "Completado",
+      "eta": "11:30",
+      "realTime": "11:15"
+    },
+    {
+      "id": "#006",
+      "date": "24/10/2023",
+      "time": "16:00",
+      "delivererName": "Raúl Méndez",
+      "delivererId": "RM",
+      "vehicleType": "Moto",
+      "vehiclePlate": "X1W-445",
+      "cargo": "1 balón",
+      "destination": "Av. Grau 200",
+      "status": "No entregado",
+      "eta": "16:00",
+      "realTime": null
+    }
+  ],
+  "distributorDeliverers": [
+    {
+      "id": "JL",
+      "name": "Juan López",
+      "vehiclePlate": "A38-210",
+      "vehicleType": "Moto",
+      "status": "En ruta",
+      "lat": -12.0464,
+      "lng": -77.0428
+    },
+    {
+      "id": "PS",
+      "name": "Pedro Salas",
+      "vehiclePlate": "C5R-982",
+      "vehicleType": "Camioneta",
+      "status": "Completado",
+      "lat": -12.06,
+      "lng": -77.0375
+    },
+    {
+      "id": "RM",
+      "name": "Raúl Méndez",
+      "vehiclePlate": "X1W-445",
+      "vehicleType": "Moto",
+      "status": "Sin señal",
+      "lat": null,
+      "lng": null
+    }
   ]
 }
