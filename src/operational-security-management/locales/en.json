@@ -1,0 +1,158 @@
+{
+  "security": {
+    "shell": {
+      "main_link": "Alerts & Security"
+    },
+
+    "hub": {
+      "title": "Alerts & Security",
+      "tabs": {
+        "active_alerts": "Active Alerts",
+        "alert_history": "Alert History",
+        "sensor_status": "Sensor Status",
+        "route_deviations": "Route Deviations",
+        "zone_analysis": "Zone Analysis",
+        "warehouse_status": "Warehouse Status",
+        "company_alert_history": "Company Alert History"
+      }
+    },
+    "active_alerts": {
+      "title": "Active Alerts",
+      "card": {
+        "location": "Location",
+        "timestamp": "Date and Time",
+        "status": "Status",
+        "resolve_button": "Resolve Alert"
+      },
+      "empty_state": "There are no active alerts at this time."
+    },
+    "alert_history": {
+      "title": "Alert History",
+      "search_placeholder": "Search history...",
+      "empty_state": "No alert records found.",
+      "columns": {
+        "id": "ID",
+        "type": "Alert Type",
+        "location": "Location",
+        "criticality": "Criticality",
+        "timestamp": "Date and Time",
+        "status": "Status"
+      }
+    },
+    "route_deviations": {
+      "title": "Route Deviations",
+      "banner": "A route deviation is considered when the unit moves more than {distance} from its planned route for a period exceeding {time}.",
+      "search_placeholder": "Search unit or location...",
+      "pills": {
+        "total": "Total",
+        "pending": "Pending",
+        "attended": "Attended"
+      },
+      "columns": {
+        "id": "ID",
+        "unit": "Vehicle / Unit",
+        "location": "Last Location",
+        "distance": "Distance Detected",
+        "time": "Deviation Time",
+        "status": "Status",
+        "action": "Action"
+      },
+      "actions": {
+        "review": "Review",
+        "details": "Details"
+      }
+    },
+    "sensor_status": {
+      "main_card_title": "North Lima Distributor",
+      "ppm_label": "PPM (Gas)",
+      "range_label": "Safe Range",
+      "hw": {
+        "signal": "{strength} Signal",
+        "battery": "Battery {level}%",
+        "online": "Online",
+        "offline": "Offline"
+      },
+      "warning_card": {
+        "title": "No sensor signal",
+        "location": "{sensorName} ({time} ago)",
+        "reconnect_button": "Reconnect"
+      },
+      "ok_card": {
+        "title": "All systems go",
+        "desc": "All sensors are reporting correctly."
+      },
+      "meta": {
+        "last_read": "Last global reading",
+        "active_sensors": "Active sensors",
+        "critical_battery": "Critical battery"
+      }
+    },
+    "zone_analysis": {
+      "title": "Zones with highest alert frequency",
+      "filters": {
+        "period": "Select Period",
+        "type": "Alert Type"
+      },
+      "metrics": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low",
+        "incidents": "Incidents"
+      },
+      "legend": {
+        "title": "Criticality Legend:",
+        "high": "High (Priority 1)",
+        "medium": "Medium (Priority 2)",
+        "low": "Low (Preventive)",
+        "stable": "No Risk / Stable"
+      }
+    },
+    "common": {
+      "loading": "Loading...",
+      "error": "Error loading data."
+    },
+    "warehouses": {
+      "title": "Current state of warehouses and operational areas",
+      "subtitle": "",
+      "actions":{
+        "attend_alert": "Attend alert",
+        "view_detail": "View detail",
+        "check_connection": "Check connection"
+      },
+      "system_active": "System active",
+      "last_reading": "Last reading"
+    },
+    "company_alerts": {
+      "title": "Alert History",
+      "showing": "Showing",
+      "of": "of",
+      "alerts": "alerts",
+      "export": "Export",
+      "search": "Search",
+      "attend": "Attend",
+      "view": "View",
+      "filters": {
+        "status": "STATUS",
+        "type": "TYPE",
+        "from": "FROM",
+        "to": "UNTIL",
+        "all": "All",
+        "pending": "Pending",
+        "attended": "Attended",
+        "leak": "Leak",
+        "pressure": "Pressure"
+      },
+      "columns": {
+        "id": "ID",
+        "zone": "Zone",
+        "type": "Type",
+        "criticality": "Criticality",
+        "datetime": "Date & Time",
+        "status": "Status",
+        "operator": "Operator",
+        "attention_time": "Attention Time",
+        "actions": "Actions"
+      }
+    }
+  }
+}
