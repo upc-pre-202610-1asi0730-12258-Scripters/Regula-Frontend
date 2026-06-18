@@ -1,0 +1,164 @@
+﻿{
+  "security": {
+    "title": "Operational Security",
+    "subtitle": "Monitoring, alerts and operational control",
+
+    "shell": {
+      "main_link": "Security"
+    },
+
+    "menu": {
+      "active_alerts": "Active Alerts",
+      "company_alerts": "Company Alerts",
+      "warehouses": "Warehouses",
+      "sensors": "Sensors",
+      "route_deviations": "Route Deviations",
+      "zone_analysis": "Zone Analysis",
+      "alert_history": "Alert History"
+    },
+
+    "common": {
+      "error": "An error occurred while loading data"
+    },
+
+    "active_alerts": {
+      "title": "Active Alerts",
+      "empty_state": "No active alerts found",
+      "card": {
+        "location": "Location",
+        "timestamp": "Date",
+        "status": "Status",
+        "resolve_button": "Resolve"
+      }
+    },
+
+    "company_alerts": {
+      "title": "Company Alert History",
+
+      "filters": {
+        "status": "Status",
+        "type": "Type",
+        "from": "From",
+        "to": "To"
+      },
+
+      "search": "Search",
+      "showing": "Showing",
+      "of": "of",
+      "alerts": "alerts",
+      "export": "Export",
+
+      "columns": {
+        "id": "ID",
+        "zone": "Zone",
+        "type": "Type",
+        "criticality": "Criticality",
+        "datetime": "Date & Time",
+        "status": "Status",
+        "operator": "Operator",
+        "attention_time": "Attention Time",
+        "actions": "Actions"
+      },
+
+      "attend": "Attend",
+      "view": "View"
+    },
+
+    "warehouses": {
+      "title": "Warehouse Monitoring",
+      "subtitle": "Real-time gas concentration monitoring",
+
+      "system_active": "System Active",
+
+      "banner": "Readings are automatically updated every {time}.",
+
+      "last_reading": "Last reading",
+
+      "actions": {
+        "attend_alert": "Attend Alert",
+        "check_connection": "Check Connection",
+        "view_detail": "View Details"
+      },
+
+      "footer_info": "Warehouse data is synchronized with connected sensors."
+    },
+
+    "sensors": {
+      "title": "Sensor Status",
+      "subtitle": "Monitoring of connected devices",
+
+      "summary": {
+        "active": "Active Sensors",
+        "total": "Total Sensors",
+        "critical": "Critical Battery",
+        "last_read": "Last Reading"
+      },
+
+      "warning": {
+        "offline": "Sensor offline"
+      },
+
+      "status": {
+        "online": "Online",
+        "offline": "Offline"
+      },
+
+      "battery": "Battery",
+      "signal": "Signal",
+      "ppm": "PPM",
+
+      "actions": {
+        "details": "Details",
+        "reconnect": "Reconnect"
+      }
+    },
+
+    "route_deviations": {
+      "title": "Route Deviations",
+
+      "columns": {
+        "id": "ID",
+        "unit": "Unit",
+        "location": "Location",
+        "distance": "Distance (m)",
+        "time": "Time",
+        "status": "Status",
+        "actions": "Actions"
+      },
+
+      "view": "View",
+      "attend": "Attend"
+    },
+
+    "zone_analysis": {
+      "title": "Zone Analysis",
+      "subtitle": "Operational risk by zone",
+
+      "metrics": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low",
+        "incidents": "Incidents"
+      },
+
+      "status": {
+        "critical": "Critical",
+        "stable": "Stable",
+        "inactive": "Inactive"
+      }
+    },
+
+    "alert_history": {
+      "title": "Alert History",
+      "subtitle": "Resolved and historical alerts"
+    }
+  },
+
+  "inventory": {
+    "sidebar": {
+      "language": "Language",
+      "spanish": "Spanish",
+      "english": "English"
+    }
+  }
+}
