@@ -1,73 +1,44 @@
 ﻿/**
- * @summary Infrastructure API service for a bounded context.
- * Provides communication with backend REST endpoints through reusable endpoint clients.
+ * @summary Infrastructure API service for inventory management.
+ * Communicates with the six backend REST endpoints under /api/v1/inventories.
  *
  * @author Kevin Lopez
  */
 
 import { BaseApi } from '@/shared/infrastructure/base-api.js'
-import { BaseEndpoint } from '@/shared/infrastructure/base-endpoint.js'
 
-const enterprisePath = import.meta.env.VITE_ENTERPRISE_STOCK_ENDPOINT
-const distributorPath = import.meta.env.VITE_DISTRIBUTOR_STOCK_ENDPOINT
-const originsPath = import.meta.env.VITE_ORIGINS_ENDPOINT
-const providersPath = import.meta.env.VITE_PROVIDERS_ENDPOINT
-const stockKgMapsPath = import.meta.env.VITE_STOCK_KG_MAPS_ENDPOINT
-const enterpriseMovementsPath = import.meta.env.VITE_ENTERPRISE_MOVEMENTS_ENDPOINT
-const distributorMovementsPath = import.meta.env.VITE_DISTRIBUTOR_MOVEMENTS_ENDPOINT
-const auditLogsPath = import.meta.env.VITE_AUDIT_LOGS_ENDPOINT
+const inventoriesPath = import.meta.env.VITE_INVENTORIES_ENDPOINT
+const companyInventoryId = import.meta.env.VITE_COMPANY_INVENTORY_ID
+const distributorInventoryId = import.meta.env.VITE_DISTRIBUTOR_INVENTORY_ID
 
 export class InventoryApi extends BaseApi {
-    #enterprise
-    #distributor
-    #origins
-    #providers
-    #stockKgMaps
-    #enterpriseMovements
-    #distributorMovements
-    #auditLogs
-
-    constructor() {
-        super()
-        this.#enterprise = new BaseEndpoint(this, enterprisePath)
-        this.#distributor = new BaseEndpoint(this, distributorPath)
-        this.#origins = new BaseEndpoint(this, originsPath)
-        this.#providers = new BaseEndpoint(this, providersPath)
-        this.#stockKgMaps = new BaseEndpoint(this, stockKgMapsPath)
-        this.#enterpriseMovements = new BaseEndpoint(this, enterpriseMovementsPath)
-        this.#distributorMovements = new BaseEndpoint(this, distributorMovementsPath)
-        this.#auditLogs = new BaseEndpoint(this, auditLogsPath)
+    getInventoryById(inventoryId) {
+        return this.http.get(`${inventoriesPath}/${inventoryId}`)
     }
 
-    getEnterpriseStockRows() {
-        return this.#enterprise.getAll()
+    getCompanyStock() {
+        return this.http.get(`${inventoriesPath}/${companyInventoryId}/stock`)
     }
 
-    getDistributorStockCards() {
-        return this.#distributor.getAll()
+    getDistributorStock() {
+        return this.http.get(`${inventoriesPath}/${distributorInventoryId}/stock`)
     }
 
-    getOrigins() {
-        return this.#origins.getAll()
+    getCompanyMovements(movementType) {
+        const params = movementType ? { movementType } : undefined
+        return this.http.get(`${inventoriesPath}/${companyInventoryId}/company-movements`, { params })
     }
 
-    getProviders() {
-        return this.#providers.getAll()
+    createCompanyMovement(resource) {
+        return this.http.post(`${inventoriesPath}/${companyInventoryId}/company-movements`, resource)
     }
 
-    getStockKgMaps() {
-        return this.#stockKgMaps.getAll()
+    getDistributorMovements(movementType) {
+        const params = movementType ? { movementType } : undefined
+        return this.http.get(`${inventoriesPath}/${distributorInventoryId}/distributor-movements`, { params })
     }
 
-    getEnterpriseMovements() {
-        return this.#enterpriseMovements.getAll()
-    }
-
-    getDistributorMovements() {
-        return this.#distributorMovements.getAll()
-    }
-
-    getAuditLogs() {
-        return this.#auditLogs.getAll()
+    createDistributorMovement(resource) {
+        return this.http.post(`${inventoriesPath}/${distributorInventoryId}/distributor-movements`, resource)
     }
 }

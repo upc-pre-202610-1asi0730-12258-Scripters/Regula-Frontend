@@ -1,8 +1,6 @@
 ﻿/**
- * @summary Application state management store for a bounded context.
- * Handles data loading, persistence operations, and reactive state management.
- *
- * @author Kevin Lopez
+ * @summary Application store for inventory management.
+ * Centralizes API data and inventory business rules.
  */
 
 import { defineStore } from 'pinia'
@@ -10,71 +8,116 @@ import { computed, ref } from 'vue'
 import { InventoryApi } from '../infrastructure/inventory-api.js'
 import { GasCylinderStockRowAssembler } from '../infrastructure/gas-cylinder-stock-row.assembler.js'
 import { DistributorStockCardAssembler } from '../infrastructure/distributor-stock-card.assembler.js'
-import { OriginAssembler } from '../infrastructure/origin.assembler.js'
-import { ProviderAssembler } from '../infrastructure/provider.assembler.js'
-import { StockKgMapAssembler } from '../infrastructure/stock-kg-map.assembler.js'
 import { InventoryMovementAssembler } from '../infrastructure/inventory-movement.assembler.js'
 import { DistributorMovementAssembler } from '../infrastructure/distributor-movement.assembler.js'
-import { AuditLogAssembler } from '../infrastructure/audit-log.assembler.js'
 
 const inventoryApi = new InventoryApi()
 const DEFAULT_SECTION_KEY = 'stock'
+
+const CYLINDER_LABELS = {
+    Kg5: 'Balón 5 kg',
+    Kg10: 'Balón 10 kg',
+    Kg15: 'Balón 15 kg',
+    Kg45: 'Cilindro 45 kg',
+}
+
+const MOVEMENT_TYPE_LABELS = {
+    Entry: 'Entrada',
+    Exit: 'Salida',
+}
+
+const OUTBOUND_TYPE_LABELS = {
+    DirectSale: 'Venta directa',
+    HomeDelivery: 'Entrega a domicilio',
+    ReturnToSupplier: 'Devolución a proveedor',
+}
+
+const CYLINDER_TYPE_CATALOG = [
+    { key: '5', cylinderType: 'Kg5' },
+    { key: '10', cylinderType: 'Kg10' },
+    { key: '15', cylinderType: 'Kg15' },
+    { key: '45', cylinderType: 'Kg45' },
+]
+
+const OUTBOUND_TYPE_CATALOG = [
+    { outboundType: 'DirectSale' },
+    { outboundType: 'HomeDelivery' },
+    { outboundType: 'ReturnToSupplier' },
+]
+
+function stockRowsToKeyMap(rows) {
+    const map = {}
+    for (const row of rows) {
+        const key = getCylinderKey(row.cylinderType)
+        if (key) {
+            map[key] = row.available
+        }
+    }
+    return map
+}
+
+function getCylinderKey(cylinderType) {
+    return String(cylinderType ?? '').replace(/^Kg/i, '')
+}
+
+function getCylinderTypeFromKey(key) {
+    return `Kg${key}`
+}
+
+function getCylinderLabel(cylinderType) {
+    return CYLINDER_LABELS[cylinderType] ?? cylinderType ?? ''
+}
+
+function getMovementTypeLabel(movementType) {
+    return MOVEMENT_TYPE_LABELS[movementType] ?? movementType ?? ''
+}
+
+function getOutboundTypeLabel(outboundType) {
+    return OUTBOUND_TYPE_LABELS[outboundType] ?? outboundType ?? ''
+}
 
 const useInventoryStore = defineStore('inventory', () => {
     const sectionKey = ref(DEFAULT_SECTION_KEY)
 
     const enterpriseRows = ref([])
     const distributorCards = ref([])
-    const origins = ref([])
-    const providers = ref([])
-    const stockKgMaps = ref([])
     const enterpriseMovements = ref([])
     const distributorMovements = ref([])
-    const auditLogs = ref([])
 
     const errors = ref([])
 
     const enterpriseLoaded = ref(false)
     const distributorLoaded = ref(false)
-    const originsLoaded = ref(false)
-    const providersLoaded = ref(false)
-    const stockKgMapsLoaded = ref(false)
     const enterpriseMovementsLoaded = ref(false)
     const distributorMovementsLoaded = ref(false)
-    const auditLogsLoaded = ref(false)
 
-    const enterpriseRowCount = computed(() => {
-        return enterpriseLoaded.value ? enterpriseRows.value.length : 0
-    })
-
-    const distributorCardCount = computed(() => {
-        return distributorLoaded.value ? distributorCards.value.length : 0
-    })
+    const companyStockByCylinderKey = computed(() => stockRowsToKeyMap(enterpriseRows.value))
+    const distributorStockByCylinderKey = computed(() => stockRowsToKeyMap(distributorCards.value))
 
     const enterpriseTotals = computed(() => {
         if (!enterpriseLoaded.value) {
             return {
-                disponible: 0,
-                enTransito: 0,
-                observado: 0,
-                fueraServicio: 0,
+                available: 0,
+                inTransit: 0,
+                observed: 0,
+                outOfService: 0,
                 total: 0,
             }
         }
         return enterpriseRows.value.reduce(
             (acc, row) => {
-                acc.disponible += row.disponible
-                acc.enTransito += row.enTransito
-                acc.observado += row.observado
-                acc.fueraServicio += row.fueraServicio
+                acc.available += row.available
+                acc.inTransit += row.inTransit
+                acc.observed += row.observed
+                acc.outOfService += row.outOfService
                 acc.total += row.total
                 return acc
             },
             {
-                disponible: 0,
-                enTransito: 0,
-                observado: 0,
-                fueraServicio: 0,
+                available: 0,
+                inTransit: 0,
+                observed: 0,
+                outOfService: 0,
                 total: 0,
             },
         )
@@ -90,7 +133,7 @@ const useInventoryStore = defineStore('inventory', () => {
 
     function fetchEnterpriseStock() {
         inventoryApi
-            .getEnterpriseStockRows()
+            .getCompanyStock()
             .then((response) => {
                 enterpriseRows.value = GasCylinderStockRowAssembler.toEntitiesFromResponse(response)
                 enterpriseLoaded.value = true
@@ -102,7 +145,7 @@ const useInventoryStore = defineStore('inventory', () => {
 
     function fetchDistributorStock() {
         inventoryApi
-            .getDistributorStockCards()
+            .getDistributorStock()
             .then((response) => {
                 distributorCards.value = DistributorStockCardAssembler.toEntitiesFromResponse(response)
                 distributorLoaded.value = true
@@ -112,45 +155,9 @@ const useInventoryStore = defineStore('inventory', () => {
             })
     }
 
-    function fetchOrigins() {
+    function fetchEnterpriseMovements(movementType) {
         inventoryApi
-            .getOrigins()
-            .then((response) => {
-                origins.value = OriginAssembler.toEntitiesFromResponse(response)
-                originsLoaded.value = true
-            })
-            .catch((error) => {
-                errors.value.push(error)
-            })
-    }
-
-    function fetchProviders() {
-        inventoryApi
-            .getProviders()
-            .then((response) => {
-                providers.value = ProviderAssembler.toEntitiesFromResponse(response)
-                providersLoaded.value = true
-            })
-            .catch((error) => {
-                errors.value.push(error)
-            })
-    }
-
-    function fetchStockKgMaps() {
-        inventoryApi
-            .getStockKgMaps()
-            .then((response) => {
-                stockKgMaps.value = StockKgMapAssembler.toEntitiesFromResponse(response)
-                stockKgMapsLoaded.value = true
-            })
-            .catch((error) => {
-                errors.value.push(error)
-            })
-    }
-
-    function fetchEnterpriseMovements() {
-        inventoryApi
-            .getEnterpriseMovements()
+            .getCompanyMovements(movementType)
             .then((response) => {
                 enterpriseMovements.value = InventoryMovementAssembler.toEntitiesFromResponse(response)
                 enterpriseMovementsLoaded.value = true
@@ -160,9 +167,9 @@ const useInventoryStore = defineStore('inventory', () => {
             })
     }
 
-    function fetchDistributorMovements() {
+    function fetchDistributorMovements(movementType) {
         inventoryApi
-            .getDistributorMovements()
+            .getDistributorMovements(movementType)
             .then((response) => {
                 distributorMovements.value = DistributorMovementAssembler.toEntitiesFromResponse(response)
                 distributorMovementsLoaded.value = true
@@ -172,50 +179,51 @@ const useInventoryStore = defineStore('inventory', () => {
             })
     }
 
-    function fetchAuditLogs() {
-        inventoryApi
-            .getAuditLogs()
-            .then((response) => {
-                auditLogs.value = AuditLogAssembler.toEntitiesFromResponse(response)
-                auditLogsLoaded.value = true
-            })
-            .catch((error) => {
-                errors.value.push(error)
-            })
+    function registerCompanyMovement(resource) {
+        return inventoryApi.createCompanyMovement(resource).then((response) => {
+            fetchEnterpriseStock()
+            fetchEnterpriseMovements()
+            return InventoryMovementAssembler.toEntityFromResource(response.data)
+        })
+    }
+
+    function registerDistributorMovement(resource) {
+        return inventoryApi.createDistributorMovement(resource).then((response) => {
+            fetchDistributorStock()
+            fetchDistributorMovements()
+            return DistributorMovementAssembler.toEntityFromResource(response.data)
+        })
     }
 
     return {
         sectionKey,
         enterpriseRows,
         distributorCards,
-        origins,
-        providers,
-        stockKgMaps,
         enterpriseMovements,
         distributorMovements,
-        auditLogs,
         errors,
         enterpriseLoaded,
         distributorLoaded,
-        originsLoaded,
-        providersLoaded,
-        stockKgMapsLoaded,
         enterpriseMovementsLoaded,
         distributorMovementsLoaded,
-        auditLogsLoaded,
-        enterpriseRowCount,
-        distributorCardCount,
+        companyStockByCylinderKey,
+        distributorStockByCylinderKey,
         enterpriseTotals,
+        cylinderTypeCatalog: CYLINDER_TYPE_CATALOG,
+        outboundTypeCatalog: OUTBOUND_TYPE_CATALOG,
+        getCylinderKey,
+        getCylinderTypeFromKey,
+        getCylinderLabel,
+        getMovementTypeLabel,
+        getOutboundTypeLabel,
         setInventorySectionKey,
         resetInventorySection,
         fetchEnterpriseStock,
         fetchDistributorStock,
-        fetchOrigins,
-        fetchProviders,
-        fetchStockKgMaps,
         fetchEnterpriseMovements,
         fetchDistributorMovements,
-        fetchAuditLogs,
+        registerCompanyMovement,
+        registerDistributorMovement,
     }
 })
 
