@@ -4668,5 +4668,226 @@
       "relatedDebtId": "ID929660",
       "relatedSaleId": null
     }
+  ],
+  "alerts": [
+    {
+      "id": "ALT-001",
+      "type": "Fuga de Gas Detectada",
+      "criticality": "Alta",
+      "location": "Planta Central Lima - Zona B",
+      "timestamp": "2025-06-28T14:30:00Z",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "ALT-002",
+      "type": "Presión Anormal",
+      "criticality": "Media",
+      "location": "Almacén Huánuco - Tanque 3",
+      "timestamp": "2025-06-28T10:15:00Z",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "ALT-003",
+      "type": "Mantenimiento Preventivo Requerido",
+      "criticality": "Baja",
+      "location": "Dist. San Miguel - Válvula Principal",
+      "timestamp": "2025-06-27T08:00:00Z",
+      "status": "Resuelta"
+    },
+    {
+      "id": "ALT-004",
+      "type": "Fuga de Gas Detectada",
+      "criticality": "Alta",
+      "location": "Planta Central Lima - Zona A",
+      "timestamp": "2025-06-29T08:45:00Z",
+      "status": "ACTIVE"
+    }
+  ],
+  "sensors": [
+    {
+      "id": "SENS-LIMA-NORTE",
+      "name": "Distribuidor Lima Norte",
+      "status": "Operativo",
+      "ppm": 24,
+      "hardware": {
+        "signal": "Fuerte",
+        "battery": 82,
+        "online": true
+      }
+    },
+    {
+      "id": "SENS-HUANUCO",
+      "name": "Almacén Huánuco",
+      "status": "Sin Señal",
+      "ppm": -1,
+      "last_connection": "Hace 12 min",
+      "hardware": {
+        "signal": "Ninguna",
+        "battery": 55,
+        "online": false
+      }
+    },
+    {
+      "id": "SENS-LIMA-CENTRAL",
+      "name": "Planta Lima Central",
+      "status": "Batería Crítica",
+      "ppm": 15,
+      "hardware": {
+        "signal": "Débil",
+        "battery": 8,
+        "online": true
+      }
+    }
+  ],
+  "sensors_metadata": {
+    "last_global_read": "Hace 2 seg",
+    "active_sensors": 42,
+    "total_sensors": 45,
+    "critical_battery": 3
+  },
+  "routeDeviations": [
+    {
+      "id": "DEV-001",
+      "unit": "Camión Volvo A1",
+      "location": "Av. Universitaria Cdra. 12",
+      "distance": 650,
+      "time": "14:32:00",
+      "status": "Pendiente"
+    },
+    {
+      "id": "DEV-002",
+      "unit": "Furgoneta F3",
+      "location": "Panamericana Norte Km 18",
+      "distance": 1200,
+      "time": "13:15:22",
+      "status": "Atendida"
+    },
+    {
+      "id": "DEV-003",
+      "unit": "Camión Scania T4",
+      "location": "Callao - Puerto",
+      "distance": 550,
+      "time": "11:45:10",
+      "status": "Atendida"
+    },
+    {
+      "id": "DEV-004",
+      "unit": "Camión Hino B2",
+      "location": "Av. Javier Prado",
+      "distance": 900,
+      "time": "10:20:45",
+      "status": "Pendiente"
+    }
+  ],
+  "zoneAnalysis": [
+    {
+      "id": "zona-a",
+      "name": "Zona Callao Norte",
+      "status": "Crítica",
+      "metrics": {
+        "alta": 24,
+        "media": 12,
+        "baja": 4,
+        "incidentes": 2
+      }
+    },
+    {
+      "id": "zona-b",
+      "name": "Zona Lima Central",
+      "status": "Estable",
+      "metrics": {
+        "alta": 1,
+        "media": 5,
+        "baja": 18,
+        "incidentes": 0
+      }
+    },
+    {
+      "id": "zona-c",
+      "name": "Zona Arequipa Sur",
+      "status": "Inactiva",
+      "metrics": {
+        "alta": 0,
+        "media": 0,
+        "baja": 0,
+        "incidentes": 0
+      }
+    }
+  ],
+  "warehouses": [
+    {
+      "id": "WH-001",
+      "name": "Almacén Principal",
+      "zone": "Zona A",
+      "gasConcentration": 320,
+      "status": "Activo",
+      "alertLevel": "ALERTA",
+      "lastReading": "10:43 a.m."
+    },
+    {
+      "id": "WH-002",
+      "name": "Depósito Secundario",
+      "zone": "Zona B",
+      "gasConcentration": 12,
+      "status": "Activo",
+      "alertLevel": "OK",
+      "lastReading": "10:45 a.m."
+    },
+    {
+      "id": "WH-003",
+      "name": "Silo de Reserva",
+      "zone": "Zona C",
+      "gasConcentration": null,
+      "status": "Offline",
+      "alertLevel": "SIN SEÑAL",
+      "lastReading": "Sin datos desde las 10:00 a.m."
+    },
+    {
+      "id": "WH-004",
+      "name": "Zona de Carga",
+      "zone": "Zona D",
+      "gasConcentration": 55,
+      "status": "Activo",
+      "alertLevel": "OK",
+      "lastReading": "10:44 a.m."
+    }
+  ],
+  "companyAlerts": [
+    {
+      "id": "AL-890",
+      "zone": "Zona C",
+      "type": "Fuga",
+      "criticality": "BAJA",
+      "dateTime": "21/04/2025 08:05",
+      "status": "ATENDIDA",
+      "operator": "Carlos R.",
+      "attentionTime": "08:05",
+      "hasViewAction": true,
+      "hasAttendAction": false
+    },
+    {
+      "id": "AL-891",
+      "zone": "Zona B",
+      "type": "Presión",
+      "criticality": "MEDIA",
+      "dateTime": "21/04/2025 09:15",
+      "status": "ATENDIDA",
+      "operator": "Carlos R.",
+      "attentionTime": "09:22",
+      "hasViewAction": true,
+      "hasAttendAction": false
+    },
+    {
+      "id": "AL-892",
+      "zone": "Zona A",
+      "type": "Fuga",
+      "criticality": "ALTA",
+      "dateTime": "21/04/2025 10:43",
+      "status": "PENDIENTE",
+      "operator": null,
+      "attentionTime": "--",
+      "hasViewAction": true,
+      "hasAttendAction": true
+    }
   ]
 }
