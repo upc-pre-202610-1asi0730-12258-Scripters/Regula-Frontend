@@ -4,11 +4,7 @@
     "subtitle": "Monitoring, alerts and operational control",
 
     "shell": {
-      "main_link": "Security",
-
-      "hub": {
-        "title": "Security Hub"
-      }
+      "main_link": "Security"
     },
 
     "menu": {
@@ -119,13 +115,7 @@
 
     "route_deviations": {
       "title": "Route Deviations",
-      "banner": "Units deviating more than {distance} or for more than {time} will be marked for review.",
-      "search_placeholder": "Search by unit or location",
-      "pills": {
-        "total": "Total",
-        "pending": "Pending",
-        "attended": "Attended"
-      },
+
       "columns": {
         "id": "ID",
         "unit": "Unit",
@@ -133,13 +123,9 @@
         "distance": "Distance (m)",
         "time": "Time",
         "status": "Status",
-        "action": "Action",
         "actions": "Actions"
       },
-      "actions": {
-        "review": "Review",
-        "details": "Details"
-      },
+
       "view": "View",
       "attend": "Attend"
     },
@@ -161,19 +147,18 @@
         "inactive": "Inactive"
       }
     },
+
     "alert_history": {
       "title": "Alert History",
-      "subtitle": "Resolved and historical alerts",
-      "empty_state": "No records to display",
-      "search_placeholder": "Search alerts",
-      "columns": {
-        "id": "ID",
-        "type": "Type",
-        "location": "Location",
-        "criticality": "Criticality",
-        "timestamp": "Date",
-        "status": "Status"
-      }
+      "subtitle": "Resolved and historical alerts"
+    }
+  },
+
+  "inventory": {
+    "sidebar": {
+      "language": "Language",
+      "spanish": "Spanish",
+      "english": "English"
     }
   }
 }
