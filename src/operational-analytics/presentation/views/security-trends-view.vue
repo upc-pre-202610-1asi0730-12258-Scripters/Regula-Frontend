@@ -1,9 +1,22 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { useSecurityTrendsStore } from '@/operational-analytics/application/security-trends.store.js'
-
+import { useRoute } from 'vue-router'
 const store = useSecurityTrendsStore()
+const route = useRoute()
 
+const isDistributorReports = computed(() =>
+    route.meta?.shellPreset === 'distributor' ||
+    String(route.name ?? '').startsWith('distributor-')
+)
+
+const generateReportPath = computed(() =>
+    isDistributorReports.value ? '/distribuidor/reportes/generar' : '/reportes/generar'
+)
+
+const securityTrendsPath = computed(() =>
+    isDistributorReports.value ? '/distribuidor/reportes/tendencias' : '/reportes/tendencias'
+)
 const chartCanvas = ref(null)
 let chartInstance = null
 
@@ -148,9 +161,8 @@ onBeforeUnmount(() => {
   <div class="trends-page">
 
     <div class="trends-tabs">
-      <router-link to="/reportes/generar"    class="trends-tab" active-class="trends-tab--active">Generar Reporte</router-link>
-      <router-link to="/reportes/tendencias" class="trends-tab" active-class="trends-tab--active">Tendencias de Seguridad</router-link>
-    </div>
+      <router-link :to="generateReportPath" class="trends-tab" active-class="trends-tab--active">Generar Reporte</router-link>
+      <router-link :to="securityTrendsPath" class="trends-tab" active-class="trends-tab--active">Tendencias de Seguridad</router-link>    </div>
 
     <div class="trends-filters">
       <div class="trends-filter-group">
