@@ -4668,5 +4668,567 @@
       "relatedDebtId": "ID929660",
       "relatedSaleId": null
     }
+  ],
+  "alerts": [
+    {
+      "id": "ALT-001",
+      "type": "Fuga de Gas Detectada",
+      "criticality": "Alta",
+      "location": "Planta Central Lima - Zona B",
+      "timestamp": "2025-06-28T14:30:00Z",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "ALT-002",
+      "type": "Presión Anormal",
+      "criticality": "Media",
+      "location": "Almacén Huánuco - Tanque 3",
+      "timestamp": "2025-06-28T10:15:00Z",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "ALT-003",
+      "type": "Mantenimiento Preventivo Requerido",
+      "criticality": "Baja",
+      "location": "Dist. San Miguel - Válvula Principal",
+      "timestamp": "2025-06-27T08:00:00Z",
+      "status": "Resuelta"
+    },
+    {
+      "id": "ALT-004",
+      "type": "Fuga de Gas Detectada",
+      "criticality": "Alta",
+      "location": "Planta Central Lima - Zona A",
+      "timestamp": "2025-06-29T08:45:00Z",
+      "status": "ACTIVE"
+    }
+  ],
+  "sensors": [
+    {
+      "id": "SENS-LIMA-NORTE",
+      "name": "Distribuidor Lima Norte",
+      "status": "Operativo",
+      "ppm": 24,
+      "hardware": {
+        "signal": "Fuerte",
+        "battery": 82,
+        "online": true
+      }
+    },
+    {
+      "id": "SENS-HUANUCO",
+      "name": "Almacén Huánuco",
+      "status": "Sin Señal",
+      "ppm": -1,
+      "last_connection": "Hace 12 min",
+      "hardware": {
+        "signal": "Ninguna",
+        "battery": 55,
+        "online": false
+      }
+    },
+    {
+      "id": "SENS-LIMA-CENTRAL",
+      "name": "Planta Lima Central",
+      "status": "Batería Crítica",
+      "ppm": 15,
+      "hardware": {
+        "signal": "Débil",
+        "battery": 8,
+        "online": true
+      }
+    }
+  ],
+  "sensors_metadata": {
+    "last_global_read": "Hace 2 seg",
+    "active_sensors": 42,
+    "total_sensors": 45,
+    "critical_battery": 3
+  },
+  "routeDeviations": [
+    {
+      "id": "DEV-001",
+      "unit": "Camión Volvo A1",
+      "location": "Av. Universitaria Cdra. 12",
+      "distance": 650,
+      "time": "14:32:00",
+      "status": "Pendiente"
+    },
+    {
+      "id": "DEV-002",
+      "unit": "Furgoneta F3",
+      "location": "Panamericana Norte Km 18",
+      "distance": 1200,
+      "time": "13:15:22",
+      "status": "Atendida"
+    },
+    {
+      "id": "DEV-003",
+      "unit": "Camión Scania T4",
+      "location": "Callao - Puerto",
+      "distance": 550,
+      "time": "11:45:10",
+      "status": "Atendida"
+    },
+    {
+      "id": "DEV-004",
+      "unit": "Camión Hino B2",
+      "location": "Av. Javier Prado",
+      "distance": 900,
+      "time": "10:20:45",
+      "status": "Pendiente"
+    }
+  ],
+  "zoneAnalysis": [
+    {
+      "id": "zona-a",
+      "name": "Zona Callao Norte",
+      "status": "Crítica",
+      "metrics": {
+        "alta": 24,
+        "media": 12,
+        "baja": 4,
+        "incidentes": 2
+      }
+    },
+    {
+      "id": "zona-b",
+      "name": "Zona Lima Central",
+      "status": "Estable",
+      "metrics": {
+        "alta": 1,
+        "media": 5,
+        "baja": 18,
+        "incidentes": 0
+      }
+    },
+    {
+      "id": "zona-c",
+      "name": "Zona Arequipa Sur",
+      "status": "Inactiva",
+      "metrics": {
+        "alta": 0,
+        "media": 0,
+        "baja": 0,
+        "incidentes": 0
+      }
+    }
+  ],
+  "warehouses": [
+    {
+      "id": "WH-001",
+      "name": "Almacén Principal",
+      "zone": "Zona A",
+      "gasConcentration": 320,
+      "status": "Activo",
+      "alertLevel": "ALERTA",
+      "lastReading": "10:43 a.m."
+    },
+    {
+      "id": "WH-002",
+      "name": "Depósito Secundario",
+      "zone": "Zona B",
+      "gasConcentration": 12,
+      "status": "Activo",
+      "alertLevel": "OK",
+      "lastReading": "10:45 a.m."
+    },
+    {
+      "id": "WH-003",
+      "name": "Silo de Reserva",
+      "zone": "Zona C",
+      "gasConcentration": null,
+      "status": "Offline",
+      "alertLevel": "SIN SEÑAL",
+      "lastReading": "Sin datos desde las 10:00 a.m."
+    },
+    {
+      "id": "WH-004",
+      "name": "Zona de Carga",
+      "zone": "Zona D",
+      "gasConcentration": 55,
+      "status": "Activo",
+      "alertLevel": "OK",
+      "lastReading": "10:44 a.m."
+    }
+  ],
+  "companyAlerts": [
+    {
+      "id": "AL-890",
+      "zone": "Zona C",
+      "type": "Fuga",
+      "criticality": "BAJA",
+      "dateTime": "21/04/2025 08:05",
+      "status": "ATENDIDA",
+      "operator": "Carlos R.",
+      "attentionTime": "08:05",
+      "hasViewAction": true,
+      "hasAttendAction": false
+    },
+    {
+      "id": "AL-891",
+      "zone": "Zona B",
+      "type": "Presión",
+      "criticality": "MEDIA",
+      "dateTime": "21/04/2025 09:15",
+      "status": "ATENDIDA",
+      "operator": "Carlos R.",
+      "attentionTime": "09:22",
+      "hasViewAction": true,
+      "hasAttendAction": false
+    },
+    {
+      "id": "AL-892",
+      "zone": "Zona A",
+      "type": "Fuga",
+      "criticality": "ALTA",
+      "dateTime": "21/04/2025 10:43",
+      "status": "PENDIENTE",
+      "operator": null,
+      "attentionTime": "--",
+      "hasViewAction": true,
+      "hasAttendAction": true
+    }
+  ],
+  "securityAlerts": [
+    {
+      "id": "2024-11-norte",
+      "monthKey": "2024-11",
+      "monthLabel": "Nov 24",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 33,
+      "medium": 28,
+      "low": 17,
+      "total": 78
+    },
+    {
+      "id": "2024-11-sur",
+      "monthKey": "2024-11",
+      "monthLabel": "Nov 24",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 14,
+      "medium": 29,
+      "low": 13,
+      "total": 56
+    },
+    {
+      "id": "2024-11-centro",
+      "monthKey": "2024-11",
+      "monthLabel": "Nov 24",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 29,
+      "medium": 22,
+      "low": 14,
+      "total": 65
+    },
+    {
+      "id": "2024-12-norte",
+      "monthKey": "2024-12",
+      "monthLabel": "Dic 24",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 18,
+      "medium": 34,
+      "low": 20,
+      "total": 72
+    },
+    {
+      "id": "2024-12-sur",
+      "monthKey": "2024-12",
+      "monthLabel": "Dic 24",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 11,
+      "medium": 20,
+      "low": 13,
+      "total": 44
+    },
+    {
+      "id": "2024-12-centro",
+      "monthKey": "2024-12",
+      "monthLabel": "Dic 24",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 23,
+      "medium": 25,
+      "low": 15,
+      "total": 63
+    },
+    {
+      "id": "2025-01-norte",
+      "monthKey": "2025-01",
+      "monthLabel": "Ene 25",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 37,
+      "medium": 28,
+      "low": 23,
+      "total": 88
+    },
+    {
+      "id": "2025-01-sur",
+      "monthKey": "2025-01",
+      "monthLabel": "Ene 25",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 20,
+      "medium": 22,
+      "low": 9,
+      "total": 51
+    },
+    {
+      "id": "2025-01-centro",
+      "monthKey": "2025-01",
+      "monthLabel": "Ene 25",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 30,
+      "medium": 28,
+      "low": 11,
+      "total": 69
+    },
+    {
+      "id": "2025-02-norte",
+      "monthKey": "2025-02",
+      "monthLabel": "Feb 25",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 20,
+      "medium": 51,
+      "low": 21,
+      "total": 92
+    },
+    {
+      "id": "2025-02-sur",
+      "monthKey": "2025-02",
+      "monthLabel": "Feb 25",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 22,
+      "medium": 29,
+      "low": 12,
+      "total": 63
+    },
+    {
+      "id": "2025-02-centro",
+      "monthKey": "2025-02",
+      "monthLabel": "Feb 25",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 31,
+      "medium": 28,
+      "low": 15,
+      "total": 74
+    },
+    {
+      "id": "2025-03-norte",
+      "monthKey": "2025-03",
+      "monthLabel": "Mar 25",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 37,
+      "medium": 45,
+      "low": 24,
+      "total": 106
+    },
+    {
+      "id": "2025-03-sur",
+      "monthKey": "2025-03",
+      "monthLabel": "Mar 25",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 19,
+      "medium": 28,
+      "low": 8,
+      "total": 55
+    },
+    {
+      "id": "2025-03-centro",
+      "monthKey": "2025-03",
+      "monthLabel": "Mar 25",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 17,
+      "medium": 27,
+      "low": 11,
+      "total": 55
+    },
+    {
+      "id": "2025-04-norte",
+      "monthKey": "2025-04",
+      "monthLabel": "Abr 25",
+      "zone": "norte",
+      "zoneLabel": "Zona Norte",
+      "high": 23,
+      "medium": 30,
+      "low": 17,
+      "total": 70
+    },
+    {
+      "id": "2025-04-sur",
+      "monthKey": "2025-04",
+      "monthLabel": "Abr 25",
+      "zone": "sur",
+      "zoneLabel": "Zona Sur",
+      "high": 19,
+      "medium": 22,
+      "low": 11,
+      "total": 52
+    },
+    {
+      "id": "2025-04-centro",
+      "monthKey": "2025-04",
+      "monthLabel": "Abr 25",
+      "zone": "centro",
+      "zoneLabel": "Zona Centro",
+      "high": 17,
+      "medium": 26,
+      "low": 18,
+      "total": 61
+    }
+  ],
+  "securityZones": [
+    {
+      "id": "norte",
+      "label": "Zona Norte",
+      "type": "Sector industrial — Alta densidad",
+      "criticality": "Critica",
+      "criticalityColor": "danger",
+      "percentage": 34.5
+    },
+    {
+      "id": "sur",
+      "label": "Zona Sur",
+      "type": "Sector residencial — Media densidad",
+      "criticality": "Moderada",
+      "criticalityColor": "warning",
+      "percentage": 21.2
+    },
+    {
+      "id": "centro",
+      "label": "Zona Centro",
+      "type": "Sector comercial — Alta densidad",
+      "criticality": "Moderada",
+      "criticalityColor": "warning",
+      "percentage": 25.1
+    }
+  ],
+  "distributorDeliveries": [
+    {
+      "id": "#001",
+      "date": "24/10/2023",
+      "time": "14:25",
+      "delivererName": "Juan López",
+      "delivererId": "JL",
+      "vehicleType": "Moto",
+      "vehiclePlate": "A38-210",
+      "cargo": "3 balones",
+      "destination": "Entrega Centro",
+      "status": "En Ruta",
+      "eta": "14:30",
+      "realTime": null
+    },
+    {
+      "id": "#004",
+      "date": "24/10/2023",
+      "time": "14:50",
+      "delivererName": "Carlos Ruiz",
+      "delivererId": "CR",
+      "vehicleType": "Camión",
+      "vehiclePlate": "XYZ-787",
+      "cargo": "10 balones de 45 kg",
+      "destination": "Restaurante El Mar",
+      "status": "En Ruta",
+      "eta": "15:15",
+      "realTime": null
+    },
+    {
+      "id": "#002",
+      "date": "24/10/2023",
+      "time": "13:45",
+      "delivererName": "Pedro Salas",
+      "delivererId": "PS",
+      "vehicleType": "Camioneta",
+      "vehiclePlate": "C5R-982",
+      "cargo": "2 balones",
+      "destination": "Av. Los Pinos 456",
+      "status": "Completado",
+      "eta": "14:00",
+      "realTime": "13:45"
+    },
+    {
+      "id": "#003",
+      "date": "24/10/2023",
+      "time": "12:05",
+      "delivererName": "Ana Gómez",
+      "delivererId": "AG",
+      "vehicleType": "Moto",
+      "vehiclePlate": "B12-400",
+      "cargo": "1 balón",
+      "destination": "Jr. Las Flores 123",
+      "status": "Completado",
+      "eta": "12:15",
+      "realTime": "12:05"
+    },
+    {
+      "id": "#005",
+      "date": "24/10/2023",
+      "time": "11:15",
+      "delivererName": "Luis Torres",
+      "delivererId": "LT",
+      "vehicleType": "Moto",
+      "vehiclePlate": "D45-001",
+      "cargo": "5 balones",
+      "destination": "Calle Lima 88",
+      "status": "Completado",
+      "eta": "11:30",
+      "realTime": "11:15"
+    },
+    {
+      "id": "#006",
+      "date": "24/10/2023",
+      "time": "16:00",
+      "delivererName": "Raúl Méndez",
+      "delivererId": "RM",
+      "vehicleType": "Moto",
+      "vehiclePlate": "X1W-445",
+      "cargo": "1 balón",
+      "destination": "Av. Grau 200",
+      "status": "No entregado",
+      "eta": "16:00",
+      "realTime": null
+    }
+  ],
+  "distributorDeliverers": [
+    {
+      "id": "JL",
+      "name": "Juan López",
+      "vehiclePlate": "A38-210",
+      "vehicleType": "Moto",
+      "status": "En ruta",
+      "lat": -12.0464,
+      "lng": -77.0428
+    },
+    {
+      "id": "PS",
+      "name": "Pedro Salas",
+      "vehiclePlate": "C5R-982",
+      "vehicleType": "Camioneta",
+      "status": "Completado",
+      "lat": -12.06,
+      "lng": -77.0375
+    },
+    {
+      "id": "RM",
+      "name": "Raúl Méndez",
+      "vehiclePlate": "X1W-445",
+      "vehicleType": "Moto",
+      "status": "Sin señal",
+      "lat": null,
+      "lng": null
+    }
   ]
 }
