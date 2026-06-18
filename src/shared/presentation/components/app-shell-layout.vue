@@ -9,12 +9,9 @@ const route = useRoute()
 const enterpriseNav = [
   { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
   { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad/empresa/active-alerts', matchPrefix: '/seguridad/empresa' },
-  { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
   { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
   { label: 'Distribución', icon: 'pi pi-truck', to: '/empresa/distribucion/repartos-del-dia', matchPrefix: '/empresa/distribucion' },
   { label: 'Reportes', icon: 'pi pi-chart-bar', to: '/reportes/generar', matchPrefix: '/reportes' },
-  { label: 'Mantenimiento', icon: 'pi pi-wrench', to: '#' },
-  { label: 'Administración', icon: 'pi pi-cog', to: '#' },
 ]
 
 const distributorNav = [
