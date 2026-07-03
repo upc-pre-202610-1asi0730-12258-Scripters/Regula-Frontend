@@ -7,33 +7,37 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const enterpriseNav = [
-  { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-  { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '#' },
-  { label: 'Incidencias', icon: 'pi pi-exclamation-circle', to: '#' },
+  { label: 'Dashboard', icon: 'pi pi-th-large', to: '/dashboard/empresa', matchPrefix: '/dashboard/empresa' },
+  { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad/empresa/active-alerts', matchPrefix: '/seguridad/empresa' },
   { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
-  { label: 'Distribución', icon: 'pi pi-truck', to: '#' },
-  { label: 'Reportes', icon: 'pi pi-chart-bar', to: '#' },
-  { label: 'Mantenimiento', icon: 'pi pi-wrench', to: '#' },
-  { label: 'Administración', icon: 'pi pi-cog', to: '#' },
+  { label: 'Distribución', icon: 'pi pi-truck', to: '/empresa/distribucion/repartos-del-dia', matchPrefix: '/empresa/distribucion' },
+  { label: 'Reportes', icon: 'pi pi-chart-bar', to: '/reportes/generar', matchPrefix: '/reportes' },
 ]
 
 const distributorNav = [
-  { label: 'Dashboard', icon: 'pi pi-th-large', to: '#' },
-  { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '#' },
+  { label: 'Dashboard', icon: 'pi pi-th-large', to: '/dashboard/distribuidor', matchPrefix: '/dashboard/distribuidor' },
+  { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad/distribuidor/active-alerts', matchPrefix: '/seguridad/distribuidor' },
   { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
-  { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '#' },
-  { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '#' },
-  { label: 'Fiados y Cobranzas', icon: 'pi pi-wallet', to: '#' },
-  { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '#' },
+  { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '/distribucion/entregas-del-dia', matchPrefix: '/distribucion' },
+  { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '/comercial/ventas', matchPrefix: '/comercial/ventas' },
+  { label: 'Deudas y Cobranzas', icon: 'pi pi-wallet', to: '/comercial/deudas', matchPrefix: '/comercial/deudas' },
+  { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '/distribuidor/reportes/generar', matchPrefix: '/distribuidor/reportes' },
 ]
 
 const preset = computed(() => {
   if (route.meta?.shellPreset) {
     return route.meta.shellPreset
   }
-  if (route.name === 'inventory-distributor') {
+
+  if (
+      route.name === 'distributor-dashboard' ||
+      route.name === 'inventory-distributor' ||
+      route.name === 'commercial-sales-distributor' ||
+      route.name === 'commercial-debts-distributor'
+  ) {
     return 'distributor'
   }
+
   return 'enterprise'
 })
 
