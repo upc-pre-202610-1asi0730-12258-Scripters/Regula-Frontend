@@ -1,5 +1,4 @@
 ﻿<script setup>
-import Button from 'primevue/button'
 import InventoryStockCard from '@/inventory-management/presentation/components/inventory-stock-card.vue'
 
 defineProps({
@@ -8,6 +7,8 @@ defineProps({
     required: true,
   },
 })
+
+const emit = defineEmits(['registrar-entrada'])
 </script>
 
 <template>
@@ -20,17 +21,6 @@ defineProps({
           Actualiza en tiempo real
         </div>
       </div>
-      <span
-          v-tooltip.bottom="'Descarga el estado actual del stock de tu local en PDF o Excel cuando activemos reportes'"
-      >
-        <Button
-            label="Descargar Reporte"
-            icon="pi pi-download"
-            severity="secondary"
-            outlined
-            class="inv-dist__download"
-        />
-      </span>
     </div>
 
     <div class="inv-dist__grid">
@@ -44,6 +34,7 @@ defineProps({
           :accent="card.accent"
           :footer-hint="card.footerHint"
           :show-registrar-entrada="card.showRegistrarEntrada"
+          @registrar-entrada="emit('registrar-entrada')"
       />
     </div>
 
@@ -87,20 +78,6 @@ defineProps({
   box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
 }
 
-.inv-dist__download :deep(.p-button) {
-  border: 1.5px solid var(--regula-navy);
-  color: var(--regula-navy);
-  background: transparent;
-  font-weight: 600;
-  border-radius: var(--regula-radius-btn);
-  min-height: 44px;
-}
-
-.inv-dist__download :deep(.p-button:hover) {
-  background: var(--regula-navy);
-  color: var(--regula-white);
-}
-
 .inv-dist__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -129,15 +106,6 @@ defineProps({
   .inv-dist__head {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .inv-dist__download {
-    width: 100%;
-  }
-
-  .inv-dist__download :deep(.p-button) {
-    width: 100%;
-    justify-content: center;
   }
 }
 </style>

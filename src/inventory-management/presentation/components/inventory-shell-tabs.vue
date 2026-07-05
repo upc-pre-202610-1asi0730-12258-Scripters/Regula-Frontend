@@ -1,7 +1,7 @@
 ﻿<script setup>
 import TabPanel from 'primevue/tabpanel'
 import TabView from 'primevue/tabview'
-import { onMounted, ref } from 'vue'
+import { onMounted, watch } from 'vue'
 
 const props = defineProps({
   panels: {
@@ -12,7 +12,7 @@ const props = defineProps({
 
 const emit = defineEmits(['section-change'])
 
-const activeIndex = ref(0)
+const activeIndex = defineModel('activeIndex', { default: 0 })
 
 function emitSection(index) {
   const p = props.panels[index]
@@ -21,12 +21,12 @@ function emitSection(index) {
   }
 }
 
-function onTabChange(event) {
-  emitSection(event.index)
-}
+watch(activeIndex, (index) => {
+  emitSection(index)
+})
 
 onMounted(() => {
-  emitSection(0)
+  emitSection(activeIndex.value)
 })
 </script>
 
@@ -35,7 +35,6 @@ onMounted(() => {
       v-model:activeIndex="activeIndex"
       class="inv-shell-tabs"
       :scrollable="true"
-      @tab-change="onTabChange"
   >
     <TabPanel v-for="panel in panels" :key="panel.key">
       <template #header>

@@ -1,47 +1,32 @@
 ﻿<script setup>
 import useInventoryStore from '@/inventory-management/application/inventory.store.js'
 import CylinderTypePicker from '@/inventory-management/presentation/components/cylinder-type-picker.vue'
-import { pickWeightsMap } from '@/inventory-management/infrastructure/movement-reference.helper.js'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import InputNumber from 'primevue/inputnumber'
 import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
-import Select from 'primevue/select'
+import InputText from 'primevue/inputtext'
+import { useToast } from 'primevue/usetoast'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const store = useInventoryStore()
-const { providers, stockKgMaps } = storeToRefs(store)
+const toast = useToast()
+const { distributorAvailableByKg } = storeToRefs(store)
 
 const selectedKg = ref(null)
 const quantity = ref(null)
-const providerId = ref(null)
+const providerName = ref('')
+const saving = ref(false)
 const weightOptions = computed(() => [
   { key: '5', title: t('inventory.forms.weights.kg5'), subtitle: t('inventory.forms.weights.domestic') },
   { key: '10', title: t('inventory.forms.weights.kg10'), subtitle: t('inventory.forms.weights.standard') },
   { key: '15', title: t('inventory.forms.weights.kg15'), subtitle: t('inventory.forms.weights.commercial') },
   { key: '45', title: t('inventory.forms.weights.kg45'), subtitle: t('inventory.forms.weights.industrial') },
 ])
-
-const weightsMap = computed(() => pickWeightsMap(stockKgMaps.value, 'distributorEntry'))
-
-onMounted(() => {
-  store.fetchProviders()
-  store.fetchStockKgMaps()
-})
-
-watch(
-    providers,
-    (list) => {
-      if (!providerId.value && list.length) {
-        providerId.value = list[0].id
-      }
-    },
-    { immediate: true },
-)
 
 const selectedLabel = computed(() => {
   const opt = weightOptions.value.find((w) => w.key === selectedKg.value)
@@ -52,7 +37,7 @@ const currentStock = computed(() => {
   if (!selectedKg.value) {
     return null
   }
-  return weightsMap.value[selectedKg.value] ?? null
+  return distributorAvailableByKg.value[selectedKg.value] ?? 0
 })
 
 const newStock = computed(() => {
@@ -62,20 +47,45 @@ const newStock = computed(() => {
   return Number(currentStock.value) + Number(quantity.value)
 })
 
-const providerName = computed(() => {
-  const p = providers.value.find((x) => x.id === providerId.value)
-  return p?.name || '—'
-})
+const canSave = computed(() =>
+    selectedKg.value && Number(quantity.value) > 0 && providerName.value.trim().length > 0
+)
 
 function resetForm() {
   selectedKg.value = null
   quantity.value = null
-  if (providers.value.length) {
-    providerId.value = providers.value[0].id
-  }
+  providerName.value = ''
 }
 
-function saveEntry() {}
+function saveEntry() {
+  if (!canSave.value) return
+  saving.value = true
+  store.registerDistributorEntry({
+    kgKey: selectedKg.value,
+    quantity: quantity.value,
+    providerName: providerName.value,
+  })
+      .then(() => {
+        toast.add({
+          severity: 'success',
+          summary: t('inventory.forms.common.saveEntry'),
+          detail: `+${quantity.value} · ${selectedLabel.value}`,
+          life: 3500,
+        })
+        resetForm()
+      })
+      .catch((error) => {
+        toast.add({
+          severity: 'error',
+          summary: 'No se pudo registrar la entrada',
+          detail: error.response?.data?.detail || error.message,
+          life: 4000,
+        })
+      })
+      .finally(() => {
+        saving.value = false
+      })
+}
 </script>
 
 <template>
@@ -116,12 +126,9 @@ function saveEntry() {}
 
         <div class="dre-field dre-field--full">
           <label class="dre-label" for="dre-prov">{{ t('inventory.forms.distEntry.provider') }} *</label>
-          <Select
+          <InputText
               id="dre-prov"
-              v-model="providerId"
-              :options="providers"
-              option-label="name"
-              option-value="id"
+              v-model="providerName"
               :placeholder="t('inventory.forms.distEntry.providerPh')"
               class="dre-select"
           />
@@ -173,6 +180,8 @@ function saveEntry() {}
               icon="pi pi-lock"
               type="button"
               class="dre-save"
+              :loading="saving"
+              :disabled="!canSave"
               @click="saveEntry"
           />
         </div>

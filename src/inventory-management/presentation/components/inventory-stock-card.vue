@@ -32,6 +32,8 @@ const props = defineProps({
   },
 })
 
+const emit = defineEmits(['registrar-entrada'])
+
 const accentMap = {
   danger: {
     border: '#ef4444',
@@ -84,7 +86,7 @@ const theme = () => accentMap[props.accent] || accentMap.success
 
     <div v-if="showRegistrarEntrada" class="inv-stock-card__actions">
       <span v-tooltip.bottom="'Registra balones que ingresan a tu local para mantener el stock al día'">
-        <Button label="Registrar entrada" icon="pi pi-plus" class="inv-stock-card__cta" />
+        <Button label="Registrar entrada" icon="pi pi-plus" class="inv-stock-card__cta" @click="emit('registrar-entrada')" />
       </span>
     </div>
   </article>

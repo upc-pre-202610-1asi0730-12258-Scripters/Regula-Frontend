@@ -1,23 +1,25 @@
 ﻿<script setup>
 import useInventoryStore from '@/inventory-management/application/inventory.store.js'
 import CylinderTypePicker from '@/inventory-management/presentation/components/cylinder-type-picker.vue'
-import { pickWeightsMap } from '@/inventory-management/infrastructure/movement-reference.helper.js'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import InputNumber from 'primevue/inputnumber'
 import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
+import { useToast } from 'primevue/usetoast'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const store = useInventoryStore()
-const { stockKgMaps } = storeToRefs(store)
+const toast = useToast()
+const { distributorAvailableByKg } = storeToRefs(store)
 
 const selectedKg = ref(null)
 const quantity = ref(null)
 const exitKind = ref(null)
+const saving = ref(false)
 const weightOptions = computed(() => [
   { key: '5', title: t('inventory.forms.weights.kg5'), subtitle: t('inventory.forms.weights.domestic') },
   { key: '10', title: t('inventory.forms.weights.kg10'), subtitle: t('inventory.forms.weights.standard') },
@@ -31,17 +33,11 @@ const exitKindOptions = computed(() => [
   { key: 'devol', title: t('inventory.forms.distExit.returnSupplier'), icon: 'pi pi-replay' },
 ])
 
-const weightsMap = computed(() => pickWeightsMap(stockKgMaps.value, 'distributorExit'))
-
-onMounted(() => {
-  store.fetchStockKgMaps()
-})
-
 const stockAvailable = computed(() => {
   if (!selectedKg.value) {
     return null
   }
-  return weightsMap.value[selectedKg.value] ?? null
+  return distributorAvailableByKg.value[selectedKg.value] ?? 0
 })
 
 const newStock = computed(() => {
@@ -61,13 +57,48 @@ const exitKindLabel = computed(() => {
   return o?.title || '—'
 })
 
+const canSave = computed(() =>
+    selectedKg.value &&
+    Number(quantity.value) > 0 &&
+    exitKind.value &&
+    Number(quantity.value) <= Number(stockAvailable.value ?? 0)
+)
+
 function resetForm() {
   selectedKg.value = null
   quantity.value = null
   exitKind.value = null
 }
 
-function saveExit() {}
+function saveExit() {
+  if (!canSave.value) return
+  saving.value = true
+  store.registerDistributorExit({
+    kgKey: selectedKg.value,
+    quantity: quantity.value,
+    exitKind: exitKind.value,
+  })
+      .then(() => {
+        toast.add({
+          severity: 'success',
+          summary: t('inventory.forms.common.saveExit'),
+          detail: `-${quantity.value} · ${selectedKgLabel.value}`,
+          life: 3500,
+        })
+        resetForm()
+      })
+      .catch((error) => {
+        toast.add({
+          severity: 'error',
+          summary: 'No se pudo registrar la salida',
+          detail: error.response?.data?.detail || error.message,
+          life: 4000,
+        })
+      })
+      .finally(() => {
+        saving.value = false
+      })
+}
 </script>
 
 <template>
@@ -160,6 +191,8 @@ function saveExit() {}
               icon="pi pi-save"
               type="button"
               class="dxe-save"
+              :loading="saving"
+              :disabled="!canSave"
               @click="saveExit"
           />
         </div>

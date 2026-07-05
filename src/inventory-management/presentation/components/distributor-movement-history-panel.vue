@@ -21,8 +21,8 @@ const keyword = ref('')
 const defaults = () => ({
   tipo: '',
   tipoBalon: '',
-  dateFrom: '2024-06-01',
-  dateTo: '2024-06-30',
+  dateFrom: '',
+  dateTo: '',
   responsable: '',
   buscar: '',
 })

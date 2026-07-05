@@ -7,7 +7,7 @@ import DistributorMovementHistoryPanel from '@/inventory-management/presentation
 import InventoryShellTabs from '@/inventory-management/presentation/components/inventory-shell-tabs.vue'
 import ProgressSpinner from 'primevue/progressspinner'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -21,8 +21,14 @@ const panels = computed(() => [
   { key: 'historial', header: t('inventory.tabs.history') },
 ])
 
+const activeTabIndex = ref(0)
+
 function onSectionChange({ key }) {
   store.setInventorySectionKey(key)
+}
+
+function goToEntryTab() {
+  activeTabIndex.value = panels.value.findIndex((p) => p.key === 'entrada')
 }
 
 onMounted(() => {
@@ -32,13 +38,13 @@ onMounted(() => {
 
 <template>
   <div class="dist-inv">
-    <InventoryShellTabs :panels="panels" @section-change="onSectionChange">
+    <InventoryShellTabs v-model:active-index="activeTabIndex" :panels="panels" @section-change="onSectionChange">
       <template #stock>
         <div v-if="!distributorLoaded" class="dist-inv__loading">
           <ProgressSpinner stroke-width="4" style="width: 42px; height: 42px" />
           <span>{{ t('common.loadingStock') }}</span>
         </div>
-        <InventoryDistributorStockPanel v-else :cards="distributorCards" />
+        <InventoryDistributorStockPanel v-else :cards="distributorCards" @registrar-entrada="goToEntryTab" />
       </template>
 
       <template #entrada>
