@@ -1,15 +1,27 @@
 ﻿<script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useIamStore } from '@/iam/application/iam.store.js'
 
 const route = useRoute()
+const router = useRouter()
+const iamStore = useIamStore()
+const { t } = useI18n()
 
-const title = computed(() => route.meta?.pageTitle || '')
+const title = computed(() => {
+  const key = route.meta?.pageTitleKey
+  return key ? t(key) : ''
+})
 
-const avatarUrl =
-    'https://ui-avatars.com/api/?name=Usuario&background=e8ecf0&color=172d40&size=128'
+const avatarUrl = computed(() => {
+  const name = iamStore.currentUsername || t('shared.nav.distributorFallback')
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=e8ecf0&color=172d40&size=128`
+})
 
-function noop() {}
+function signOut() {
+  iamStore.signOut(router)
+}
 </script>
 
 <template>
@@ -23,21 +35,10 @@ function noop() {}
         <div class="regula-navbar__quick-actions">
           <button
               type="button"
-              class="regula-navbar__icon-btn"
-              aria-label="Ver alertas y notificaciones operativas"
-              v-tooltip.bottom="'Revisa alertas de inventario y seguridad (próximamente)'"
-              @click="noop"
-          >
-            <i class="pi pi-bell" aria-hidden="true" />
-            <span class="regula-navbar__badge" aria-hidden="true" />
-          </button>
-
-          <button
-              type="button"
               class="regula-navbar__avatar-btn"
-              aria-label="Abrir menú de tu cuenta"
-              v-tooltip.bottom="'Tu cuenta y preferencias (activamos rutas en la siguiente versión)'"
-              @click="noop"
+              :aria-label="t('shared.sidebar.signOut')"
+              v-tooltip.bottom="t('shared.sidebar.signOut')"
+              @click="signOut"
           >
             <img class="regula-navbar__avatar" :src="avatarUrl" width="40" height="40" alt="" />
           </button>
@@ -95,35 +96,6 @@ function noop() {}
   align-items: center;
   gap: 0.65rem;
   flex-shrink: 0;
-}
-
-.regula-navbar__icon-btn {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--regula-radius-btn);
-  border: 1px solid var(--regula-gray-light);
-  background: var(--regula-white);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--regula-gray-mid);
-  flex-shrink: 0;
-}
-
-.regula-navbar__icon-btn:hover {
-  border-color: var(--regula-steel);
-}
-
-.regula-navbar__badge {
-  position: absolute;
-  top: 10px;
-  right: 11px;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--regula-orange-alert);
 }
 
 .regula-navbar__avatar-btn {

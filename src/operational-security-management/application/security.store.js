@@ -4,9 +4,6 @@ import { SecurityApi } from '../infrastructure/security-api.js'
 import { AlertAssembler } from '../infrastructure/alert.assembler.js'
 import { SensorAssembler } from '../infrastructure/sensor.assembler.js'
 import { RouteDeviationAssembler } from '../infrastructure/route-deviation.assembler.js'
-import { ZoneAnalysisAssembler } from '../infrastructure/zone-analysis.assembler.js'
-import { WarehouseAssembler } from '../infrastructure/warehouse.assembler.js'
-import { CompanyAlertAssembler } from '../infrastructure/company-alert.assembler.js'
 
 const securityApi = new SecurityApi()
 
@@ -16,18 +13,12 @@ export const useSecurityStore = defineStore('security', () => {
     const sensors = ref([])
     const sensorsMetadata = ref(null)
     const routeDeviations = ref([])
-    const zones = ref([])
-    const warehouses = ref([])
-    const companyAlerts = ref([])
 
     const errors = ref([])
 
     const alertsLoaded = ref(false)
     const sensorsLoaded = ref(false)
     const routeDeviationsLoaded = ref(false)
-    const zonesLoaded = ref(false)
-    const warehousesLoaded = ref(false)
-    const companyAlertsLoaded = ref(false)
 
     //ALERTAS ACTIVAS
     const activeAlerts = computed(() =>
@@ -94,63 +85,17 @@ export const useSecurityStore = defineStore('security', () => {
             })
     }
 
-    //--ZONE ANALYSIS----
-
-    function fetchZoneAnalysis() {
-        securityApi.getZoneAnalysis()
-            .then(response => {
-                zones.value = ZoneAnalysisAssembler.toEntitiesFromResponse(response)
-                zonesLoaded.value = true
-            })
-            .catch(error => {
-                errors.value.push(error)
-            })
-    }
-
-    //---WAREHOUSES---
-
-    function fetchWarehouses() {
-        securityApi.getWarehouses()
-            .then(response => {
-                warehouses.value = WarehouseAssembler.toEntitiesFromResponse(response)
-
-                warehousesLoaded.value = true
-            })
-            .catch(error => {
-                errors.value.push(error)
-            })
-    }
-
-    //COMPANY ALERTS
-
-    function fetchCompanyAlerts() {
-        securityApi.getCompanyAlerts()
-            .then(response => {
-                companyAlerts.value = CompanyAlertAssembler.toEntitiesFromResponse(response)
-                companyAlertsLoaded.value = true
-            })
-            .catch(error => {
-                errors.value.push(error)
-            })
-    }
-
     return {
         alerts,
         sensors,
         sensorsMetadata,
         routeDeviations,
-        zones,
-        warehouses,
-        companyAlerts,
 
         errors,
 
         alertsLoaded,
         sensorsLoaded,
         routeDeviationsLoaded,
-        zonesLoaded,
-        warehousesLoaded,
-        companyAlertsLoaded,
 
         activeAlerts,
         alertHistory,
@@ -161,8 +106,5 @@ export const useSecurityStore = defineStore('security', () => {
         fetchAlerts,
         fetchSensorsData,
         fetchRouteDeviations,
-        fetchZoneAnalysis,
-        fetchWarehouses,
-        fetchCompanyAlerts
     }
 })

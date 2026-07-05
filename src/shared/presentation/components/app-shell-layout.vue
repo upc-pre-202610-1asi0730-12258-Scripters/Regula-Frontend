@@ -1,65 +1,30 @@
 ﻿<script setup>
 import AppNavbar from '@/shared/presentation/components/app-navbar.vue'
 import AppSidebar from '@/shared/presentation/components/app-sidebar.vue'
+import { useIamStore } from '@/iam/application/iam.store.js'
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const route = useRoute()
+const iamStore = useIamStore()
+const { t } = useI18n()
 
-const enterpriseNav = [
-  { label: 'Dashboard', icon: 'pi pi-th-large', to: '/dashboard/empresa', matchPrefix: '/dashboard/empresa' },
-  { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad/empresa/active-alerts', matchPrefix: '/seguridad/empresa' },
-  { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/empresa', matchPrefix: '/inventario/empresa' },
-  { label: 'Distribución', icon: 'pi pi-truck', to: '/empresa/distribucion/repartos-del-dia', matchPrefix: '/empresa/distribucion' },
-  { label: 'Reportes', icon: 'pi pi-chart-bar', to: '/reportes/generar', matchPrefix: '/reportes' },
-]
+const navigationItems = computed(() => [
+  { label: t('shared.nav.dashboard'), icon: 'pi pi-th-large', to: '/dashboard/distribuidor', matchPrefix: '/dashboard/distribuidor' },
+  { label: t('shared.nav.inventory'), icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
+  { label: t('shared.nav.distribution'), icon: 'pi pi-truck', to: '/distribucion/entregas-del-dia', matchPrefix: '/distribucion' },
+  { label: t('shared.nav.sales'), icon: 'pi pi-shopping-cart', to: '/comercial/ventas', matchPrefix: '/comercial/ventas' },
+])
 
-const distributorNav = [
-  { label: 'Dashboard', icon: 'pi pi-th-large', to: '/dashboard/distribuidor', matchPrefix: '/dashboard/distribuidor' },
-  { label: 'Alertas y Seguridad', icon: 'pi pi-shield', to: '/seguridad/distribuidor/active-alerts', matchPrefix: '/seguridad/distribuidor' },
-  { label: 'Inventario', icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
-  { label: 'Distribución / Entregas', icon: 'pi pi-truck', to: '/distribucion/entregas-del-dia', matchPrefix: '/distribucion' },
-  { label: 'Ventas', icon: 'pi pi-shopping-cart', to: '/comercial/ventas', matchPrefix: '/comercial/ventas' },
-  { label: 'Deudas y Cobranzas', icon: 'pi pi-wallet', to: '/comercial/deudas', matchPrefix: '/comercial/deudas' },
-  { label: 'Reportes y Análisis', icon: 'pi pi-chart-line', to: '/distribuidor/reportes/generar', matchPrefix: '/distribuidor/reportes' },
-]
-
-const preset = computed(() => {
-  if (route.meta?.shellPreset) {
-    return route.meta.shellPreset
+const profile = computed(() => {
+  const name = iamStore.currentUsername || t('shared.nav.distributorFallback')
+  return {
+    name,
+    subtitle: t('shared.nav.distributorFallback'),
+    avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=e2e8f0&color=0f172a&size=128`,
   }
-
-  if (
-      route.name === 'distributor-dashboard' ||
-      route.name === 'inventory-distributor' ||
-      route.name === 'commercial-sales-distributor' ||
-      route.name === 'commercial-debts-distributor'
-  ) {
-    return 'distributor'
-  }
-
-  return 'enterprise'
 })
-
-const navigationItems = computed(() =>
-    preset.value === 'distributor' ? distributorNav : enterpriseNav,
-)
-
-const profile = computed(() =>
-    preset.value === 'distributor'
-        ? {
-          name: 'Carlos Mendoza',
-          subtitle: 'Distribuidor',
-          avatarUrl:
-              'https://ui-avatars.com/api/?name=Carlos+Mendoza&background=e2e8f0&color=0f172a&size=128',
-        }
-        : {
-          name: 'Admin User',
-          subtitle: 'admin@regula.com',
-          avatarUrl:
-              'https://ui-avatars.com/api/?name=Admin+User&background=e2e8f0&color=0f172a&size=128',
-        },
-)
 
 const brandLabel = 'REGULA'
 
@@ -93,17 +58,17 @@ watch(
 
 <template>
   <div class="regula-shell">
-    <header class="regula-mobile-header" aria-label="Barra móvil">
+    <header class="regula-mobile-header" :aria-label="t('shared.shell.mobileBar')">
       <button
           type="button"
           class="regula-mobile-header__toggle"
           :aria-expanded="navOpen"
           aria-controls="regula-app-navigation"
-          v-tooltip.bottom="'Abre el menú principal: Dashboard, inventario y más'"
+          v-tooltip.bottom="t('shared.shell.openMenuTooltip')"
           @click="toggleMobileNav"
       >
         <i class="pi pi-bars" aria-hidden="true" />
-        <span class="regula-sr-only">Abrir o cerrar menú principal</span>
+        <span class="regula-sr-only">{{ t('shared.shell.toggleMenu') }}</span>
       </button>
       <span class="regula-mobile-header__brand">{{ brandLabel }}</span>
     </header>

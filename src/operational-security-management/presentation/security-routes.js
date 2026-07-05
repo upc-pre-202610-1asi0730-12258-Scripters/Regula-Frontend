@@ -1,50 +1,6 @@
 export const securityRoutes = [
 
   // ========================
-  // EMPRESA
-  // ========================
-  {
-    path: 'empresa',
-    component: () =>
-        import('./views/company-operational-security.view.vue'),
-
-    redirect: { name: 'company-active-alerts' },
-
-    meta: {
-      shellPreset: 'enterprise',
-      pageTitle: 'Seguridad',
-      breadcrumbs: ['Regula', 'Seguridad'],
-      title: 'Seguridad · Empresa · REGULA'
-    },
-
-    children: [
-      {
-        path: 'active-alerts',
-        name: 'company-active-alerts',
-        component: () => import('./views/active-alerts.view.vue')
-      },
-      {
-        path: 'company-alert-history',
-        name: 'company-alert-history',
-        component: () =>
-            import('./views/company-alerts-history.view.vue')
-      },
-      {
-        path: 'warehouse-status',
-        name: 'warehouse-status',
-        component: () =>
-            import('./views/warehouse-status.view.vue')
-      },
-      {
-        path: 'zone-analysis',
-        name: 'zone-analysis',
-        component: () =>
-            import('./views/zone-analysis.view.vue')
-      }
-    ]
-  },
-
-  // ========================
   // DISTRIBUIDOR
   // ========================
   {

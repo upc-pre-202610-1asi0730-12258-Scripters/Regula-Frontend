@@ -1,7 +1,6 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 import Toast from 'primevue/toast'
 
 import { useAnalyticsStore }    from '@/operational-analytics/application/analytics.store.js'
@@ -9,32 +8,12 @@ import { useAnalyticsUiStore }  from '@/operational-analytics/application/analyt
 import { ReportConfigAssembler } from '@/operational-analytics/infrastructure/report-config.assembler.js'
 
 const { t }  = useI18n()
-const route = useRoute()
 
 const analyticsStore   = useAnalyticsStore()
 const analyticsUiStore = useAnalyticsUiStore()
 
-const isDistributorReports = computed(() =>
-    route.meta?.shellPreset === 'distributor' ||
-    String(route.name ?? '').startsWith('distributor-')
-)
-
-const generateReportPath = computed(() =>
-    isDistributorReports.value ? '/distribuidor/reportes/generar' : '/reportes/generar'
-)
-
-const securityTrendsPath = computed(() =>
-    isDistributorReports.value ? '/distribuidor/reportes/tendencias' : '/reportes/tendencias'
-)
-const isDistributorReportRoute =
-    route.meta?.shellPreset === 'distributor' ||
-    String(route.name ?? '').startsWith('distributor-')
-
-const isEnterprise = sessionStorage.getItem('regula_role') !== 'distributor'
-
-if (!isEnterprise && !isDistributorReportRoute) {
-  router.replace({ name: 'role-select' })
-}
+const generateReportPath = '/distribuidor/reportes/generar'
+const securityTrendsPath = '/distribuidor/reportes/tendencias'
 
 const selectedModule = ref('inventory')
 const selectedPeriod = ref('lastWeek')

@@ -1,6 +1,7 @@
 ﻿<script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useIamStore } from '@/iam/application/iam.store.js'
 
 defineProps({
   brandLabel: {
@@ -25,6 +26,7 @@ const emit = defineEmits(['interact'])
 
 const route = useRoute()
 const router = useRouter()
+const iamStore = useIamStore()
 const { locale, t } = useI18n()
 
 function setLocale(code) {
@@ -43,8 +45,7 @@ function isActive(item) {
 
 function logout() {
   emit('interact')
-  sessionStorage.removeItem('regula_role')
-  router.push({ name: 'role-select' })
+  iamStore.signOut(router)
 }
 
 function onNavInteract() {
@@ -57,13 +58,13 @@ function onNavInteract() {
       id="regula-app-navigation"
       class="regula-sidebar"
       :class="{ 'regula-sidebar--open': mobileOpen }"
-      aria-label="Navegación principal"
+      :aria-label="t('shared.sidebar.mainNav')"
   >
     <div class="regula-sidebar__brand">
       {{ brandLabel }}
     </div>
 
-    <nav class="regula-sidebar__nav" aria-label="Secciones">
+    <nav class="regula-sidebar__nav" :aria-label="t('shared.sidebar.sections')">
       <template v-for="item in items" :key="item.label">
         <button
             v-if="item.to === '#'"
@@ -89,8 +90,8 @@ function onNavInteract() {
     </nav>
 
     <div class="regula-sidebar__footer">
-      <div class="regula-sidebar__lang" role="group" :aria-label="t('inventory.sidebar.language')">
-        <span class="regula-sidebar__lang-label">{{ t('inventory.sidebar.language') }}</span>
+      <div class="regula-sidebar__lang" role="group" :aria-label="t('shared.sidebar.language')">
+        <span class="regula-sidebar__lang-label">{{ t('shared.sidebar.language') }}</span>
         <div class="regula-sidebar__lang-row">
           <button
               type="button"
@@ -98,7 +99,7 @@ function onNavInteract() {
               :class="{ 'regula-sidebar__lang-btn--active': locale === 'es' }"
               @click="setLocale('es')"
           >
-            {{ t('inventory.sidebar.spanish') }}
+            {{ t('shared.sidebar.spanish') }}
           </button>
           <button
               type="button"
@@ -106,7 +107,7 @@ function onNavInteract() {
               :class="{ 'regula-sidebar__lang-btn--active': locale === 'en' }"
               @click="setLocale('en')"
           >
-            {{ t('inventory.sidebar.english') }}
+            {{ t('shared.sidebar.english') }}
           </button>
         </div>
       </div>
@@ -114,12 +115,12 @@ function onNavInteract() {
       <button
           type="button"
           class="regula-sidebar__logout"
-          aria-label="Cerrar sesión y volver a elegir perfil"
-          v-tooltip.bottom="'Cierra tu sesión y vuelve a elegir Empresa o Distribuidor'"
+          :aria-label="t('shared.sidebar.signOut')"
+          v-tooltip.bottom="t('shared.sidebar.signOut')"
           @click="logout"
       >
         <i class="pi pi-sign-out" aria-hidden="true" />
-        <span>Cerrar sesión</span>
+        <span>{{ t('shared.sidebar.signOut') }}</span>
       </button>
       <div class="regula-sidebar__user">
         <img

@@ -1,22 +1,10 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { useSecurityTrendsStore } from '@/operational-analytics/application/security-trends.store.js'
-import { useRoute } from 'vue-router'
 const store = useSecurityTrendsStore()
-const route = useRoute()
 
-const isDistributorReports = computed(() =>
-    route.meta?.shellPreset === 'distributor' ||
-    String(route.name ?? '').startsWith('distributor-')
-)
-
-const generateReportPath = computed(() =>
-    isDistributorReports.value ? '/distribuidor/reportes/generar' : '/reportes/generar'
-)
-
-const securityTrendsPath = computed(() =>
-    isDistributorReports.value ? '/distribuidor/reportes/tendencias' : '/reportes/tendencias'
-)
+const generateReportPath = '/distribuidor/reportes/generar'
+const securityTrendsPath = '/distribuidor/reportes/tendencias'
 const chartCanvas = ref(null)
 let chartInstance = null
 
