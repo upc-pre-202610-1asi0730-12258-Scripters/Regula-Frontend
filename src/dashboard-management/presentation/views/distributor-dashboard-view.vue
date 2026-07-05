@@ -1,8 +1,12 @@
 <script setup>
 import { onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useDashboardStore } from '@/dashboard-management/application/dashboard.store.js'
+import { useIamStore } from '@/iam/application/iam.store.js'
 
+const { t } = useI18n()
 const dashboardStore = useDashboardStore()
+const iamStore = useIamStore()
 
 onMounted(() => {
   dashboardStore.loadDistributorDashboard()
@@ -19,77 +23,66 @@ function formatCurrency(value) {
 function progressWidth(value) {
   const summary = dashboardStore.distributorDeliverySummary
   const total = Math.max(
-      summary.inRoute + summary.completed + summary.notDelivered,
+      summary.pending + summary.inRoute + summary.completed + summary.notDelivered,
       1,
   )
 
   return `${Math.min((Number(value ?? 0) / total) * 100, 100)}%`
 }
+
+function escapeCsv(value) {
+  const str = String(value ?? '')
+  return `"${str.replaceAll('"', '""')}"`
+}
+
+function exportSalesSummary() {
+  const rows = dashboardStore.salesByCylinderType
+  if (rows.length === 0) return
+
+  const headers = [t('commercial.table.cylinderType'), t('dashboard.salesSummary.cylinders'), t('dashboard.salesSummary.income')]
+  const csvRows = rows.map((item) => [item.label, item.quantity, item.income])
+
+  const csvContent = [headers, ...csvRows]
+      .map((row) => row.map(escapeCsv).join(','))
+      .join('\n')
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `resumen-ventas-${new Date().toISOString().slice(0, 10)}.csv`
+  link.click()
+  URL.revokeObjectURL(url)
+}
 </script>
 
 <template>
   <section class="dashboard-page">
-    <div v-if="dashboardStore.errors.length" class="dashboard-alert dashboard-alert--warning">
+    <div v-if="dashboardStore.hasError" class="dashboard-alert dashboard-alert--warning">
       <i class="pi pi-info-circle" aria-hidden="true" />
-      <span>No se pudieron cargar algunos datos. Verifica que <strong>npm run api</strong> esté activo.</span>
-    </div>
-
-    <div class="dashboard-alert">
-      <i class="pi pi-info-circle" aria-hidden="true" />
-
-      <div>
-        <strong>Aviso del Sistema</strong>
-        <p>
-          Registro posiblemente duplicado detectado en la última carga de inventario.
-          Revise el módulo de incidencias.
-        </p>
-      </div>
-
-      <i class="pi pi-times dashboard-alert__close" aria-hidden="true" />
+      <span>{{ t('dashboard.errorBanner') }}</span>
     </div>
 
     <header class="dashboard-header">
       <div>
-        <h2>Buenos días, Distribuidor</h2>
-        <p>Tu operación al día</p>
+        <h2>{{ t('dashboard.greeting', { name: iamStore.currentUsername || t('shared.nav.distributorFallback') }) }}</h2>
+        <p>{{ t('dashboard.subtitle') }}</p>
       </div>
 
       <span class="dashboard-refresh">
         <i class="pi pi-refresh" aria-hidden="true" />
-        Actualiza automáticamente cada 30 seg.
+        {{ t('dashboard.autoRefresh') }}
       </span>
     </header>
 
     <p v-if="dashboardStore.distributorLoading" class="dashboard-loading">
-      Cargando dashboard...
+      {{ t('dashboard.loading') }}
     </p>
 
     <div class="dashboard-kpis">
       <article class="dashboard-card dashboard-card--kpi">
         <div class="dashboard-card__top">
-          <span>Alertas activas</span>
-          <span class="dashboard-icon dashboard-icon--danger">
-            <i class="pi pi-bell" aria-hidden="true" />
-          </span>
-        </div>
-
-        <strong class="dashboard-kpi-number dashboard-kpi-number--danger">
-          {{ dashboardStore.distributorActiveAlerts.length }}
-        </strong>
-
-        <div class="dashboard-tags">
-          <span class="tag tag--danger">{{ dashboardStore.distributorHighAlerts }} Alta</span>
-          <span class="tag tag--warning">{{ dashboardStore.distributorMediumAlerts }} Media</span>
-        </div>
-
-        <RouterLink to="/seguridad/distribuidor/active-alerts" class="dashboard-link">
-          Ver alertas <i class="pi pi-arrow-right" aria-hidden="true" />
-        </RouterLink>
-      </article>
-
-      <article class="dashboard-card dashboard-card--kpi">
-        <div class="dashboard-card__top">
-          <span>Stock disponible</span>
+          <span>{{ t('dashboard.stock.title') }}</span>
           <span class="dashboard-icon dashboard-icon--info">
             <i class="pi pi-box" aria-hidden="true" />
           </span>
@@ -113,14 +106,22 @@ function progressWidth(value) {
 
       <article class="dashboard-card dashboard-card--kpi">
         <div class="dashboard-card__top">
-          <span>Entregas de hoy</span>
+          <span>{{ t('dashboard.deliveries.title') }}</span>
           <span class="dashboard-icon dashboard-icon--success">
             <i class="pi pi-truck" aria-hidden="true" />
           </span>
         </div>
 
+        <div class="delivery-line delivery-line--muted">
+          <span>{{ t('dashboard.deliveries.pending') }}</span>
+          <strong>{{ dashboardStore.distributorDeliverySummary.pending }}</strong>
+          <div class="progress">
+            <span :style="{ width: progressWidth(dashboardStore.distributorDeliverySummary.pending) }" />
+          </div>
+        </div>
+
         <div class="delivery-line">
-          <span>En ruta</span>
+          <span>{{ t('dashboard.deliveries.enRoute') }}</span>
           <strong>{{ dashboardStore.distributorDeliverySummary.inRoute }}</strong>
           <div class="progress">
             <span :style="{ width: progressWidth(dashboardStore.distributorDeliverySummary.inRoute) }" />
@@ -128,7 +129,7 @@ function progressWidth(value) {
         </div>
 
         <div class="delivery-line delivery-line--success">
-          <span>Completadas</span>
+          <span>{{ t('dashboard.deliveries.completed') }}</span>
           <strong>{{ dashboardStore.distributorDeliverySummary.completed }}</strong>
           <div class="progress">
             <span :style="{ width: progressWidth(dashboardStore.distributorDeliverySummary.completed) }" />
@@ -136,43 +137,19 @@ function progressWidth(value) {
         </div>
 
         <div class="delivery-line delivery-line--muted">
-          <span>No entregadas</span>
+          <span>{{ t('dashboard.deliveries.notDelivered') }}</span>
           <strong>{{ dashboardStore.distributorDeliverySummary.notDelivered }}</strong>
           <div class="progress">
             <span :style="{ width: progressWidth(dashboardStore.distributorDeliverySummary.notDelivered) }" />
           </div>
         </div>
       </article>
-
-      <article class="dashboard-card dashboard-card--kpi">
-        <div class="dashboard-card__top">
-          <span>Deudas pendientes</span>
-          <span class="dashboard-icon dashboard-icon--orange">
-            <i class="pi pi-wallet" aria-hidden="true" />
-          </span>
-        </div>
-
-        <div>
-          <strong class="dashboard-kpi-number">
-            {{ dashboardStore.clientsWithDebt.length }}
-          </strong>
-          <span class="dashboard-muted"> clientes</span>
-        </div>
-
-        <p class="dashboard-debt">
-          {{ formatCurrency(dashboardStore.totalPendingDebt) }} deuda total
-        </p>
-
-        <RouterLink to="/comercial/deudas" class="dashboard-button">
-          Gestionar cobros
-        </RouterLink>
-      </article>
     </div>
 
     <section class="dashboard-card sales-summary-card">
       <div class="sales-summary-card__header">
-        <h3>Resumen de Ventas del Día</h3>
-        <button type="button">Exportar</button>
+        <h3>{{ t('dashboard.salesSummary.title') }}</h3>
+        <button type="button" :disabled="dashboardStore.salesByCylinderType.length === 0" @click="exportSalesSummary">{{ t('dashboard.salesSummary.export') }}</button>
       </div>
 
       <div class="sales-summary-grid">
@@ -181,38 +158,33 @@ function progressWidth(value) {
             :key="item.key"
             class="sales-type-card"
         >
-          <span>Cilindros {{ item.label }}</span>
+          <span>{{ t('dashboard.salesSummary.cylinders') }} {{ item.label }}</span>
           <strong>{{ item.quantity }}</strong>
-          <small>vendidos</small>
+          <small>{{ t('dashboard.salesSummary.sold') }}</small>
 
           <p>
-            Ingreso:
+            {{ t('dashboard.salesSummary.income') }}:
             <b>{{ formatCurrency(item.income) }}</b>
-          </p>
-
-          <p>
-            Devoluciones:
-            <b>{{ item.returns }}</b>
           </p>
         </article>
 
         <article class="sales-total-card">
-          <span>Total Operaciones</span>
+          <span>{{ t('dashboard.salesSummary.totalOperations') }}</span>
           <strong>{{ formatCurrency(dashboardStore.distributorTotalSalesAmount) }}</strong>
 
           <p>
-            Efectivo:
+            {{ t('dashboard.salesSummary.cash') }}:
             <b>{{ formatCurrency(dashboardStore.cashSalesAmount) }}</b>
           </p>
 
           <p>
-            Yape/Plin:
+            {{ t('dashboard.salesSummary.digital') }}:
             <b>{{ formatCurrency(dashboardStore.digitalSalesAmount) }}</b>
           </p>
 
           <p>
-            Crédito:
-            <b>{{ formatCurrency(dashboardStore.creditSalesAmount) }}</b>
+            {{ t('dashboard.salesSummary.transfer') }}:
+            <b>{{ formatCurrency(dashboardStore.transferSalesAmount) }}</b>
           </p>
         </article>
       </div>
@@ -220,7 +192,7 @@ function progressWidth(value) {
       <footer class="stock-footer">
         <span>
           <i class="pi pi-box" aria-hidden="true" />
-          Stock al cierre estimado:
+          {{ t('dashboard.stockFooter') }}
         </span>
 
         <span class="stock-footer__values">
