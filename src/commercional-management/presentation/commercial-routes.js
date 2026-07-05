@@ -1,9 +1,10 @@
 const DistributorSalesView = () =>
     import('./views/distributor-sales-view.vue')
 
-const DistributorDebtsView = () =>
-    import('./views/distributor-debts-view.vue')
-
+// La vista de Deudas y Cobranzas se retiró: el backend no expone GET para
+// listar deudas ni clientes, solo POST de creación (que además requiere un
+// CustomerId ya existente). Sin eso, la pantalla no tenía nada real que
+// mostrar. Se puede reintroducir cuando el backend agregue esos endpoints.
 const commercialRoutes = [
     {
         path: 'ventas',
@@ -11,20 +12,7 @@ const commercialRoutes = [
         component: DistributorSalesView,
         meta: {
             shellPreset: 'distributor',
-            pageTitle: 'Ventas',
-            breadcrumbs: ['Regula', 'Ventas'],
-            title: 'Ventas · REGULA',
-        },
-    },
-    {
-        path: 'deudas',
-        name: 'commercial-debts-distributor',
-        component: DistributorDebtsView,
-        meta: {
-            shellPreset: 'distributor',
-            pageTitle: 'Deudas y Cobranzas',
-            breadcrumbs: ['Regula', 'Deudas y Cobranzas'],
-            title: 'Deudas y Cobranzas · REGULA',
+            pageTitleKey: 'pageTitles.sales',
         },
     },
 ]

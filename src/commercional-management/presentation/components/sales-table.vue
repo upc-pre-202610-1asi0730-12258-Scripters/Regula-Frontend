@@ -1,9 +1,11 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useCommercialStore } from '@/commercional-management/application/commercial.store.js'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 
+const { t } = useI18n()
 const store = useCommercialStore()
 
 const showAdvancedFilters = ref(false)
@@ -126,21 +128,8 @@ function closeSaleDetail() {
 }
 
 function copySaleId(sale) {
-  navigator.clipboard.writeText(sale.id)
+  navigator.clipboard.writeText(String(sale.transactionCode ?? sale.id))
   activeMenuId.value = null
-}
-
-function cancelSale(sale) {
-  activeMenuId.value = null
-
-  const confirmed = window.confirm(`¿Seguro que deseas anular la venta ${sale.id}? Se devolverá el stock y el registro quedará marcado como anulado.`)
-
-  if (!confirmed) return
-
-  store.cancelSale(sale.id)
-      .catch((error) => {
-        window.alert(error.message || 'No se pudo anular la venta.')
-      })
 }
 
 
@@ -158,7 +147,7 @@ function exportSales() {
   ]
 
   const rows = filteredSales.value.map((sale) => [
-    sale.id,
+    sale.transactionCode ?? sale.id,
     sale.time,
     sale.cylinderType,
     sale.quantity,
@@ -207,14 +196,14 @@ function exportSales() {
 
           <InputText
               :model-value="store.searchQuery"
-              placeholder="Buscar cliente o ID..."
+              :placeholder="t('commercial.table.searchPlaceholder')"
               type="search"
               @update:model-value="setSearchQuery"
           />
         </span>
 
         <Button
-            label="Filtros"
+            :label="t('commercial.table.filters')"
             icon="pi pi-filter"
             outlined
             severity="secondary"
@@ -223,7 +212,7 @@ function exportSales() {
         />
 
         <Button
-            label="Exportar"
+            :label="t('commercial.table.export')"
             icon="pi pi-download"
             outlined
             severity="secondary"
@@ -236,7 +225,7 @@ function exportSales() {
 
     <div v-if="showAdvancedFilters" class="sales-table__advanced-filters">
       <div>
-        <label>Tipo de balón</label>
+        <label>{{ t('commercial.table.cylinderType') }}</label>
 
         <div class="sales-table__chip-group">
           <button
@@ -253,7 +242,7 @@ function exportSales() {
       </div>
 
       <div>
-        <label>Cantidad</label>
+        <label>{{ t('commercial.table.quantity') }}</label>
 
         <div class="sales-table__chip-group">
           <button
@@ -270,7 +259,7 @@ function exportSales() {
       </div>
 
       <Button
-          label="Limpiar filtros"
+          :label="t('commercial.table.clearFilters')"
           text
           severity="secondary"
           class="sales-table__clear-btn"
@@ -282,14 +271,14 @@ function exportSales() {
       <table class="sales-table">
         <thead>
         <tr>
-          <th>ID TRANSACCIÓN</th>
-          <th>HORA</th>
-          <th>TIPO BALÓN</th>
-          <th>CANTIDAD</th>
-          <th>TIPO PAGO</th>
-          <th>CLIENTE</th>
-          <th>REPARTIDOR</th>
-          <th>ACCIONES</th>
+          <th>{{ t('commercial.table.columns.id') }}</th>
+          <th>{{ t('commercial.table.columns.time') }}</th>
+          <th>{{ t('commercial.table.columns.cylinder') }}</th>
+          <th>{{ t('commercial.table.columns.quantity') }}</th>
+          <th>{{ t('commercial.table.columns.paymentType') }}</th>
+          <th>{{ t('commercial.table.columns.client') }}</th>
+          <th>{{ t('commercial.table.columns.distributor') }}</th>
+          <th>{{ t('commercial.table.columns.actions') }}</th>
         </tr>
         </thead>
 
@@ -304,7 +293,7 @@ function exportSales() {
             }"
         >
           <td>
-            <strong>{{ sale.id }}</strong>
+            <strong>{{ sale.transactionCode ?? sale.id }}</strong>
             <span v-if="sale.isNew && sale.status !== 'Anulada'" class="sales-table__new-label">NUEVO</span>
             <span v-if="sale.status === 'Anulada'" class="sales-table__canceled-label">ANULADA</span>
           </td>
@@ -341,16 +330,6 @@ function exportSales() {
               <button type="button" @click="copySaleId(sale)">
                 <i class="pi pi-copy" />
                 Copiar ID
-              </button>
-
-              <button
-                  v-if="sale.status !== 'Anulada'"
-                  type="button"
-                  class="sales-table__menu-danger"
-                  @click="cancelSale(sale)"
-              >
-                <i class="pi pi-ban" />
-                Anular venta
               </button>
             </div>
           </td>
@@ -398,7 +377,7 @@ function exportSales() {
         <header>
           <div>
             <p>Detalle de venta</p>
-            <h3>{{ selectedSale.id }}</h3>
+            <h3>{{ selectedSale.transactionCode ?? selectedSale.id }}</h3>
           </div>
 
           <button type="button" @click="closeSaleDetail">
@@ -407,25 +386,25 @@ function exportSales() {
         </header>
 
         <div class="sales-table__detail-grid">
-          <span>Hora</span>
+          <span>{{ t('commercial.table.detail.time') }}</span>
           <strong>{{ selectedSale.time }}</strong>
 
-          <span>Tipo de balón</span>
+          <span>{{ t('commercial.table.detail.cylinder') }}</span>
           <strong>{{ selectedSale.cylinderType }}</strong>
 
-          <span>Cantidad</span>
+          <span>{{ t('commercial.table.detail.quantity') }}</span>
           <strong>{{ selectedSale.quantity }}</strong>
 
-          <span>Tipo de pago</span>
+          <span>{{ t('commercial.table.detail.paymentType') }}</span>
           <strong>{{ selectedSale.paymentType }}</strong>
 
-          <span>Estado</span>
+          <span>{{ t('commercial.table.detail.status') }}</span>
           <strong>{{ selectedSale.status || 'Activa' }}</strong>
 
-          <span>Cliente</span>
+          <span>{{ t('commercial.table.detail.client') }}</span>
           <strong>{{ selectedSale.client }}</strong>
 
-          <span>Repartidor</span>
+          <span>{{ t('commercial.table.detail.distributor') }}</span>
           <strong>{{ selectedSale.distributor }}</strong>
         </div>
       </section>

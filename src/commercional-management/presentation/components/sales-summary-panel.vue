@@ -1,38 +1,40 @@
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useCommercialStore } from '@/commercional-management/application/commercial.store.js'
 
+const { t } = useI18n()
 const store = useCommercialStore()
 const summary = computed(() => store.salesSummary)
 </script>
 
 <template>
   <article class="sales-summary">
-    <h2>Ventas del Día</h2>
+    <h2>{{ t('commercial.summary.title') }}</h2>
 
     <div class="sales-summary__grid">
       <div class="sales-summary__item">
-        <span>5 kg vendidos hoy</span>
+        <span>{{ t('commercial.summary.kg5') }}</span>
         <strong>{{ summary.fiveKg }}</strong>
       </div>
 
       <div class="sales-summary__item">
-        <span>10 kg vendidos hoy</span>
+        <span>{{ t('commercial.summary.kg10') }}</span>
         <strong>{{ summary.tenKg }}</strong>
       </div>
 
       <div class="sales-summary__item">
-        <span>15 kg vendidos hoy</span>
+        <span>{{ t('commercial.summary.kg15') }}</span>
         <strong>{{ summary.fifteenKg }}</strong>
       </div>
 
       <div class="sales-summary__item">
-        <span>45 kg vendidos hoy</span>
+        <span>{{ t('commercial.summary.kg45') }}</span>
         <strong>{{ summary.fortyFiveKg }}</strong>
       </div>
 
       <div class="sales-summary__item">
-        <span>Total operaciones</span>
+        <span>{{ t('commercial.summary.totalOperations') }}</span>
         <strong>{{ summary.totalOperations }}</strong>
       </div>
     </div>

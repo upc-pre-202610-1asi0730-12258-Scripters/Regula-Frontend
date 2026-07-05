@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useCommercialStore } from '@/commercional-management/application/commercial.store.js'
 import RegisterSaleDialog from '@/commercional-management/presentation/components/register-sale-dialog.vue'
 import SalesSummaryPanel from '@/commercional-management/presentation/components/sales-summary-panel.vue'
@@ -7,6 +8,7 @@ import SalesTable from '@/commercional-management/presentation/components/sales-
 import Button from 'primevue/button'
 import ProgressSpinner from 'primevue/progressspinner'
 
+const { t } = useI18n()
 const store = useCommercialStore()
 const showRegisterSaleDialog = ref(false)
 
@@ -25,15 +27,15 @@ onMounted(() => {
   <section class="sales-view">
     <div v-if="!store.loaded" class="sales-view__loading">
       <ProgressSpinner stroke-width="4" style="width: 42px; height: 42px" />
-      <span>Cargando ventas del distribuidor...</span>
+      <span>{{ t('commercial.salesView.loading') }}</span>
     </div>
 
     <template v-else>
       <div class="sales-view__header">
-        <p class="sales-view__eyebrow">Registro de ventas de la jornada</p>
+        <p class="sales-view__eyebrow">{{ t('commercial.salesView.eyebrow') }}</p>
 
         <Button
-            label="Registrar Venta"
+            :label="t('commercial.salesView.registerSale')"
             icon="pi pi-plus"
             class="sales-view__primary-btn"
             @click="openRegisterSaleDialog"

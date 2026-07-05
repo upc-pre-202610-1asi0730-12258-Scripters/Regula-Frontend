@@ -1,66 +1,32 @@
 import { BaseApi } from '@/shared/infrastructure/base-api.js'
 import { BaseEndpoint } from '@/shared/infrastructure/base-endpoint.js'
 
-const commercialCylinderTypesPath = '/commercialCylinderTypes'
-const distributorSalesPath = '/distributorSales'
-const commercialClientsPath = '/commercialClients'
-const commercialDebtMovementsPath = '/commercialDebtMovements'
+const dailySalesPath = '/api/v1/daily-sales'
 
+/**
+ * Infrastructure API service for Commercial Management.
+ *
+ * NOTE: the backend only exposes GET/POST on /api/v1/daily-sales and a
+ * write-only POST on /api/v1/customer-debts (which requires an existing
+ * CustomerId — there is no endpoint to list/create customers). Because of
+ * that, everything related to a cylinder-type catalog with stock, a client
+ * directory, and debt movements (list/pay/cancel) has no real backend
+ * support and was removed rather than left calling endpoints that don't
+ * exist.
+ */
 export class CommercialApi extends BaseApi {
-    #commercialCylinderTypesEndpoint
-    #distributorSalesEndpoint
-    #commercialClientsEndpoint
-    #commercialDebtMovementsEndpoint
+    #dailySalesEndpoint
 
     constructor() {
         super()
-        this.#commercialCylinderTypesEndpoint = new BaseEndpoint(this, commercialCylinderTypesPath)
-        this.#distributorSalesEndpoint = new BaseEndpoint(this, distributorSalesPath)
-        this.#commercialClientsEndpoint = new BaseEndpoint(this, commercialClientsPath)
-        this.#commercialDebtMovementsEndpoint = new BaseEndpoint(this, commercialDebtMovementsPath)
-    }
-
-    getCommercialCylinderTypes() {
-        return this.#commercialCylinderTypesEndpoint.getAll()
-    }
-
-    updateCommercialCylinderType(id, resource) {
-        return this.#commercialCylinderTypesEndpoint.update(id, resource)
+        this.#dailySalesEndpoint = new BaseEndpoint(this, dailySalesPath)
     }
 
     getDistributorSales() {
-        return this.#distributorSalesEndpoint.getAll()
+        return this.#dailySalesEndpoint.getAll()
     }
 
     createDistributorSale(resource) {
-        return this.#distributorSalesEndpoint.create(resource)
-    }
-
-    updateDistributorSale(id, resource) {
-        return this.#distributorSalesEndpoint.update(encodeURIComponent(id), resource)
-    }
-
-    getCommercialClients() {
-        return this.#commercialClientsEndpoint.getAll()
-    }
-
-    createCommercialClient(resource) {
-        return this.#commercialClientsEndpoint.create(resource)
-    }
-
-    updateCommercialClient(id, resource) {
-        return this.#commercialClientsEndpoint.update(id, resource)
-    }
-
-    getCommercialDebtMovements() {
-        return this.#commercialDebtMovementsEndpoint.getAll()
-    }
-
-    createCommercialDebtMovement(resource) {
-        return this.#commercialDebtMovementsEndpoint.create(resource)
-    }
-
-    updateCommercialDebtMovement(id, resource) {
-        return this.#commercialDebtMovementsEndpoint.update(encodeURIComponent(id), resource)
+        return this.#dailySalesEndpoint.create(resource)
     }
 }

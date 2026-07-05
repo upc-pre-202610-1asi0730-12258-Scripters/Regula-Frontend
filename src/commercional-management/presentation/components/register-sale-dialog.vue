@@ -4,8 +4,10 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import { useToast } from 'primevue/usetoast'
+import { useI18n } from 'vue-i18n'
 import { computed, reactive, ref } from 'vue'
 
+const { t } = useI18n()
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -17,17 +19,16 @@ const emit = defineEmits(['update:visible'])
 
 const store = useCommercialStore()
 const toast = useToast()
-const attemptedSubmit = ref(false)
 
 const form = reactive({
   cylinderTypeId: '10kg',
   quantity: 2,
-  paymentType: 'Deuda',
-  client: 'Rosa Huanca',
+  paymentType: 'Efectivo',
+  client: '',
   distributor: 'Carlos M.',
 })
 
-const cylinderOptions = computed(() => store.availableCylinderTypes)
+const cylinderOptions = computed(() => store.cylinderCatalog)
 
 const internalVisible = computed({
   get() {
@@ -41,27 +42,14 @@ const internalVisible = computed({
 const selectedCylinder = computed(() =>
     cylinderOptions.value.find((type) => type.id === form.cylinderTypeId)
 )
-const stockAfterSave = computed(() => {
-  if (!selectedCylinder.value) return 0
-  return selectedCylinder.value.stock - Number(form.quantity)
-})
-
-const requiresClient = computed(() => form.paymentType === 'Deuda')
-
-const hasClientError = computed(() =>
-    requiresClient.value && form.client.trim().length === 0
-)
 
 const canSave = computed(() =>
     selectedCylinder.value &&
-    Number(form.quantity) > 0 &&
-    stockAfterSave.value >= 0 &&
-    !hasClientError.value
+    Number(form.quantity) > 0
 )
 
 function closeDialog() {
   internalVisible.value = false
-  attemptedSubmit.value = false
 }
 
 function selectCylinder(id) {
@@ -83,8 +71,6 @@ function increaseQuantity() {
 }
 
 function saveSale() {
-  attemptedSubmit.value = true
-
   if (!canSave.value) return
 
   store.registerSale({
@@ -120,13 +106,13 @@ function saveSale() {
   <Dialog
       v-model:visible="internalVisible"
       modal
-      header="Registrar Nueva Venta"
+      :header="t('commercial.dialog.title')"
       class="sale-dialog"
       :style="{ width: '520px' }"
       :breakpoints="{ '640px': '94vw' }"
   >
     <section class="sale-dialog__section">
-      <label class="sale-dialog__label">Tipo de balón <span>*</span></label>
+      <label class="sale-dialog__label">{{ t('commercial.dialog.cylinderType') }} <span>*</span></label>
 
       <div class="sale-dialog__card-grid">
         <button
@@ -154,18 +140,18 @@ function saveSale() {
     </section>
 
     <section class="sale-dialog__section">
-      <label class="sale-dialog__label">Cantidad <span>*</span></label>
+      <label class="sale-dialog__label">{{ t('commercial.dialog.quantity') }} <span>*</span></label>
 
       <div class="sale-dialog__quantity">
         <button type="button" @click="decreaseQuantity">−</button>
         <strong>{{ form.quantity }}</strong>
         <button type="button" @click="increaseQuantity">+</button>
-        <span>unidades</span>
+        <span>{{ t('inventory.forms.distEntry.units') }}</span>
       </div>
     </section>
 
     <section class="sale-dialog__section">
-      <label class="sale-dialog__label">Tipo de pago <span>*</span></label>
+      <label class="sale-dialog__label">{{ t('commercial.dialog.paymentType') }} <span>*</span></label>
 
       <div class="sale-dialog__payment-grid">
         <button
@@ -175,7 +161,7 @@ function saveSale() {
             @click="selectPayment('Efectivo')"
         >
           <i class="pi pi-money-bill" />
-          <span>Efectivo</span>
+          <span>{{ t('commercial.dialog.cash') }}</span>
         </button>
 
         <button
@@ -185,7 +171,7 @@ function saveSale() {
             @click="selectPayment('Yape/Plin')"
         >
           <i class="pi pi-mobile" />
-          <span>Yape/Plin</span>
+          <span>{{ t('commercial.dialog.digital') }}</span>
         </button>
 
         <button
@@ -195,65 +181,26 @@ function saveSale() {
             @click="selectPayment('Transferencia')"
         >
           <i class="pi pi-building-columns" />
-          <span>Transferencia</span>
+          <span>{{ t('commercial.dialog.transfer') }}</span>
         </button>
 
-        <button
-            type="button"
-            class="sale-dialog__payment-card"
-            :class="{ 'sale-dialog__payment-card--selected': form.paymentType === 'Deuda' }"
-            @click="selectPayment('Deuda')"
-        >
-          <i class="pi pi-wallet" />
-          <span>Deuda</span>
-        </button>
       </div>
     </section>
 
     <section class="sale-dialog__section">
-      <label class="sale-dialog__label">
-        Cliente
-        <span v-if="requiresClient">*</span>
-        <small v-if="requiresClient">Requerido para Deuda</small>
-      </label>
+      <label class="sale-dialog__label">{{ t('commercial.dialog.client') }}</label>
 
-      <span
-          class="sale-dialog__input-wrapper"
-          :class="{ 'sale-dialog__input-wrapper--error': attemptedSubmit && hasClientError }"
-      >
+      <span class="sale-dialog__input-wrapper">
         <i class="pi pi-user" />
-        <InputText v-model="form.client" placeholder="Buscar cliente..." class="sale-dialog__input" />
+        <InputText v-model="form.client" :placeholder="t('commercial.dialog.clientPlaceholder')" class="sale-dialog__input" />
       </span>
-
-      <p v-if="attemptedSubmit && hasClientError" class="sale-dialog__error">
-        Debes ingresar un cliente para registrar una venta en deuda.
-      </p>
     </section>
-
-    <div v-if="form.paymentType === 'Deuda' && form.client" class="sale-dialog__warning">
-      <i class="pi pi-exclamation-triangle" />
-      <div>
-        <strong>Cliente: {{ form.client }}</strong>
-        <p>Esta venta se registrará como deuda pendiente de cobro.</p>
-      </div>
-    </div>
-
-    <div class="sale-dialog__stock">
-      <i class="pi pi-box" />
-      <span>
-        Stock de {{ selectedCylinder?.label }}:
-        <strong>{{ selectedCylinder?.stock }}</strong>
-        →
-        Nuevo stock:
-        <strong>{{ stockAfterSave }}</strong>
-      </span>
-    </div>
 
     <template #footer>
       <div class="sale-dialog__footer">
-        <Button label="Cancelar" severity="secondary" outlined class="sale-dialog__footer-btn" @click="closeDialog" />
+        <Button :label="t('commercial.dialog.cancel')" severity="secondary" outlined class="sale-dialog__footer-btn" @click="closeDialog" />
         <Button
-            label="Registrar Venta"
+            :label="t('commercial.dialog.submit')"
             icon="pi pi-plus"
             class="sale-dialog__footer-btn sale-dialog__save"
             :disabled="!canSave"
@@ -290,10 +237,15 @@ function saveSale() {
   border-radius: 999px;
 }
 
-.sale-dialog__card-grid,
-.sale-dialog__payment-grid {
+.sale-dialog__card-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.sale-dialog__payment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
 }
 
