@@ -1,42 +1,42 @@
-﻿import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import { watch } from 'vue'
 import AppShellLayout from '@/shared/presentation/components/app-shell-layout.vue'
 import inventoryRoutes from '@/inventory-management/presentation/inventory-routes.js'
 import commercialRoutes from '@/commercional-management/presentation/commercial-routes.js'
 import { distributionRoutes } from '@/distribution-logistics-management/presentation/distribution-routes.js'
-import { enterpriseDistributionRoutes } from '@/distribution-logistics-management/presentation/enterprise-distribution-routes.js'
-import { securityRoutes } from '@/operational-security-management/presentation/security-routes.js'
 import dashboardRoutes from '@/dashboard-management/presentation/dashboard-routes.js'
+import { IamRoutes } from '@/iam/presentation/iam-routes.js'
+import { useIamStore } from '@/iam/application/iam.store.js'
+import { useBillingStore } from '@/billing/application/billing.store.js'
+import i18n from './i18n.js'
 
-const RoleSelectView = () => import('@/shared/presentation/views/role-select-view.vue')
-const GenerateReportView = () => import('@/operational-analytics/presentation/views/generate-report-view.vue')
-const SecurityTrendsView = () => import('@/operational-analytics/presentation/views/security-trends-view.vue')
+const SubscribeView = () => import('@/billing/presentation/views/subscribe-view.vue')
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
+        ...IamRoutes,
+        {
+            path: '/suscripcion',
+            name: 'billing-subscribe',
+            component: SubscribeView,
+            meta: { pageTitleKey: 'pageTitles.subscribe' },
+        },
         {
             path: '/',
-            name: 'role-select',
-            component: RoleSelectView,
-            meta: {
-                title: 'Seleccionar perfil · REGULA',
-            },
+            redirect: '/dashboard/distribuidor',
         },
         {
             path: '/dashboard',
             component: AppShellLayout,
-            redirect: '/dashboard/empresa',
+            redirect: '/dashboard/distribuidor',
             children: dashboardRoutes,
         },
         {
             path: '/inventario',
             component: AppShellLayout,
+            redirect: '/inventario/distribuidor',
             children: inventoryRoutes,
-        },
-        {
-            path: '/seguridad',
-            component: AppShellLayout,
-            children: securityRoutes,
         },
         {
             path: '/comercial',
@@ -50,70 +50,8 @@ export const router = createRouter({
             children: distributionRoutes,
         },
         {
-            path: '/empresa/distribucion',
-            component: AppShellLayout,
-            children: enterpriseDistributionRoutes,
-        },
-
-        {
-            path: '/reportes',
-            component: AppShellLayout,
-            redirect: '/reportes/generar',
-            children: [
-                {
-                    path: 'generar',
-                    name: 'reports-generate',
-                    component: GenerateReportView,
-                    meta: {
-                        pageTitle: 'Reportes',
-                        title: 'Reportes · REGULA',
-                    },
-                },
-                {
-                    path: 'tendencias',
-                    name: 'reports-security-trends',
-                    component: SecurityTrendsView,
-                    meta: {
-                        pageTitle: 'Reportes',
-                        title: 'Tendencias de Seguridad · REGULA',
-                    },
-                },
-            ],
-        },
-        {
-            path: '/distribuidor/reportes',
-            component: AppShellLayout,
-            redirect: '/distribuidor/reportes/generar',
-            children: [
-                {
-                    path: 'generar',
-                    name: 'distributor-reports-generate',
-                    component: GenerateReportView,
-                    meta: {
-                        shellPreset: 'distributor',
-                        pageTitle: 'Reportes',
-                        title: 'Reportes · Distribuidor · REGULA',
-                    },
-                },
-                {
-                    path: 'tendencias',
-                    name: 'distributor-reports-security-trends',
-                    component: SecurityTrendsView,
-                    meta: {
-                        shellPreset: 'distributor',
-                        pageTitle: 'Reportes',
-                        title: 'Tendencias de Seguridad · Distribuidor · REGULA',
-                    },
-                },
-            ],
-        },
-        {
             path: '/ventas',
             redirect: '/comercial/ventas',
-        },
-        {
-            path: '/deudas',
-            redirect: '/comercial/deudas',
         },
         {
             path: '/:pathMatch(.*)*',
@@ -122,8 +60,50 @@ export const router = createRouter({
     ],
 })
 
+// Routes reachable without an active session.
+const PUBLIC_ROUTE_NAMES = new Set(['iam-sign-in', 'iam-sign-up'])
+
+router.beforeEach(async (to) => {
+    if (PUBLIC_ROUTE_NAMES.has(to.name)) {
+        return true
+    }
+
+    const iamStore = useIamStore()
+    if (!iamStore.isSignedIn) {
+        return { name: 'iam-sign-in' }
+    }
+
+    // Evita el loop: la propia pantalla de suscripción no debe redirigir a sí misma.
+    if (to.name === 'billing-subscribe') {
+        return true
+    }
+
+    const billingStore = useBillingStore()
+    if (!billingStore.checked) {
+        await billingStore.fetchStatus()
+    }
+
+    if (!billingStore.isActive) {
+        return { name: 'billing-subscribe' }
+    }
+
+    return true
+})
+
+function applyDocumentTitle(route) {
+    const key = route?.meta?.pageTitleKey
+    const label = key ? i18n.global.t(key) : null
+    document.title = label ? `${label} · REGULA` : 'REGULA'
+}
+
 router.afterEach((to) => {
-    document.title = to.meta?.title || 'REGULA'
+    applyDocumentTitle(to)
+})
+
+// Si cambias de idioma sin navegar (ej. estás parado en el Dashboard y
+// cambias a English), el título de la pestaña también debe actualizarse.
+watch(i18n.global.locale, () => {
+    applyDocumentTitle(router.currentRoute.value)
 })
 
 export default router

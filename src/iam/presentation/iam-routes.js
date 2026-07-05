@@ -6,12 +6,12 @@ export const IamRoutes = [
         path: '/sign-in',
         name: 'iam-sign-in',
         component: SignInForm,
-        meta: { title: 'Sign In - Regula'}
+        meta: { pageTitleKey: 'pageTitles.signIn' }
     },
     {
         path: '/sign-up',
         name: 'iam-sign-up',
         component: SignUpForm,
-        meta: { title: 'Sign Up - Regula' }
+        meta: { pageTitleKey: 'pageTitles.signUp' }
     }
 ]

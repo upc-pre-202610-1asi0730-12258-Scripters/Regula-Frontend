@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { SignUpCommand } from '../../domain/sign-up.command.js';
 import useIamStore from '../../application/iam.store.js';
 
@@ -9,22 +10,16 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Button from 'primevue/button';
 import Message from 'primevue/message';
-import SelectButton from 'primevue/selectbutton';
 
+const { t } = useI18n();
 const router = useRouter();
 const iamStore = useIamStore();
 
 const username = ref('');
 const password = ref('');
 const confirmPassword = ref('');
-const selectedRole = ref('ROLE_DISTRIBUTOR');
 const submitted = ref(false);
 const loading = ref(false);
-
-const roleOptions = ref([
-  { label: 'Distributor (Minorista)', value: 'ROLE_DISTRIBUTOR' },
-  { label: 'Gas Company (Envasadora)', value: 'ROLE_COMPANY' }
-]);
 
 const passwordConfirmInvalid = computed(() => !confirmPassword.value || password.value !== confirmPassword.value);
 
@@ -33,7 +28,7 @@ const handleSignUp = async () => {
   if (username.value.trim() && password.value.trim() && !passwordConfirmInvalid.value) {
     loading.value = true;
     try {
-      const signUpCommand = new SignUpCommand(username.value, password.value, selectedRole.value);
+      const signUpCommand = new SignUpCommand(username.value, password.value);
       iamStore.signUp(signUpCommand, router);
     } catch (error) {
       console.error(error);
@@ -49,50 +44,45 @@ const handleSignUp = async () => {
     <Card class="auth-card">
       <template #title>
         <div class="auth-header">
-          <h2>Create an Account</h2>
-          <p class="auth-subtitle">Join REGULA to optimize your gas operation</p>
+          <h2>{{ t('iam.signUp.title') }}</h2>
+          <p class="auth-subtitle">{{ t('iam.signUp.subtitle') }}</p>
         </div>
       </template>
 
       <template #content>
         <form @submit.prevent="handleSignUp" class="p-fluid">
-          <div class="field p-mt-2 text-center">
-            <label class="block p-mb-2 font-bold" style="color: #172D40;">Select Business Type</label>
-            <SelectButton v-model="selectedRole" :options="roleOptions" optionLabel="label" optionValue="value" />
-          </div>
-
-          <div class="field p-float-label p-mt-4">
+          <div class="field p-float-label">
             <InputText id="username" v-model="username" :class="{'p-invalid': submitted && !username}" />
-            <label for="username">Username or Corporate Email</label>
+            <label for="username">{{ t('iam.fields.usernameOrEmail') }}</label>
           </div>
-          <small v-if="submitted && !username" class="p-error">Username is required.</small>
+          <small v-if="submitted && !username" class="p-error">{{ t('iam.errors.usernameRequired') }}</small>
 
           <div class="field p-float-label p-mt-4">
             <Password id="password" v-model="password" :toggleMask="true" :class="{'p-invalid': submitted && !password}" />
-            <label for="password">Password</label>
+            <label for="password">{{ t('iam.fields.password') }}</label>
           </div>
-          <small v-if="submitted && !password" class="p-error">Password is required.</small>
+          <small v-if="submitted && !password" class="p-error">{{ t('iam.errors.passwordRequired') }}</small>
 
           <div class="field p-float-label p-mt-4">
             <Password id="confirmPassword" v-model="confirmPassword" :toggleMask="true" :feedback="false" :class="{'p-invalid': submitted && passwordConfirmInvalid}" />
-            <label for="confirmPassword">Confirm Password</label>
+            <label for="confirmPassword">{{ t('iam.fields.confirmPassword') }}</label>
           </div>
-          <small v-if="submitted && passwordConfirmInvalid" class="p-error">Passwords do not match.</small>
+          <small v-if="submitted && passwordConfirmInvalid" class="p-error">{{ t('iam.errors.passwordsDoNotMatch') }}</small>
 
           <Message v-if="iamStore.errors.length > 0" severity="error" class="p-mt-3" :closable="false">
-            Registration failed. The username might already be taken.
+            {{ iamStore.errors[iamStore.errors.length - 1].message }}
           </Message>
 
           <div class="p-mt-4">
-            <Button type="submit" label="Register Platform" class="btn-primary-auth" :loading="loading" />
+            <Button type="submit" :label="t('iam.signUp.submit')" class="btn-primary-auth" :loading="loading" />
           </div>
         </form>
       </template>
 
       <template #footer>
         <div class="auth-footer">
-          <span>Already have an account? </span>
-          <router-link :to="{ name: 'iam-sign-in' }" class="auth-link">Sign In</router-link>
+          <span>{{ t('iam.signUp.hasAccount') }} </span>
+          <router-link :to="{ name: 'iam-sign-in' }" class="auth-link">{{ t('iam.signUp.signInLink') }}</router-link>
         </div>
       </template>
     </Card>

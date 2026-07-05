@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { SignInCommand } from '../../domain/sign-in.command.js';
 import useIamStore from '../../application/iam.store.js';
 
@@ -10,6 +11,7 @@ import Password from 'primevue/password';
 import Button from 'primevue/button';
 import Message from 'primevue/message';
 
+const { t } = useI18n();
 const router = useRouter();
 const iamStore = useIamStore();
 
@@ -39,8 +41,8 @@ const handleSignIn = async () => {
     <Card class="auth-card">
       <template #title>
         <div class="auth-header">
-          <h2>Sign In to REGULA</h2>
-          <p class="auth-subtitle">Intelligent Gas Cylinder Monitoring System</p>
+          <h2>{{ t('iam.signIn.title') }}</h2>
+          <p class="auth-subtitle">{{ t('iam.signIn.subtitle') }}</p>
         </div>
       </template>
 
@@ -48,30 +50,30 @@ const handleSignIn = async () => {
         <form @submit.prevent="handleSignIn" class="p-fluid">
           <div class="field p-float-label">
             <InputText id="username" v-model.trim="username" :class="{'p-invalid': submitted && !username}" />
-            <label for="username">Username</label>
+            <label for="username">{{ t('iam.fields.username') }}</label>
           </div>
-          <small v-if="submitted && !username" class="p-error">Username is required.</small>
+          <small v-if="submitted && !username" class="p-error">{{ t('iam.errors.usernameRequired') }}</small>
 
           <div class="field p-float-label p-mt-4">
             <Password id="password" v-model.trim="password" :toggleMask="true" :feedback="false" :class="{'p-invalid': submitted && !password}" />
-            <label for="password">Password</label>
+            <label for="password">{{ t('iam.fields.password') }}</label>
           </div>
-          <small v-if="submitted && !password" class="p-error">Password is required.</small>
+          <small v-if="submitted && !password" class="p-error">{{ t('iam.errors.passwordRequired') }}</small>
 
           <Message v-if="iamStore.errors.length > 0" severity="error" class="p-mt-3" :closable="false">
-            Authentication failed. Please check your credentials.
+            {{ iamStore.errors[iamStore.errors.length - 1].message }}
           </Message>
 
           <div class="p-mt-4">
-            <Button type="submit" label="Sign In" class="btn-primary-auth" :loading="loading" />
+            <Button type="submit" :label="t('iam.signIn.submit')" class="btn-primary-auth" :loading="loading" />
           </div>
         </form>
       </template>
 
       <template #footer>
         <div class="auth-footer">
-          <span>Don't have an account? </span>
-          <router-link :to="{ name: 'iam-sign-up' }" class="auth-link">Create an account</router-link>
+          <span>{{ t('iam.signIn.noAccount') }} </span>
+          <router-link :to="{ name: 'iam-sign-up' }" class="auth-link">{{ t('iam.signIn.createAccount') }}</router-link>
         </div>
       </template>
     </Card>
