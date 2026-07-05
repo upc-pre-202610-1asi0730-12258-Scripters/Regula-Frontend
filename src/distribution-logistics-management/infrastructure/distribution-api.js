@@ -2,10 +2,10 @@ import { BaseApi } from '@/shared/infrastructure/base-api.js'
 import { BaseEndpoint } from '@/shared/infrastructure/base-endpoint.js'
 import { DistributionAssembler } from './distribution.assembler.js'
 
-const distributorDeliveriesPath = '/api/v1/distributor-deliveries'
-const distributorDeliverersPath = '/api/v1/distributor-deliverers'
-const deliveryResponsiblesPath = '/api/v1/delivery-responsibles'
-const deliveryVehiclesPath = '/api/v1/delivery-vehicles'
+const distributorDeliveriesPath = '/api/v1/delivery-tracking/distributor-deliveries'
+const distributorDeliverersPath = '/api/v1/delivery-tracking/distributor-deliverers'
+const deliveryResponsiblesPath = '/api/v1/delivery-tracking/delivery-responsibles'
+const deliveryVehiclesPath = '/api/v1/delivery-tracking/delivery-vehicles'
 
 export class DistributionApi extends BaseApi {
   #deliveries
@@ -31,20 +31,20 @@ export class DistributionApi extends BaseApi {
       .then(res => ({ data: DistributionAssembler.toDelivererDomainList(res.data) }))
   }
 
-  /** GET /api/v1/delivery-responsibles — catálogo real (con datos semilla). */
+  /** GET /api/v1/delivery-tracking/delivery-responsibles — catálogo real (con datos semilla). */
   getResponsibles() {
     return this.#responsibles.getAll()
       .then(res => ({ data: res.data }))
   }
 
-  /** GET /api/v1/delivery-vehicles — catálogo real (con datos semilla). */
+  /** GET /api/v1/delivery-tracking/delivery-vehicles — catálogo real (con datos semilla). */
   getVehicles() {
     return this.#vehicles.getAll()
       .then(res => ({ data: res.data }))
   }
 
   /**
-   * POST /api/v1/distributor-deliveries
+   * POST /api/v1/delivery-tracking/distributor-deliveries
    * resource: { driverId, responsibleId, vehicleId, itemCount, cargo, destination, scheduledTime }
    */
   createDelivery(resource) {
@@ -53,7 +53,7 @@ export class DistributionApi extends BaseApi {
   }
 
   /**
-   * PATCH /api/v1/distributor-deliveries/{id}/status
+   * PATCH /api/v1/delivery-tracking/distributor-deliveries/{id}/status
    * status debe ser uno de: Pending, OnRoute, Delivered, NotDelivered
    * (el backend valida el enum server-side; ver EDeliveryStatus).
    */

@@ -50,7 +50,7 @@ const useInventoryStore = defineStore('inventory', () => {
 
     function fetchDistributorStock() {
         return ensureMyInventory()
-            .then((id) => inventoryApi.getStock(id))
+            .then((id) => inventoryApi.getInventoryItems(id))
             .then((response) => {
                 distributorCards.value = InventoryStockAssembler.toStockCardsFromResponse(response)
                 distributorAvailableByKg.value = InventoryStockAssembler.toAvailableByKgKey(response)
