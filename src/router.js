@@ -17,41 +17,39 @@ export const router = createRouter({
     routes: [
         ...IamRoutes,
         {
-            path: '/suscripcion',
+            path: '/subscribe',
             name: 'billing-subscribe',
             component: SubscribeView,
             meta: { pageTitleKey: 'pageTitles.subscribe' },
         },
         {
             path: '/',
-            redirect: '/dashboard/distribuidor',
+            redirect: '/dashboard',
         },
         {
             path: '/dashboard',
             component: AppShellLayout,
-            redirect: '/dashboard/distribuidor',
             children: dashboardRoutes,
         },
         {
-            path: '/inventario',
+            path: '/inventory',
             component: AppShellLayout,
-            redirect: '/inventario/distribuidor',
             children: inventoryRoutes,
         },
         {
-            path: '/comercial',
+            path: '/commercial',
             component: AppShellLayout,
-            redirect: '/comercial/ventas',
+            redirect: '/commercial/sales',
             children: commercialRoutes,
         },
         {
-            path: '/distribucion',
+            path: '/distribution',
             component: AppShellLayout,
             children: distributionRoutes,
         },
         {
-            path: '/ventas',
-            redirect: '/comercial/ventas',
+            path: '/sales',
+            redirect: '/commercial/sales',
         },
         {
             path: '/:pathMatch(.*)*',

@@ -1,6 +1,6 @@
 export const distributionRoutes = [
   {
-    path: '/distribucion',
+    path: '',
     name: 'distribution-hub',
     component: () => import('./views/distribution-hub.view.vue'),
     redirect: { name: 'distribution-day-deliveries' },
@@ -10,7 +10,7 @@ export const distributionRoutes = [
     },
     children: [
       {
-        path: 'entregas-del-dia',
+        path: 'deliveries',
         name: 'distribution-day-deliveries',
         component: () => import('./views/distribution-day-deliveries.view.vue'),
         meta: {
@@ -19,7 +19,7 @@ export const distributionRoutes = [
         },
       },
       {
-        path: 'mapa-en-tiempo-real',
+        path: 'live-map',
         name: 'distribution-live-map',
         component: () => import('./views/distribution-live-map.view.vue'),
         meta: {
@@ -28,7 +28,7 @@ export const distributionRoutes = [
         },
       },
       {
-        path: 'historial-de-repartos',
+        path: 'history',
         name: 'distribution-history',
         component: () => import('./views/distribution-history.view.vue'),
         meta: {

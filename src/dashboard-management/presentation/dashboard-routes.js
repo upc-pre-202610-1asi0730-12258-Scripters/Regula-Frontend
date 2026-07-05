@@ -1,11 +1,11 @@
-const DistributorDashboardView = () =>
-    import('./views/distributor-dashboard-view.vue')
+const DashboardView = () =>
+    import('./views/dashboard-view.vue')
 
 const dashboardRoutes = [
     {
-        path: 'distribuidor',
-        name: 'distributor-dashboard',
-        component: DistributorDashboardView,
+        path: '',
+        name: 'dashboard',
+        component: DashboardView,
         meta: {
             shellPreset: 'distributor',
             pageTitleKey: 'pageTitles.dashboard',

@@ -19,6 +19,8 @@ const avatarUrl = computed(() => {
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=e8ecf0&color=172d40&size=128`
 })
 
+const displayName = computed(() => iamStore.currentUsername || t('shared.nav.distributorFallback'))
+
 function signOut() {
   iamStore.signOut(router)
 }
@@ -35,11 +37,12 @@ function signOut() {
         <div class="regula-navbar__quick-actions">
           <button
               type="button"
-              class="regula-navbar__avatar-btn"
+              class="regula-navbar__profile-btn"
               :aria-label="t('shared.sidebar.signOut')"
               v-tooltip.bottom="t('shared.sidebar.signOut')"
               @click="signOut"
           >
+            <span class="regula-navbar__name">{{ displayName }}</span>
             <img class="regula-navbar__avatar" :src="avatarUrl" width="40" height="40" alt="" />
           </button>
         </div>
@@ -98,22 +101,27 @@ function signOut() {
   flex-shrink: 0;
 }
 
-.regula-navbar__avatar-btn {
-  padding: 0;
-  border: 2px solid var(--regula-gray-light);
+.regula-navbar__profile-btn {
+  padding: 0.35rem 0.6rem 0.35rem 0.9rem;
+  border: 1px solid var(--regula-gray-light);
   border-radius: 999px;
   background: var(--regula-white);
   cursor: pointer;
-  width: 44px;
-  height: 44px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.6rem;
   flex-shrink: 0;
 }
 
-.regula-navbar__avatar-btn:hover {
+.regula-navbar__profile-btn:hover {
   border-color: var(--regula-steel);
+}
+
+.regula-navbar__name {
+  font-size: var(--regula-type-small-size);
+  font-weight: 600;
+  color: var(--regula-navy);
+  white-space: nowrap;
 }
 
 .regula-navbar__avatar {
@@ -143,6 +151,15 @@ function signOut() {
     width: 100%;
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .regula-navbar__name {
+    display: none;
+  }
+
+  .regula-navbar__profile-btn {
+    align-self: flex-end;
+    padding: 0.25rem;
   }
 
   .regula-navbar__quick-actions {

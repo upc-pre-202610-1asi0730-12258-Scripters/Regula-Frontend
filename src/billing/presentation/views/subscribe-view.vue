@@ -22,7 +22,7 @@ onMounted(async () => {
 
     if (store.isActive) {
       // Ya tenía una suscripción activa (nada que cobrar) — al Dashboard directo.
-      await router.push({ name: 'distributor-dashboard' })
+      await router.push({ name: 'dashboard' })
       return
     }
   } catch (error) {
@@ -54,7 +54,7 @@ async function handlePaymentSuccess() {
 
     if (store.isActive) {
       confirming.value = false
-      await router.push({ name: 'distributor-dashboard' })
+      await router.push({ name: 'dashboard' })
       return
     }
 

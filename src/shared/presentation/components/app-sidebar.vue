@@ -1,7 +1,6 @@
 ﻿<script setup>
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useIamStore } from '@/iam/application/iam.store.js'
 
 defineProps({
   brandLabel: {
@@ -10,10 +9,6 @@ defineProps({
   },
   items: {
     type: Array,
-    required: true,
-  },
-  profile: {
-    type: Object,
     required: true,
   },
   mobileOpen: {
@@ -25,8 +20,6 @@ defineProps({
 const emit = defineEmits(['interact'])
 
 const route = useRoute()
-const router = useRouter()
-const iamStore = useIamStore()
 const { locale, t } = useI18n()
 
 function setLocale(code) {
@@ -41,11 +34,6 @@ function isActive(item) {
     return route.path.startsWith(item.matchPrefix)
   }
   return route.path === item.to
-}
-
-function logout() {
-  emit('interact')
-  iamStore.signOut(router)
 }
 
 function onNavInteract() {
@@ -109,30 +97,6 @@ function onNavInteract() {
           >
             {{ t('shared.sidebar.english') }}
           </button>
-        </div>
-      </div>
-
-      <button
-          type="button"
-          class="regula-sidebar__logout"
-          :aria-label="t('shared.sidebar.signOut')"
-          v-tooltip.bottom="t('shared.sidebar.signOut')"
-          @click="logout"
-      >
-        <i class="pi pi-sign-out" aria-hidden="true" />
-        <span>{{ t('shared.sidebar.signOut') }}</span>
-      </button>
-      <div class="regula-sidebar__user">
-        <img
-            class="regula-sidebar__avatar"
-            :src="profile.avatarUrl"
-            width="40"
-            height="40"
-            alt=""
-        />
-        <div class="regula-sidebar__user-text">
-          <div class="regula-sidebar__user-name">{{ profile.name }}</div>
-          <div class="regula-sidebar__user-sub">{{ profile.subtitle }}</div>
         </div>
       </div>
     </div>
@@ -250,49 +214,6 @@ function onNavInteract() {
 .regula-sidebar__lang-btn--active {
   background: color-mix(in srgb, var(--regula-orange) 35%, transparent);
   border-color: var(--regula-orange);
-}
-
-.regula-sidebar__logout {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 0.5rem;
-  border: none;
-  border-radius: var(--regula-radius-btn);
-  background: transparent;
-  color: color-mix(in srgb, var(--regula-white) 82%, transparent);
-  cursor: pointer;
-  font-size: var(--regula-type-small-size);
-  min-height: 44px;
-  font-family: inherit;
-}
-
-.regula-sidebar__logout:hover {
-  background: color-mix(in srgb, var(--regula-white) 7%, transparent);
-  color: var(--regula-white);
-}
-
-.regula-sidebar__user {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-}
-
-.regula-sidebar__avatar {
-  border-radius: 999px;
-  object-fit: cover;
-  border: 2px solid color-mix(in srgb, var(--regula-white) 18%, transparent);
-}
-
-.regula-sidebar__user-name {
-  font-size: var(--regula-type-small-size);
-  font-weight: 600;
-  color: var(--regula-white);
-}
-
-.regula-sidebar__user-sub {
-  font-size: var(--regula-type-caption-size);
-  color: color-mix(in srgb, var(--regula-white) 68%, transparent);
 }
 
 @media (max-width: 639px) {

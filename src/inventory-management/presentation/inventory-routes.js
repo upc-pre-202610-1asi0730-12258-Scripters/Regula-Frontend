@@ -1,10 +1,10 @@
-const DistributorInventoryView = () => import('./views/distributor-inventory-view.vue')
+const InventoryView = () => import('./views/inventory-view.vue')
 
 const inventoryRoutes = [
     {
-        path: 'distribuidor',
-        name: 'inventory-distributor',
-        component: DistributorInventoryView,
+        path: '',
+        name: 'inventory',
+        component: InventoryView,
         meta: {
             shellPreset: 'distributor',
             pageTitleKey: 'pageTitles.inventory',

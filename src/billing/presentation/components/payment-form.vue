@@ -20,7 +20,7 @@ async function handlePay() {
     const result = await confirmPayment({
       clientSecret: store.clientSecret,
       confirmParams: {
-        return_url: `${window.location.origin}/dashboard/distribuidor`,
+        return_url: `${window.location.origin}/dashboard`,
       },
       redirect: 'if_required',
     })

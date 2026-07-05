@@ -76,7 +76,7 @@ export const useIamStore = defineStore('iam', () => {
                 // hubo, en la misma pestaña) ya no aplica — que el guard lo vuelva a pedir.
                 useBillingStore().reset();
 
-                router.push({ name: 'distributor-dashboard' });
+                router.push({ name: 'dashboard' });
             })
             .catch(error => {
                 isSignedIn.value = false;

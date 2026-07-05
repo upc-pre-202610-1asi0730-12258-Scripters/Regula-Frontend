@@ -1,30 +1,19 @@
 ﻿<script setup>
 import AppNavbar from '@/shared/presentation/components/app-navbar.vue'
 import AppSidebar from '@/shared/presentation/components/app-sidebar.vue'
-import { useIamStore } from '@/iam/application/iam.store.js'
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 const route = useRoute()
-const iamStore = useIamStore()
 const { t } = useI18n()
 
 const navigationItems = computed(() => [
-  { label: t('shared.nav.dashboard'), icon: 'pi pi-th-large', to: '/dashboard/distribuidor', matchPrefix: '/dashboard/distribuidor' },
-  { label: t('shared.nav.inventory'), icon: 'pi pi-box', to: '/inventario/distribuidor', matchPrefix: '/inventario/distribuidor' },
-  { label: t('shared.nav.distribution'), icon: 'pi pi-truck', to: '/distribucion/entregas-del-dia', matchPrefix: '/distribucion' },
-  { label: t('shared.nav.sales'), icon: 'pi pi-shopping-cart', to: '/comercial/ventas', matchPrefix: '/comercial/ventas' },
+  { label: t('shared.nav.dashboard'), icon: 'pi pi-th-large', to: '/dashboard', matchPrefix: '/dashboard' },
+  { label: t('shared.nav.inventory'), icon: 'pi pi-box', to: '/inventory', matchPrefix: '/inventory' },
+  { label: t('shared.nav.distribution'), icon: 'pi pi-truck', to: '/distribution/deliveries', matchPrefix: '/distribution' },
+  { label: t('shared.nav.sales'), icon: 'pi pi-shopping-cart', to: '/commercial/sales', matchPrefix: '/commercial/sales' },
 ])
-
-const profile = computed(() => {
-  const name = iamStore.currentUsername || t('shared.nav.distributorFallback')
-  return {
-    name,
-    subtitle: t('shared.nav.distributorFallback'),
-    avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=e2e8f0&color=0f172a&size=128`,
-  }
-})
 
 const brandLabel = 'REGULA'
 
@@ -83,7 +72,6 @@ watch(
     <AppSidebar
         :brand-label="brandLabel"
         :items="navigationItems"
-        :profile="profile"
         :mobile-open="navOpen"
         @interact="onSidebarInteract"
     />
