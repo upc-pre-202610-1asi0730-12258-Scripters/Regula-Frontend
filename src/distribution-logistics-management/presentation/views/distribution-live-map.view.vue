@@ -1,25 +1,95 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useDistributionStore } from '@/distribution-logistics-management/application/distribution.store.js'
 import DelivererListItem from '../components/deliverer-list-item.vue'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 
+const { t } = useI18n()
 const store = useDistributionStore()
 const countdown = ref(30)
 let countdownInterval = null
 
+const mapContainer = ref(null)
+let map = null
+let markers = []
+
 const activeDeliverers = computed(() => store.activeDeliverers)
 
-onMounted(() => {
+// Lima, Perú — centro por defecto (coincide con los datos semilla del backend).
+const DEFAULT_CENTER = [-12.0464, -77.0428]
+
+const STATUS_COLOR = {
+  'En ruta': '#f26e22',
+  'Completado': '#16a34a',
+  'Sin señal': '#a5b1bf',
+}
+
+function buildIcon(status) {
+  const color = STATUS_COLOR[status] ?? STATUS_COLOR['Sin señal']
+  return L.divIcon({
+    className: 'live-map-marker',
+    html: `<span style="background:${color}" class="live-map-marker__dot"></span>`,
+    iconSize: [18, 18],
+    iconAnchor: [9, 9],
+  })
+}
+
+function renderMarkers() {
+  if (!map) return
+
+  markers.forEach((marker) => marker.remove())
+  markers = []
+
+  const withLocation = activeDeliverers.value.filter((d) => d.lat != null && d.lng != null)
+
+  withLocation.forEach((deliverer) => {
+    const marker = L.marker([deliverer.lat, deliverer.lng], { icon: buildIcon(deliverer.status) })
+      .addTo(map)
+      .bindPopup(
+        `<strong>${deliverer.name}</strong><br>${deliverer.vehiclePlate}<br>${deliverer.status}`
+      )
+    markers.push(marker)
+  })
+
+  if (withLocation.length > 0) {
+    const bounds = L.latLngBounds(withLocation.map((d) => [d.lat, d.lng]))
+    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 15 })
+  }
+}
+
+onMounted(async () => {
+  await nextTick()
+
+  map = L.map(mapContainer.value).setView(DEFAULT_CENTER, 13)
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19,
+  }).addTo(map)
+
+  renderMarkers()
+
   countdownInterval = setInterval(() => {
     countdown.value -= 1
     if (countdown.value <= 0) {
       countdown.value = 30
+      store.fetchDistributionData()
     }
   }, 1000)
 })
 
+watch(activeDeliverers, () => {
+  renderMarkers()
+})
+
 onUnmounted(() => {
   clearInterval(countdownInterval)
+  if (map) {
+    map.remove()
+    map = null
+  }
 })
 </script>
 
@@ -29,12 +99,12 @@ onUnmounted(() => {
     <aside class="live-map-view__sidebar">
       <div class="live-map-view__sidebar-header">
         <h2 class="live-map-view__sidebar-title">
-          Repartidores activos
+          {{ t('distribution.liveMap.activeDeliverers') }}
           <span class="live-map-view__sidebar-count">({{ activeDeliverers.length }})</span>
         </h2>
         <p class="live-map-view__sidebar-refresh">
           <span class="live-map-view__dot live-map-view__dot--active" aria-hidden="true" />
-          actualiza cada 30 seg.
+          {{ t('distribution.liveMap.refreshNotice') }}
         </p>
       </div>
 
@@ -44,21 +114,24 @@ onUnmounted(() => {
           :key="deliverer.id"
           :deliverer="deliverer"
         />
+        <p v-if="activeDeliverers.length === 0" class="live-map-view__empty">
+          {{ t('distribution.liveMap.empty') }}
+        </p>
       </div>
 
       <!-- Legend -->
       <div class="live-map-view__legend">
         <span class="live-map-view__legend-item">
           <span class="live-map-view__dot live-map-view__dot--en-ruta" />
-          En ruta
+          {{ t('distribution.liveMap.legendEnRoute') }}
         </span>
         <span class="live-map-view__legend-item">
           <span class="live-map-view__dot live-map-view__dot--completado" />
-          Completado
+          {{ t('distribution.liveMap.legendCompleted') }}
         </span>
         <span class="live-map-view__legend-item">
           <span class="live-map-view__dot live-map-view__dot--sin-senal" />
-          Sin señal
+          {{ t('distribution.liveMap.legendNoSignal') }}
         </span>
       </div>
     </aside>
@@ -67,17 +140,12 @@ onUnmounted(() => {
     <div class="live-map-view__map-area">
       <div class="live-map-view__map-label">
         <span class="live-map-view__map-label-dot" />
-        En vivo · Lima, Perú
+        {{ t('distribution.liveMap.liveLabel') }}
       </div>
-      <img
-        src="/map-placeholder.png"
-        alt="Mapa en tiempo real de Lima, Perú"
-        class="live-map-view__map-img"
-        draggable="false"
-      />
+      <div ref="mapContainer" class="live-map-view__map-container" />
       <div class="live-map-view__refresh-badge">
         <i class="pi pi-refresh" aria-hidden="true" />
-        Actualiza en {{ countdown }} seg.
+        {{ t('distribution.liveMap.refreshBadge', { seconds: countdown }) }}
       </div>
     </div>
   </div>
@@ -130,6 +198,13 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.live-map-view__empty {
+  font-size: 0.8rem;
+  color: var(--regula-text-muted, #a5b1bf);
+  text-align: center;
+  padding: 1rem 0;
 }
 
 .live-map-view__legend {
@@ -190,7 +265,7 @@ onUnmounted(() => {
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
-  z-index: 10;
+  z-index: 500;
   background: var(--regula-white, #fff);
   padding: 0.3rem 0.6rem;
   border-radius: 6px;
@@ -211,18 +286,17 @@ onUnmounted(() => {
   animation: pulse-dot 1.5s infinite;
 }
 
-.live-map-view__map-img {
+.live-map-view__map-container {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
+  min-height: 380px;
 }
 
 .live-map-view__refresh-badge {
   position: absolute;
   bottom: 0.75rem;
   right: 0.75rem;
-  z-index: 10;
+  z-index: 500;
   background: var(--regula-orange, #f26e22);
   color: var(--regula-white, #fff);
   font-size: 0.72rem;
@@ -236,5 +310,22 @@ onUnmounted(() => {
 
 .live-map-view__refresh-badge .pi {
   font-size: 0.7rem;
+}
+</style>
+
+<style>
+/* Global (no scoped) porque Leaflet inyecta estos nodos fuera del árbol de Vue */
+.live-map-marker {
+  background: transparent;
+  border: none;
+}
+
+.live-map-marker__dot {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }
 </style>

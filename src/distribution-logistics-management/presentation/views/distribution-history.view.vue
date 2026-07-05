@@ -1,10 +1,13 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useDistributionStore } from '@/distribution-logistics-management/application/distribution.store.js'
 import DeliveryDetailPanel from '../components/delivery-detail-panel.vue'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
+import Select from 'primevue/select'
 
+const { t } = useI18n()
 const store = useDistributionStore()
 
 const filteredDeliveries = computed(() => store.filteredHistoryDeliveries)
@@ -22,6 +25,7 @@ function closeDetail() {
 function getStatusClass(status) {
   if (status === 'Completado') return 'history-view__status--completado'
   if (status === 'No entregado') return 'history-view__status--no-entregado'
+  if (status === 'Pendiente') return 'history-view__status--pendiente'
   return 'history-view__status--en-ruta'
 }
 
@@ -38,8 +42,31 @@ function formatTimeDiff(diff) {
   return '0m'
 }
 
+function escapeCsv(value) {
+  const str = String(value ?? '')
+  return `"${str.replaceAll('"', '""')}"`
+}
+
 function handleExport() {
-  // placeholder
+  if (filteredDeliveries.value.length === 0) return
+
+  const headers = ['ID', 'Fecha', 'Repartidor', 'Vehículo', 'Placa', 'Carga', 'Destino', 'Estado', 'ETA', 'Hora real']
+  const rows = filteredDeliveries.value.map((d) => [
+    d.displayId, d.date, d.delivererName, d.vehicleType, d.vehiclePlate,
+    d.cargo, d.destination, d.status, d.eta ?? '', d.realTime ?? '',
+  ])
+
+  const csvContent = [headers, ...rows]
+      .map((row) => row.map(escapeCsv).join(','))
+      .join('\n')
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `historial-repartos-${new Date().toISOString().slice(0, 10)}.csv`
+  link.click()
+  URL.revokeObjectURL(url)
 }
 </script>
 
@@ -50,18 +77,25 @@ function handleExport() {
       <div class="history-view__filters">
         <div class="history-view__filter-group">
           <i class="pi pi-calendar history-view__filter-icon" aria-hidden="true" />
-          <span class="history-view__filter-label">{{ store.historyDateFilter }}</span>
+          <input
+            v-model="store.historyDateFilter"
+            type="date"
+            class="history-view__date-input"
+            :aria-label="t('distribution.history.dateFilterLabel')"
+          />
         </div>
 
-        <div class="history-view__filter-group">
-          <i class="pi pi-user history-view__filter-icon" aria-hidden="true" />
-          <span class="history-view__filter-label">{{ store.historyDelivererFilter }}</span>
-        </div>
+        <Select
+          v-model="store.historyDelivererFilter"
+          :options="store.delivererNameOptions"
+          class="history-view__select"
+        />
 
-        <div class="history-view__filter-group">
-          <i class="pi pi-filter history-view__filter-icon history-view__filter-icon--orange" aria-hidden="true" />
-          <span class="history-view__filter-label">{{ store.historyStatusFilter }}</span>
-        </div>
+        <Select
+          v-model="store.historyStatusFilter"
+          :options="store.statusOptions"
+          class="history-view__select"
+        />
 
         <div class="history-view__search">
           <i class="pi pi-search history-view__search-icon" aria-hidden="true" />
@@ -69,15 +103,16 @@ function handleExport() {
             v-model="store.historySearchQuery"
             type="text"
             class="history-view__search-input"
-            placeholder="Buscar por placa..."
-            aria-label="Buscar por placa"
+            :placeholder="t('distribution.history.searchPlaceholder')"
+            :aria-label="t('distribution.history.searchPlaceholder')"
           />
         </div>
 
         <Button
-          label="Exportar"
+          :label="t('distribution.history.export')"
           icon="pi pi-download"
           class="history-view__export-btn"
+          :disabled="filteredDeliveries.length === 0"
           @click="handleExport"
         />
       </div>
@@ -86,27 +121,27 @@ function handleExport() {
       <div class="history-view__summary">
         <span class="history-view__summary-chip history-view__summary-chip--completado">
           <span class="history-view__summary-dot history-view__summary-dot--completado" />
-          Completados: {{ summary.completed }}
+          {{ t('distribution.history.completed') }}: {{ summary.completed }}
         </span>
         <span class="history-view__summary-chip history-view__summary-chip--no-entregado">
           <span class="history-view__summary-dot history-view__summary-dot--no-entregado" />
-          No entregados: {{ summary.notDelivered }}
+          {{ t('distribution.history.notDelivered') }}: {{ summary.notDelivered }}
         </span>
       </div>
 
       <!-- Table -->
       <div class="history-view__table-wrapper">
-        <table class="history-view__table" aria-label="Historial de repartos">
+        <table class="history-view__table" :aria-label="t('distribution.hub.history')">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>FECHA</th>
-              <th>REPARTIDOR · VEHÍCULO</th>
-              <th>CARGA</th>
-              <th>DESTINO</th>
-              <th>ESTADO</th>
-              <th>ETA</th>
-              <th>HORA REAL</th>
+              <th>{{ t('distribution.history.columns.id') }}</th>
+              <th>{{ t('distribution.history.columns.date') }}</th>
+              <th>{{ t('distribution.history.columns.delivererVehicle') }}</th>
+              <th>{{ t('distribution.history.columns.cargo') }}</th>
+              <th>{{ t('distribution.history.columns.destination') }}</th>
+              <th>{{ t('distribution.history.columns.status') }}</th>
+              <th>{{ t('distribution.history.columns.eta') }}</th>
+              <th>{{ t('distribution.history.columns.realTime') }}</th>
               <th aria-label="Acciones"></th>
             </tr>
           </thead>
@@ -118,12 +153,12 @@ function handleExport() {
               :class="{ 'history-view__row--selected': store.selectedDeliveryId === delivery.id }"
               @click="selectDelivery(delivery.id)"
             >
-              <td class="history-view__cell-id">{{ delivery.id }}</td>
+              <td class="history-view__cell-id">{{ delivery.displayId }}</td>
               <td class="history-view__cell-date">{{ delivery.date }}</td>
               <td class="history-view__cell-deliverer">
                 <div class="history-view__deliverer-info">
                   <span class="history-view__deliverer-avatar history-view__deliverer-avatar--dark">
-                    {{ delivery.delivererId }}
+                    {{ delivery.delivererName?.split(' ').slice(0, 2).map(w => w[0]?.toUpperCase()).join('') }}
                   </span>
                   <div>
                     <p class="history-view__deliverer-name">{{ delivery.delivererName }}</p>
@@ -168,7 +203,7 @@ function handleExport() {
                 <button
                   class="history-view__row-btn"
                   type="button"
-                  :aria-label="`Ver detalle de entrega ${delivery.id}`"
+                  :aria-label="`Ver detalle de entrega ${delivery.displayId}`"
                   @click.stop="selectDelivery(delivery.id)"
                 >
                   <i class="pi pi-chevron-right" aria-hidden="true" />
@@ -180,7 +215,7 @@ function handleExport() {
 
         <div v-if="filteredDeliveries.length === 0" class="history-view__no-results">
           <i class="pi pi-inbox" aria-hidden="true" />
-          <span>No hay más registros para este período</span>
+          <span>{{ t('distribution.history.noResults') }}</span>
         </div>
       </div>
     </div>
@@ -249,6 +284,24 @@ function handleExport() {
   font-size: 0.8rem;
   color: var(--regula-text-body, #555f6e);
   white-space: nowrap;
+}
+
+.history-view__date-input {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.8rem;
+  color: var(--regula-text-body, #555f6e);
+  background: transparent;
+}
+
+.history-view__select {
+  min-width: 170px;
+}
+
+.history-view__select :deep(.p-select) {
+  min-height: 38px;
+  font-size: 0.8rem;
 }
 
 .history-view__search {
@@ -490,6 +543,9 @@ function handleExport() {
 
 .history-view__status--en-ruta .history-view__status-dot { background: var(--regula-orange, #f26e22); }
 .history-view__status--en-ruta { color: var(--regula-orange, #f26e22); }
+
+.history-view__status--pendiente .history-view__status-dot { background: var(--regula-steel, #a5b1bf); }
+.history-view__status--pendiente { color: var(--regula-gray-mid, #555f6e); }
 
 .history-view__cell-time {
   font-weight: 600;

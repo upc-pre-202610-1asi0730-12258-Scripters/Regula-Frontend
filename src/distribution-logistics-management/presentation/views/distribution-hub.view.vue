@@ -1,14 +1,16 @@
 <script setup>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useDistributionStore } from '@/distribution-logistics-management/application/distribution.store.js'
 
+const { t } = useI18n()
 const store = useDistributionStore()
 
-const tabs = [
-  { name: 'Entregas del Día', routeName: 'distribution-day-deliveries' },
-  { name: 'Mapa en Tiempo Real', routeName: 'distribution-live-map' },
-  { name: 'Historial de Repartos', routeName: 'distribution-history' },
-]
+const tabs = computed(() => [
+  { name: t('distribution.hub.dayDeliveries'), routeName: 'distribution-day-deliveries' },
+  { name: t('distribution.hub.liveMap'), routeName: 'distribution-live-map' },
+  { name: t('distribution.hub.history'), routeName: 'distribution-history' },
+])
 
 onMounted(() => {
   if (!store.loaded) {
@@ -20,7 +22,7 @@ onMounted(() => {
 <template>
   <div class="distribution-hub">
     <div class="distribution-hub__tabs-container">
-      <nav class="distribution-hub__tabs" aria-label="Navegación de Distribución">
+      <nav class="distribution-hub__tabs" :aria-label="t('distribution.hub.tabs')">
         <router-link
           v-for="tab in tabs"
           :key="tab.name"

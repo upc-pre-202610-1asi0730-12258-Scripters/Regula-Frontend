@@ -1,5 +1,7 @@
 <script setup>
-import Button from 'primevue/button'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   delivery: {
@@ -18,7 +20,7 @@ function getVehicleIcon(vehicleType) {
 
 function formatTimeDiff(minutes) {
   if (minutes === null) return null
-  if (minutes === 0) return 'A tiempo'
+  if (minutes === 0) return t('distribution.detailPanel.onTime')
   if (minutes > 0) return `+${minutes}m`
   return `${minutes}m`
 }
@@ -29,12 +31,12 @@ function formatTimeDiff(minutes) {
     <header class="delivery-detail-panel__header">
       <div class="delivery-detail-panel__header-inner">
         <i class="pi pi-truck delivery-detail-panel__header-icon" aria-hidden="true" />
-        <span class="delivery-detail-panel__header-title">Detalle de Entrega</span>
+        <span class="delivery-detail-panel__header-title">{{ t('distribution.detailPanel.title') }}</span>
       </div>
       <button
         class="delivery-detail-panel__close-btn"
         type="button"
-        aria-label="Cerrar detalle"
+        :aria-label="t('distribution.detailPanel.close')"
         @click="emit('close')"
       >
         <i class="pi pi-times" aria-hidden="true" />
@@ -42,7 +44,7 @@ function formatTimeDiff(minutes) {
     </header>
 
     <div class="delivery-detail-panel__id-row">
-      <span class="delivery-detail-panel__id">{{ delivery.id }}</span>
+      <span class="delivery-detail-panel__id">{{ delivery.displayId }}</span>
       <span class="delivery-detail-panel__status-dot">●</span>
       <span class="delivery-detail-panel__status-label">{{ delivery.status }}</span>
     </div>
@@ -51,9 +53,11 @@ function formatTimeDiff(minutes) {
     <div class="delivery-detail-panel__body">
       <!-- Repartidor -->
       <section class="delivery-detail-panel__section">
-        <h4 class="delivery-detail-panel__section-title">REPARTIDOR</h4>
+        <h4 class="delivery-detail-panel__section-title">{{ t('distribution.detailPanel.responsible') }}</h4>
         <div class="delivery-detail-panel__person-row">
-          <span class="delivery-detail-panel__avatar">{{ delivery.delivererId }}</span>
+          <span class="delivery-detail-panel__avatar">
+            {{ delivery.delivererName?.split(' ').slice(0, 2).map(w => w[0]?.toUpperCase()).join('') }}
+          </span>
           <div>
             <p class="delivery-detail-panel__person-name">{{ delivery.delivererName }}</p>
             <p class="delivery-detail-panel__person-meta">{{ delivery.vehiclePlate }}</p>
@@ -63,16 +67,16 @@ function formatTimeDiff(minutes) {
 
       <!-- Vehículo -->
       <section class="delivery-detail-panel__section">
-        <h4 class="delivery-detail-panel__section-title">VEHÍCULO</h4>
+        <h4 class="delivery-detail-panel__section-title">{{ t('distribution.detailPanel.vehicle') }}</h4>
         <div class="delivery-detail-panel__vehicle-row">
           <div class="delivery-detail-panel__vehicle-item">
             <i :class="`pi ${getVehicleIcon(delivery.vehicleType)} delivery-detail-panel__vehicle-icon`" aria-hidden="true" />
-            <span class="delivery-detail-panel__vehicle-label">Tipo</span>
+            <span class="delivery-detail-panel__vehicle-label">{{ t('distribution.detailPanel.type') }}</span>
             <span class="delivery-detail-panel__vehicle-value">{{ delivery.vehicleType }}</span>
           </div>
           <div class="delivery-detail-panel__vehicle-item">
             <i class="pi pi-id-card delivery-detail-panel__vehicle-icon" aria-hidden="true" />
-            <span class="delivery-detail-panel__vehicle-label">Placa</span>
+            <span class="delivery-detail-panel__vehicle-label">{{ t('distribution.detailPanel.plate') }}</span>
             <span class="delivery-detail-panel__vehicle-value">{{ delivery.vehiclePlate }}</span>
           </div>
         </div>
@@ -80,18 +84,18 @@ function formatTimeDiff(minutes) {
 
       <!-- Carga y Destino -->
       <section class="delivery-detail-panel__section">
-        <h4 class="delivery-detail-panel__section-title">CARGA Y DESTINO</h4>
+        <h4 class="delivery-detail-panel__section-title">{{ t('distribution.detailPanel.cargoAndDestination') }}</h4>
         <div class="delivery-detail-panel__info-row">
           <i class="pi pi-box" aria-hidden="true" />
           <div>
-            <span class="delivery-detail-panel__info-label">Carga</span>
+            <span class="delivery-detail-panel__info-label">{{ t('distribution.detailPanel.cargo') }}</span>
             <p class="delivery-detail-panel__info-value">{{ delivery.cargo }}</p>
           </div>
         </div>
         <div class="delivery-detail-panel__info-row">
           <i class="pi pi-map-marker" aria-hidden="true" />
           <div>
-            <span class="delivery-detail-panel__info-label">Destino</span>
+            <span class="delivery-detail-panel__info-label">{{ t('distribution.detailPanel.destination') }}</span>
             <p class="delivery-detail-panel__info-value">{{ delivery.destination }}</p>
           </div>
         </div>
@@ -99,18 +103,18 @@ function formatTimeDiff(minutes) {
 
       <!-- Tiempos -->
       <section class="delivery-detail-panel__section">
-        <h4 class="delivery-detail-panel__section-title">TIEMPOS</h4>
+        <h4 class="delivery-detail-panel__section-title">{{ t('distribution.detailPanel.times') }}</h4>
         <div class="delivery-detail-panel__times-grid">
           <div class="delivery-detail-panel__time-cell">
-            <span class="delivery-detail-panel__time-label">ETA</span>
+            <span class="delivery-detail-panel__time-label">{{ t('distribution.detailPanel.eta') }}</span>
             <span class="delivery-detail-panel__time-value">{{ delivery.eta ?? '—' }}</span>
           </div>
           <div class="delivery-detail-panel__time-cell">
-            <span class="delivery-detail-panel__time-label">Hora real</span>
+            <span class="delivery-detail-panel__time-label">{{ t('distribution.detailPanel.realTime') }}</span>
             <span class="delivery-detail-panel__time-value">{{ delivery.realTime ?? '—' }}</span>
           </div>
           <div class="delivery-detail-panel__time-cell">
-            <span class="delivery-detail-panel__time-label">Diferencia</span>
+            <span class="delivery-detail-panel__time-label">{{ t('distribution.detailPanel.difference') }}</span>
             <span
               class="delivery-detail-panel__time-value"
               :class="{
@@ -124,14 +128,6 @@ function formatTimeDiff(minutes) {
         </div>
       </section>
     </div>
-
-    <footer class="delivery-detail-panel__footer">
-      <Button
-        label="Descargar comprobante"
-        icon="pi pi-download"
-        class="delivery-detail-panel__download-btn"
-      />
-    </footer>
   </aside>
 </template>
 
@@ -356,23 +352,5 @@ function formatTimeDiff(minutes) {
 
 .delivery-detail-panel__time-value--early {
   color: #16a34a;
-}
-
-.delivery-detail-panel__footer {
-  padding: 0.75rem 1rem;
-  border-top: 1px solid var(--regula-gray-light, #e8ecf0);
-}
-
-.delivery-detail-panel__download-btn {
-  width: 100%;
-  background: var(--regula-orange, #f26e22) !important;
-  border-color: var(--regula-orange, #f26e22) !important;
-  font-size: 0.8rem;
-  justify-content: center;
-}
-
-.delivery-detail-panel__download-btn:hover {
-  background: var(--regula-orange-hover, #f25922) !important;
-  border-color: var(--regula-orange-hover, #f25922) !important;
 }
 </style>

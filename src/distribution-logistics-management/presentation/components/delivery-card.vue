@@ -1,5 +1,9 @@
 <script setup>
 import Tag from 'primevue/tag'
+import Button from 'primevue/button'
+import { useI18n } from 'vue-i18n'
+import { useDistributionStore } from '@/distribution-logistics-management/application/distribution.store.js'
+import { useToast } from 'primevue/usetoast'
 
 const props = defineProps({
   delivery: {
@@ -7,6 +11,10 @@ const props = defineProps({
     required: true,
   },
 })
+
+const { t } = useI18n()
+const store = useDistributionStore()
+const toast = useToast()
 
 function getStatusSeverity(status) {
   if (status === 'En Ruta') return 'info'
@@ -26,12 +34,24 @@ const vehicleTypeLabel = (vt) => {
   if (vt === 'Camión' || vt === 'Camion') return 'Camión'
   return 'Motorizado'
 }
+
+function changeStatus(status) {
+  store.updateStatus(props.delivery.id, status)
+    .catch((error) => {
+      toast.add({
+        severity: 'error',
+        summary: 'No se pudo actualizar el estado',
+        detail: error.response?.data?.error || error.response?.data?.detail || error.message,
+        life: 4000,
+      })
+    })
+}
 </script>
 
 <template>
   <article class="delivery-card">
     <header class="delivery-card__header">
-      <span class="delivery-card__id">{{ delivery.id }}</span>
+      <span class="delivery-card__id">{{ delivery.displayId }}</span>
       <Tag
         :value="delivery.status"
         :severity="getStatusSeverity(delivery.status)"
@@ -67,23 +87,46 @@ const vehicleTypeLabel = (vt) => {
         :class="delivery.timeDiffMinutes > 0 ? 'delivery-card__eta--late' : ''"
       >
         <i class="pi pi-clock" aria-hidden="true" />
-        ETA: {{ delivery.eta }}
+        {{ t('distribution.deliveryCard.eta') }}: {{ delivery.eta ?? '—' }}
         <span v-if="delivery.timeDiffMinutes !== null && delivery.timeDiffMinutes > 0" class="delivery-card__late-badge">
-          Atrasado {{ delivery.timeDiffMinutes }} min
-        </span>
-      </span>
-      <span v-if="delivery.status === 'En Ruta'" class="delivery-card__on-time-badge">
-        <span
-          class="delivery-card__timing"
-          :class="delivery.timeDiffMinutes > 0 ? 'delivery-card__timing--late' : 'delivery-card__timing--ok'"
-        >
-          {{ delivery.timeDiffMinutes > 0 ? 'Atrasado' : 'A tiempo' }}
+          {{ t('distribution.deliveryCard.late', { minutes: delivery.timeDiffMinutes }) }}
         </span>
       </span>
       <span v-if="delivery.status === 'Completado'" class="delivery-card__completed-time">
         {{ delivery.realTime }}
       </span>
     </footer>
+
+    <div class="delivery-card__actions">
+      <Button
+        v-if="delivery.status === 'Pendiente'"
+        :label="t('distribution.deliveryCard.markEnRoute')"
+        icon="pi pi-arrow-right"
+        size="small"
+        :loading="store.updatingStatusId === delivery.id"
+        class="delivery-card__action-btn delivery-card__action-btn--primary"
+        @click="changeStatus('En Ruta')"
+      />
+      <template v-else-if="delivery.status === 'En Ruta'">
+        <Button
+          :label="t('distribution.deliveryCard.markCompleted')"
+          icon="pi pi-check"
+          size="small"
+          :loading="store.updatingStatusId === delivery.id"
+          class="delivery-card__action-btn delivery-card__action-btn--success"
+          @click="changeStatus('Completado')"
+        />
+        <Button
+          :label="t('distribution.deliveryCard.markNotDelivered')"
+          icon="pi pi-times"
+          size="small"
+          outlined
+          :loading="store.updatingStatusId === delivery.id"
+          class="delivery-card__action-btn"
+          @click="changeStatus('No entregado')"
+        />
+      </template>
+    </div>
   </article>
 </template>
 
@@ -195,25 +238,31 @@ const vehicleTypeLabel = (vt) => {
   font-weight: 600;
 }
 
-.delivery-card__timing {
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
-}
-
-.delivery-card__timing--ok {
-  background: #dcfce7;
-  color: #16a34a;
-}
-
-.delivery-card__timing--late {
-  background: #fee2e2;
-  color: #dc2626;
-}
-
 .delivery-card__completed-time {
   font-size: var(--regula-type-small-size, 0.875rem);
   color: var(--regula-text-muted, #a5b1bf);
+}
+
+.delivery-card__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.delivery-card__action-btn {
+  flex: 1;
+  min-width: 110px;
+  font-size: 0.78rem;
+}
+
+.delivery-card__action-btn--primary :deep(.p-button) {
+  background: var(--regula-orange, #f26e22);
+  border-color: var(--regula-orange, #f26e22);
+}
+
+.delivery-card__action-btn--success :deep(.p-button) {
+  background: #16a34a;
+  border-color: #16a34a;
 }
 </style>

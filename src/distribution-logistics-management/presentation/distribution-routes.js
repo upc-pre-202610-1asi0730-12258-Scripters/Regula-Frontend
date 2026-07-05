@@ -6,9 +6,7 @@ export const distributionRoutes = [
     redirect: { name: 'distribution-day-deliveries' },
     meta: {
       shellPreset: 'distributor',
-      pageTitle: 'Distribución',
-      breadcrumbs: ['Regula', 'Distribución'],
-      title: 'Distribución · REGULA',
+      pageTitleKey: 'pageTitles.distribution',
     },
     children: [
       {
@@ -17,9 +15,7 @@ export const distributionRoutes = [
         component: () => import('./views/distribution-day-deliveries.view.vue'),
         meta: {
           shellPreset: 'distributor',
-          pageTitle: 'Distribución',
-          breadcrumbs: ['Regula', 'Distribución'],
-          title: 'Entregas del Día · REGULA',
+          pageTitleKey: 'pageTitles.dayDeliveries',
         },
       },
       {
@@ -28,9 +24,7 @@ export const distributionRoutes = [
         component: () => import('./views/distribution-live-map.view.vue'),
         meta: {
           shellPreset: 'distributor',
-          pageTitle: 'Distribución',
-          breadcrumbs: ['Regula', 'Distribución'],
-          title: 'Mapa en Tiempo Real · REGULA',
+          pageTitleKey: 'pageTitles.liveMap',
         },
       },
       {
@@ -39,9 +33,7 @@ export const distributionRoutes = [
         component: () => import('./views/distribution-history.view.vue'),
         meta: {
           shellPreset: 'distributor',
-          pageTitle: 'Distribución',
-          breadcrumbs: ['Regula', 'Distribución'],
-          title: 'Historial de Repartos · REGULA',
+          pageTitleKey: 'pageTitles.history',
         },
       },
     ],

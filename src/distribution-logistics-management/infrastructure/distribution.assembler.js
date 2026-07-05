@@ -1,6 +1,14 @@
 import { Delivery } from '../domain/model/delivery.entity.js'
 import { Deliverer } from '../domain/model/deliverer.entity.js'
 
+// EDeliveryStatus (backend) -> label en español que ya usa el front.
+const STATUS_TO_BACKEND = {
+  'Pendiente': 'Pending',
+  'En Ruta': 'OnRoute',
+  'Completado': 'Delivered',
+  'No entregado': 'NotDelivered',
+}
+
 export class DistributionAssembler {
   // ==========================================
   // DELIVERY
@@ -27,21 +35,25 @@ export class DistributionAssembler {
     return rawArray.map(this.toDeliveryDomain)
   }
 
-  static toDeliveryDTO(domain) {
+  /**
+   * Payload para POST /api/v1/distributor-deliveries (CreateDistributorDeliveryResource).
+   * driverId = responsibleId: no existe un catálogo de "conductores" separado en el
+   * backend, así que se reutiliza el responsable también como conductor.
+   */
+  static toCreateResource({ responsibleId, vehicleId, itemCount, cargo, destination, scheduledTime }) {
     return {
-      id: domain.id,
-      date: domain.date,
-      time: domain.time,
-      delivererName: domain.delivererName,
-      delivererId: domain.delivererId,
-      vehicleType: domain.vehicleType,
-      vehiclePlate: domain.vehiclePlate,
-      cargo: domain.cargo,
-      destination: domain.destination,
-      status: domain.status,
-      eta: domain.eta,
-      realTime: domain.realTime,
+      driverId: responsibleId,
+      responsibleId,
+      vehicleId,
+      itemCount: Number(itemCount),
+      cargo,
+      destination,
+      scheduledTime,
     }
+  }
+
+  static statusLabelToBackend(label) {
+    return STATUS_TO_BACKEND[label] ?? label
   }
 
   // ==========================================

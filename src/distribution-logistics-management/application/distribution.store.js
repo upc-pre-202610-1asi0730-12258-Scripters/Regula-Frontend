@@ -1,26 +1,23 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { DistributionApi } from '../infrastructure/distribution-api.js'
-import { Delivery } from '../domain/model/delivery.entity.js'
-import { Deliverer } from '../domain/model/deliverer.entity.js'
+import { DistributionAssembler } from '../infrastructure/distribution.assembler.js'
 
 const distributionApi = new DistributionApi()
 
-// ── Fallback mock data (used when API is unavailable) ──────────────────────
-const MOCK_DELIVERIES = [
-  new Delivery('#001', '24/10/2023', '14:25', 'Juan López', 'JL', 'Moto', 'A38-210', '3 balones', 'Entrega Centro', 'En Ruta', '14:30', null),
-  new Delivery('#004', '24/10/2023', '14:50', 'Carlos Ruiz', 'CR', 'Camión', 'XYZ-787', '10 balones de 45 kg', 'Restaurante El Mar', 'En Ruta', '15:15', null),
-  new Delivery('#002', '24/10/2023', '13:45', 'Pedro Salas', 'PS', 'Camioneta', 'C5R-982', '2 balones', 'Av. Los Pinos 456', 'Completado', '14:00', '13:45'),
-  new Delivery('#003', '24/10/2023', '12:05', 'Ana Gómez', 'AG', 'Moto', 'B12-400', '1 balón', 'Jr. Las Flores 123', 'Completado', '12:15', '12:05'),
-  new Delivery('#005', '24/10/2023', '11:15', 'Luis Torres', 'LT', 'Moto', 'D45-001', '5 balones', 'Calle Lima 88', 'Completado', '11:30', '11:15'),
-  new Delivery('#006', '24/10/2023', '16:00', 'Raúl Méndez', 'RM', 'Moto', 'X1W-445', '1 balón', 'Av. Grau 200', 'No entregado', '16:00', null),
-]
+/** Convierte "dd/MM/yyyy" (formato del backend) a "yyyy-MM-dd" (formato de <input type="date">). */
+function toIsoDate(ddMMyyyy) {
+  const [day, month, year] = (ddMMyyyy || '').split('/')
+  if (!day || !month || !year) return null
+  return `${year}-${month}-${day}`
+}
 
-const MOCK_DELIVERERS = [
-  new Deliverer('JL', 'Juan López', 'A38-210', 'Moto', 'En ruta', -12.0464, -77.0428),
-  new Deliverer('PS', 'Pedro Salas', 'C5R-982', 'Camioneta', 'Completado', -12.0600, -77.0375),
-  new Deliverer('RM', 'Raúl Méndez', 'X1W-445', 'Moto', 'Sin señal', null, null),
-]
+/** Formatea a "HH:mm" (24h, siempre 5 caracteres) — es lo que espera la columna delivered_at (varchar(5)). */
+function formatTime24(date) {
+  const hh = String(date.getHours()).padStart(2, '0')
+  const mm = String(date.getMinutes()).padStart(2, '0')
+  return `${hh}:${mm}`
+}
 
 export const useDistributionStore = defineStore('distribution', () => {
   // ── State ──────────────────────────────────────────────────────────────
@@ -29,8 +26,15 @@ export const useDistributionStore = defineStore('distribution', () => {
   const loaded = ref(false)
   const errors = ref([])
 
+  const responsibles = ref([])      // [{ id, name }]
+  const vehicles = ref([])          // [{ id, plate, type, brand }]
+  const catalogsLoaded = ref(false)
+
+  const creating = ref(false)
+  const updatingStatusId = ref(null)
+
   // History filters
-  const historyDateFilter = ref('24/10/2023')
+  const historyDateFilter = ref('')
   const historyDelivererFilter = ref('Todos los repartidores')
   const historyStatusFilter = ref('Todos los estados')
   const historySearchQuery = ref('')
@@ -39,8 +43,10 @@ export const useDistributionStore = defineStore('distribution', () => {
   const selectedDeliveryId = ref(null)
 
   // ── Computed ───────────────────────────────────────────────────────────
-  const todayDeliveries = computed(() =>
-    deliveries.value.filter(d => d.status === 'En Ruta' || d.status === 'Completado' || d.status === 'No entregado')
+  const hasError = computed(() => errors.value.length > 0)
+
+  const pendingDeliveries = computed(() =>
+    deliveries.value.filter(d => d.status === 'Pendiente')
   )
 
   const enRouteDeliveries = computed(() =>
@@ -59,6 +65,13 @@ export const useDistributionStore = defineStore('distribution', () => {
     deliverers.value
   )
 
+  const delivererNameOptions = computed(() => {
+    const names = new Set(deliveries.value.map(d => d.delivererName).filter(Boolean))
+    return ['Todos los repartidores', ...names]
+  })
+
+  const statusOptions = ['Todos los estados', 'Pendiente', 'En Ruta', 'Completado', 'No entregado']
+
   const filteredHistoryDeliveries = computed(() => {
     let result = [...deliveries.value]
 
@@ -70,12 +83,16 @@ export const useDistributionStore = defineStore('distribution', () => {
       result = result.filter(d => d.status === historyStatusFilter.value)
     }
 
+    if (historyDateFilter.value) {
+      result = result.filter(d => toIsoDate(d.date) === historyDateFilter.value)
+    }
+
     const search = historySearchQuery.value.trim().toLowerCase()
     if (search.length > 0) {
       result = result.filter(d =>
         d.vehiclePlate?.toLowerCase().includes(search) ||
         d.delivererName?.toLowerCase().includes(search) ||
-        d.id?.toLowerCase().includes(search)
+        String(d.id).toLowerCase().includes(search)
       )
     }
 
@@ -93,6 +110,7 @@ export const useDistributionStore = defineStore('distribution', () => {
 
   // ── Actions ────────────────────────────────────────────────────────────
   async function fetchDistributionData() {
+    errors.value = []
     try {
       const [deliveriesRes, deliverersRes] = await Promise.all([
         distributionApi.getDistributorDeliveries(),
@@ -100,13 +118,77 @@ export const useDistributionStore = defineStore('distribution', () => {
       ])
       deliveries.value = deliveriesRes.data
       deliverers.value = deliverersRes.data
-    } catch {
-      // API not available — use mock data
-      deliveries.value = MOCK_DELIVERIES
-      deliverers.value = MOCK_DELIVERERS
+    } catch (error) {
+      errors.value.push(error)
+      deliveries.value = []
+      deliverers.value = []
     } finally {
       loaded.value = true
     }
+  }
+
+  async function fetchCatalogs() {
+    if (catalogsLoaded.value) return
+    try {
+      const [responsiblesRes, vehiclesRes] = await Promise.all([
+        distributionApi.getResponsibles(),
+        distributionApi.getVehicles(),
+      ])
+      responsibles.value = responsiblesRes.data
+      vehicles.value = vehiclesRes.data
+      catalogsLoaded.value = true
+    } catch (error) {
+      errors.value.push(error)
+    }
+  }
+
+  /**
+   * @param {{ responsibleId: number, vehicleId: number, itemCount: number, cargo: string, destination: string, scheduledTime: string }} form
+   */
+  function createDelivery(form) {
+    creating.value = true
+    const resource = DistributionAssembler.toCreateResource(form)
+
+    return distributionApi.createDelivery(resource)
+      .then((response) => {
+        deliveries.value.unshift(response.data)
+        return response.data
+      })
+      .catch((error) => {
+        errors.value.push(error)
+        throw error
+      })
+      .finally(() => {
+        creating.value = false
+      })
+  }
+
+  /**
+   * @param {number} id
+   * @param {'Pendiente'|'En Ruta'|'Completado'|'No entregado'} statusLabel
+   */
+  function updateStatus(id, statusLabel) {
+    updatingStatusId.value = id
+    const backendStatus = DistributionAssembler.statusLabelToBackend(statusLabel)
+    const deliveredAt = statusLabel === 'Completado'
+      ? formatTime24(new Date())
+      : null
+
+    return distributionApi.updateDeliveryStatus(id, backendStatus, deliveredAt)
+      .then((response) => {
+        const index = deliveries.value.findIndex(d => d.id === id)
+        if (index !== -1) {
+          deliveries.value[index] = response.data
+        }
+        return response.data
+      })
+      .catch((error) => {
+        errors.value.push(error)
+        throw error
+      })
+      .finally(() => {
+        updatingStatusId.value = null
+      })
   }
 
   function selectDelivery(id) {
@@ -123,22 +205,33 @@ export const useDistributionStore = defineStore('distribution', () => {
     deliverers,
     loaded,
     errors,
+    hasError,
+    responsibles,
+    vehicles,
+    catalogsLoaded,
+    creating,
+    updatingStatusId,
     historyDateFilter,
     historyDelivererFilter,
     historyStatusFilter,
     historySearchQuery,
     selectedDeliveryId,
     // Computed
-    todayDeliveries,
+    pendingDeliveries,
     enRouteDeliveries,
     completedDeliveries,
     failedDeliveries,
     activeDeliverers,
+    delivererNameOptions,
+    statusOptions,
     filteredHistoryDeliveries,
     selectedDelivery,
     completedSummary,
     // Actions
     fetchDistributionData,
+    fetchCatalogs,
+    createDelivery,
+    updateStatus,
     selectDelivery,
     clearSelectedDelivery,
   }
