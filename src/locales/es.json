@@ -1,41 +1,8 @@
-﻿{
+{
   "common": {
     "loading": "Cargando…",
     "loadingInventory": "Cargando inventario…",
     "loadingStock": "Cargando stock…"
-  },
-  "reports": {
-    "tabs": { "generate": "Generar Reporte", "trends": "Tendencias de Seguridad" },
-    "card": { "title": "Generar Reporte Operativo" },
-    "steps": {
-      "step1": "¿Qué datos incluir?",
-      "step2": "Período",
-      "step3": "Formato de exportación"
-    },
-    "modules": {
-      "inventory":    { "label": "Inventario",    "description": "Stock, movimientos y mermas." },
-      "alerts":       { "label": "Alertas",        "description": "Incidentes y brechas de seguridad." },
-      "distribution": { "label": "Distribución",  "description": "Rutas, tiempos y entregas." },
-      "all":          { "label": "Todos",          "description": "Resumen general del sistema." }
-    },
-    "periods": {
-      "today": "Hoy", "lastWeek": "Última semana",
-      "lastMonth": "Último mes", "custom": "Rango personalizado"
-    },
-    "formats": { "pdf": "Documento PDF", "excel": "Hoja de cálculo Excel" },
-    "preview": {
-      "title": "Vista previa del reporte",
-      "selectedModule": "Módulo seleccionado:",
-      "period": "Período:",
-      "estimatedRows": "Registros estimados:",
-      "rows": "filas",
-      "periodToday": "Hoy",
-      "periodLastWeek": "Última semana (Oct 12 - Oct 19)",
-      "periodLastMonth": "Último mes",
-      "periodCustom": "Personalizado"
-    },
-    "cta": { "generate": "Generar Reporte", "generating": "Generando…" },
-    "toast": { "title": "Reporte generado", "subtitle": "Tu archivo está listo para descargar." }
   },
   "inventory": {
     "tabs": {
@@ -46,7 +13,6 @@
       "audit": "Auditoría",
       "auditBadge": "Solo Administrador"
     },
-
     "history": {
       "filtersTitle": "Filtros de Búsqueda",
       "filters": {
@@ -228,228 +194,251 @@
       }
     }
   },
-
-  "reports": {
-    "tabs": {
-      "generate": "Generar Reporte",
-      "trends": "Tendencias de Seguridad"
+  "iam": {
+    "signIn": {
+      "title": "Iniciar sesión en REGULA",
+      "subtitle": "Sistema Inteligente de Monitoreo de Balones de Gas",
+      "submit": "Iniciar sesión",
+      "noAccount": "¿No tienes cuenta?",
+      "createAccount": "Crear una cuenta"
     },
-    "card": {
-      "title": "Generar Reporte Operativo"
+    "signUp": {
+      "title": "Crear una cuenta",
+      "subtitle": "Únete a REGULA para optimizar tu operación de gas",
+      "submit": "Registrarme",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "signInLink": "Iniciar sesión"
     },
-    "steps": {
-      "step1": "¿Qué datos incluir?",
-      "step2": "Período",
-      "step3": "Formato de exportación"
+    "fields": {
+      "username": "Usuario",
+      "usernameOrEmail": "Usuario o correo corporativo",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña"
     },
-    "modules": {
-      "inventory": {
-        "label": "Inventario",
-        "description": "Stock, movimientos y mermas."
-      },
-      "alerts": {
-        "label": "Alertas",
-        "description": "Incidentes y brechas de seguridad."
-      },
-      "distribution": {
-        "label": "Distribución",
-        "description": "Rutas, tiempos y entregas."
-      },
-      "all": {
-        "label": "Todos",
-        "description": "Resumen general del sistema."
-      }
-    },
-    "periods": {
-      "today": "Hoy",
-      "lastWeek": "Última semana",
-      "lastMonth": "Último mes",
-      "custom": "Rango personalizado"
-    },
-    "formats": {
-      "pdf": "Documento PDF",
-      "excel": "Hoja de cálculo Excel"
-    },
-    "preview": {
-      "title": "Vista previa del reporte",
-      "selectedModule": "Módulo seleccionado:",
-      "period": "Período:",
-      "estimatedRows": "Registros estimados:",
-      "rows": "filas",
-      "periodToday": "Hoy",
-      "periodLastWeek": "Última semana (Oct 12 – Oct 19)",
-      "periodLastMonth": "Último mes",
-      "periodCustom": "Rango personalizado"
-    },
-    "cta": {
-      "generate": "Generar reporte",
-      "generating": "Generando…"
-    },
-    "toast": {
-      "title": "Reporte generado",
-      "subtitle": "Tu archivo está listo para descargar."
+    "errors": {
+      "usernameRequired": "El usuario es obligatorio.",
+      "passwordRequired": "La contraseña es obligatoria.",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden."
     }
   },
-  "security": {
-    "title": "Seguridad Operacional",
-    "subtitle": "Monitoreo, alertas y control operativo",
+  "shared": {
+    "sidebar": {
+      "mainNav": "Navegación principal",
+      "sections": "Secciones",
+      "language": "Idioma",
+      "spanish": "Español",
+      "english": "English",
+      "signOut": "Cerrar sesión"
+    },
     "shell": {
-      "main_link": "Seguridad"
+      "mobileBar": "Barra móvil",
+      "openMenuTooltip": "Abre el menú principal: Dashboard, inventario y más",
+      "toggleMenu": "Abrir o cerrar menú principal"
     },
-    "menu": {
-      "active_alerts": "Alertas Activas",
-      "company_alerts": "Alertas de Empresa",
-      "warehouses": "Almacenes",
-      "sensors": "Sensores",
-      "route_deviations": "Desvíos de Ruta",
-      "zone_analysis": "Análisis por Zona",
-      "alert_history": "Historial de Alertas"
+    "nav": {
+      "dashboard": "Dashboard",
+      "inventory": "Inventario",
+      "distribution": "Distribución / Entregas",
+      "sales": "Ventas",
+      "distributorFallback": "Distribuidor"
+    }
+  },
+  "commercial": {
+    "salesView": {
+      "loading": "Cargando ventas del distribuidor...",
+      "eyebrow": "Registro de ventas de la jornada",
+      "registerSale": "Registrar Venta"
     },
-    "common": {
-      "error": "Ocurrió un error al cargar los datos"
+    "summary": {
+      "title": "Ventas del Día",
+      "soldToday": "vendidos hoy",
+      "kg5": "5 kg vendidos hoy",
+      "kg10": "10 kg vendidos hoy",
+      "kg15": "15 kg vendidos hoy",
+      "kg45": "45 kg vendidos hoy",
+      "totalOperations": "Total operaciones"
     },
-    "active_alerts": {
-      "title": "Alertas Activas",
-      "empty_state": "No se encontraron alertas activas",
-      "card": {
-        "location": "Ubicación",
-        "timestamp": "Fecha",
-        "status": "Estado",
-        "resolve_button": "Resolver"
-      }
-    },
-    "company_alerts": {
-      "title": "Historial de Alertas de Empresa",
-      "filters": {
-        "status": "Estado",
-        "type": "Tipo",
-        "from": "Desde",
-        "to": "Hasta"
-      },
-      "search": "Buscar",
-      "showing": "Mostrando",
-      "of": "de",
-      "alerts": "alertas",
+    "table": {
+      "searchPlaceholder": "Buscar cliente o ID...",
+      "filters": "Filtros",
       "export": "Exportar",
+      "cylinderType": "Tipo de balón",
+      "quantity": "Cantidad",
+      "clearFilters": "Limpiar filtros",
       "columns": {
-        "id": "ID",
-        "zone": "Zona",
-        "type": "Tipo",
-        "criticality": "Criticidad",
-        "datetime": "Fecha y hora",
-        "status": "Estado",
-        "operator": "Operador",
-        "attention_time": "Tiempo de atención",
-        "actions": "Acciones"
+        "id": "ID TRANSACCIÓN",
+        "time": "HORA",
+        "cylinder": "TIPO BALÓN",
+        "quantity": "CANTIDAD",
+        "paymentType": "TIPO PAGO",
+        "client": "CLIENTE",
+        "distributor": "REPARTIDOR",
+        "actions": "ACCIONES"
       },
-      "attend": "Atender",
-      "view": "Ver"
-    },
-    "warehouses": {
-      "title": "Monitoreo de Almacenes",
-      "subtitle": "Monitoreo en tiempo real de concentración de gas",
-      "system_active": "Sistema activo",
-      "banner": "Las lecturas se actualizan automáticamente cada {time}.",
-      "last_reading": "Última lectura",
-      "actions": {
-        "attend_alert": "Atender alerta",
-        "check_connection": "Verificar conexión",
-        "view_detail": "Ver detalle"
-      },
-      "footer_info": "Los datos del almacén se sincronizan con sensores conectados."
-    },
-    "sensors": {
-      "title": "Estado de Sensores",
-      "subtitle": "Monitoreo de dispositivos conectados",
-      "summary": {
-        "active": "Sensores activos",
-        "total": "Sensores totales",
-        "critical": "Batería crítica",
-        "last_read": "Última lectura"
-      },
-      "warning": {
-        "offline": "Sensor sin conexión"
-      },
-      "status": {
-        "online": "En línea",
-        "offline": "Sin conexión"
-      },
-      "battery": "Batería",
-      "signal": "Señal",
-      "ppm": "PPM",
-      "actions": {
-        "details": "Detalles",
-        "reconnect": "Reconectar"
-      }
-    },
-    "route_deviations": {
-      "title": "Desvíos de Ruta",
-      "banner": "Las unidades que se desvíen más de {distance} o por más de {time} serán marcadas para revisión.",
-      "search_placeholder": "Buscar por unidad o ubicación",
-      "pills": {
-        "total": "Total",
-        "pending": "Pendientes",
-        "attended": "Atendidas"
-      },
-      "columns": {
-        "id": "ID",
-        "unit": "Unidad",
-        "location": "Ubicación",
-        "distance": "Distancia (m)",
+      "detail": {
         "time": "Hora",
+        "cylinder": "Tipo de balón",
+        "quantity": "Cantidad",
+        "paymentType": "Tipo de pago",
         "status": "Estado",
-        "action": "Acción",
-        "actions": "Acciones"
-      },
-      "actions": {
-        "review": "Revisar",
-        "details": "Detalles"
-      },
-      "view": "Ver",
-      "attend": "Atender"
-    },
-    "zone_analysis": {
-      "title": "Análisis por Zona",
-      "subtitle": "Riesgo operativo por zona",
-      "filters": {
-        "period": "Periodo",
-        "type": "Tipo"
-      },
-      "legend": {
-        "title": "Leyenda",
-        "high": "Alta",
-        "medium": "Media",
-        "low": "Baja",
-        "stable": "Estable"
-      },
-      "metrics": {
-        "high": "Alta",
-        "medium": "Media",
-        "low": "Baja",
-        "incidents": "Incidentes"
-      },
-      "status": {
-        "critical": "Crítica",
-        "stable": "Estable",
-        "inactive": "Inactiva"
+        "client": "Cliente",
+        "distributor": "Repartidor"
       }
     },
-    "alert_history": {
-      "title": "Historial de Alertas",
-      "subtitle": "Alertas resueltas e históricas",
-      "empty_state": "No hay registros para mostrar",
-      "search_placeholder": "Buscar alertas",
+    "dialog": {
+      "title": "Registrar Nueva Venta",
+      "cylinderType": "Tipo de balón",
+      "quantity": "Cantidad",
+      "paymentType": "Tipo de pago",
+      "cash": "Efectivo",
+      "digital": "Yape/Plin",
+      "transfer": "Transferencia",
+      "client": "Cliente (opcional)",
+      "clientPlaceholder": "Nombre del cliente...",
+      "cancel": "Cancelar",
+      "submit": "Registrar Venta"
+    }
+  },
+  "distribution": {
+    "hub": {
+      "tabs": "Navegación de Distribución",
+      "dayDeliveries": "Entregas del Día",
+      "liveMap": "Mapa en Tiempo Real",
+      "history": "Historial de Repartos"
+    },
+    "dayDeliveries": {
+      "newDelivery": "Nueva Entrega",
+      "loading": "Cargando entregas...",
+      "errorBanner": "No se pudieron cargar las entregas desde el servidor. Verifica que el backend esté corriendo.",
+      "pending": "Pendientes",
+      "enRoute": "En Ruta",
+      "completed": "Completadas",
+      "notDelivered": "No Entregadas",
+      "emptyPending": "No hay entregas pendientes.",
+      "emptyEnRoute": "No hay entregas en ruta.",
+      "emptyCompleted": "No hay entregas completadas aún.",
+      "noFailedTitle": "Sin entregas fallidas hoy"
+    },
+    "history": {
+      "dateFilterLabel": "Filtrar por fecha",
+      "searchPlaceholder": "Buscar por placa...",
+      "export": "Exportar",
+      "completed": "Completados",
+      "notDelivered": "No entregados",
+      "noResults": "No hay más registros para este período",
       "columns": {
         "id": "ID",
-        "type": "Tipo",
-        "location": "Ubicación",
-        "criticality": "Criticidad",
-        "timestamp": "Fecha",
-        "status": "Estado"
+        "date": "FECHA",
+        "delivererVehicle": "REPARTIDOR · VEHÍCULO",
+        "cargo": "CARGA",
+        "destination": "DESTINO",
+        "status": "ESTADO",
+        "eta": "ETA",
+        "realTime": "HORA REAL"
       }
     },
-    "hub": {
-      "title": "Panel de Seguridad"
+    "liveMap": {
+      "activeDeliverers": "Repartidores activos",
+      "refreshNotice": "actualiza cada 30 seg.",
+      "legendEnRoute": "En ruta",
+      "legendCompleted": "Completado",
+      "legendNoSignal": "Sin señal",
+      "liveLabel": "En vivo · Lima, Perú",
+      "refreshBadge": "Actualiza en {seconds} seg.",
+      "empty": "No hay repartidores activos."
+    },
+    "deliveryCard": {
+      "markEnRoute": "Marcar en ruta",
+      "markCompleted": "Completado",
+      "markNotDelivered": "No entregado",
+      "eta": "ETA",
+      "late": "Atrasado {minutes} min"
+    },
+    "registerDialog": {
+      "title": "Registrar Nueva Entrega",
+      "responsible": "Responsable *",
+      "responsibleHint": "También se usa como conductor asignado a la entrega.",
+      "responsiblePlaceholder": "Selecciona un responsable",
+      "vehicle": "Vehículo *",
+      "vehiclePlaceholder": "Selecciona un vehículo",
+      "quantity": "Cantidad de balones *",
+      "scheduledTime": "Fecha y hora programada *",
+      "cargo": "Carga *",
+      "cargoPlaceholder": "Ej: 3 balones de 10 kg",
+      "destination": "Destino *",
+      "destinationPlaceholder": "Ej: Av. Los Pinos 456",
+      "cancel": "Cancelar",
+      "submit": "Registrar Entrega",
+      "validationError": "Completa todos los campos obligatorios (*)."
+    },
+    "detailPanel": {
+      "title": "Detalle de Entrega",
+      "responsible": "REPARTIDOR",
+      "vehicle": "VEHÍCULO",
+      "type": "Tipo",
+      "plate": "Placa",
+      "cargoAndDestination": "CARGA Y DESTINO",
+      "cargo": "Carga",
+      "destination": "Destino",
+      "times": "TIEMPOS",
+      "eta": "ETA",
+      "realTime": "Hora real",
+      "difference": "Diferencia",
+      "onTime": "A tiempo",
+      "close": "Cerrar detalle"
+    }
+  },
+  "dashboard": {
+    "greeting": "Buenos días, {name}",
+    "subtitle": "Tu operación al día",
+    "errorBanner": "No se pudieron cargar algunos datos. Verifica que el backend esté corriendo.",
+    "autoRefresh": "Actualiza automáticamente cada 30 seg.",
+    "loading": "Cargando dashboard...",
+    "stock": {
+      "title": "Stock disponible"
+    },
+    "deliveries": {
+      "title": "Entregas de hoy",
+      "pending": "Pendientes",
+      "enRoute": "En ruta",
+      "completed": "Completadas",
+      "notDelivered": "No entregadas"
+    },
+    "salesSummary": {
+      "title": "Resumen de Ventas del Día",
+      "export": "Exportar",
+      "cylinders": "Cilindros",
+      "sold": "vendidos",
+      "income": "Ingreso",
+      "totalOperations": "Total Operaciones",
+      "cash": "Efectivo",
+      "digital": "Yape/Plin",
+      "transfer": "Transferencia"
+    },
+    "stockFooter": "Stock al cierre estimado:"
+  },
+  "pageTitles": {
+    "signIn": "Iniciar sesión",
+    "signUp": "Crear cuenta",
+    "dashboard": "Panel Diario",
+    "inventory": "Inventario",
+    "sales": "Ventas",
+    "distribution": "Distribución",
+    "dayDeliveries": "Entregas del Día",
+    "liveMap": "Mapa en Tiempo Real",
+    "history": "Historial de Repartos",
+    "subscribe": "Suscripción"
+  },
+  "billing": {
+    "subscribe": {
+      "title": "Activa tu suscripción",
+      "subtitle": "Para usar REGULA necesitas una suscripción activa.",
+      "loading": "Preparando el pago...",
+      "payButton": "Pagar y activar",
+      "paying": "Procesando pago...",
+      "notActiveYet": "El pago se confirmó pero tu suscripción todavía no se activó. Recarga la página en unos segundos.",
+      "genericError": "No se pudo iniciar el pago. Intenta de nuevo.",
+      "confirming": "Confirmando tu pago, un momento..."
     }
   }
 }

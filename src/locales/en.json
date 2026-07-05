@@ -1,164 +1,351 @@
-﻿{
-  "security": {
-    "title": "Operational Security",
-    "subtitle": "Monitoring, alerts and operational control",
-
-    "shell": {
-      "main_link": "Security"
-    },
-
-    "menu": {
-      "active_alerts": "Active Alerts",
-      "company_alerts": "Company Alerts",
-      "warehouses": "Warehouses",
-      "sensors": "Sensors",
-      "route_deviations": "Route Deviations",
-      "zone_analysis": "Zone Analysis",
-      "alert_history": "Alert History"
-    },
-
-    "common": {
-      "error": "An error occurred while loading data"
-    },
-
-    "active_alerts": {
-      "title": "Active Alerts",
-      "empty_state": "No active alerts found",
-      "card": {
-        "location": "Location",
-        "timestamp": "Date",
-        "status": "Status",
-        "resolve_button": "Resolve"
-      }
-    },
-
-    "company_alerts": {
-      "title": "Company Alert History",
-
-      "filters": {
-        "status": "Status",
-        "type": "Type",
-        "from": "From",
-        "to": "To"
-      },
-
-      "search": "Search",
-      "showing": "Showing",
-      "of": "of",
-      "alerts": "alerts",
-      "export": "Export",
-
-      "columns": {
-        "id": "ID",
-        "zone": "Zone",
-        "type": "Type",
-        "criticality": "Criticality",
-        "datetime": "Date & Time",
-        "status": "Status",
-        "operator": "Operator",
-        "attention_time": "Attention Time",
-        "actions": "Actions"
-      },
-
-      "attend": "Attend",
-      "view": "View"
-    },
-
-    "warehouses": {
-      "title": "Warehouse Monitoring",
-      "subtitle": "Real-time gas concentration monitoring",
-
-      "system_active": "System Active",
-
-      "banner": "Readings are automatically updated every {time}.",
-
-      "last_reading": "Last reading",
-
-      "actions": {
-        "attend_alert": "Attend Alert",
-        "check_connection": "Check Connection",
-        "view_detail": "View Details"
-      },
-
-      "footer_info": "Warehouse data is synchronized with connected sensors."
-    },
-
-    "sensors": {
-      "title": "Sensor Status",
-      "subtitle": "Monitoring of connected devices",
-
-      "summary": {
-        "active": "Active Sensors",
-        "total": "Total Sensors",
-        "critical": "Critical Battery",
-        "last_read": "Last Reading"
-      },
-
-      "warning": {
-        "offline": "Sensor offline"
-      },
-
-      "status": {
-        "online": "Online",
-        "offline": "Offline"
-      },
-
-      "battery": "Battery",
-      "signal": "Signal",
-      "ppm": "PPM",
-
-      "actions": {
-        "details": "Details",
-        "reconnect": "Reconnect"
-      }
-    },
-
-    "route_deviations": {
-      "title": "Route Deviations",
-
-      "columns": {
-        "id": "ID",
-        "unit": "Unit",
-        "location": "Location",
-        "distance": "Distance (m)",
-        "time": "Time",
-        "status": "Status",
-        "actions": "Actions"
-      },
-
-      "view": "View",
-      "attend": "Attend"
-    },
-
-    "zone_analysis": {
-      "title": "Zone Analysis",
-      "subtitle": "Operational risk by zone",
-
-      "metrics": {
-        "high": "High",
-        "medium": "Medium",
-        "low": "Low",
-        "incidents": "Incidents"
-      },
-
-      "status": {
-        "critical": "Critical",
-        "stable": "Stable",
-        "inactive": "Inactive"
-      }
-    },
-
-    "alert_history": {
-      "title": "Alert History",
-      "subtitle": "Resolved and historical alerts"
-    }
-  },
-
+{
   "inventory": {
     "sidebar": {
       "language": "Language",
       "spanish": "Spanish",
       "english": "English"
+    },
+    "forms": {
+      "common": {
+        "clear": "Clear",
+        "cylinderType": "Cylinder type",
+        "footerLockEntry": "Every entry is recorded in the movement history with date and time.",
+        "footerLockExit": "Every exit is recorded in the movement history with date and time.",
+        "impactPreview": "Impact preview",
+        "quantity": "Quantity",
+        "quantityHelpEntryDist": "Number of units entering the stock",
+        "quantityHelpExit": "Number of units leaving the stock",
+        "saveEntry": "Save Entry",
+        "saveExit": "Save Exit"
+      },
+      "distEntry": {
+        "provider": "Provider",
+        "providerLabel": "Provider:",
+        "providerPh": "Select provider",
+        "qtyIncoming": "Quantity coming in:",
+        "selectedType": "Selected type:",
+        "stockNew": "NEW STOCK",
+        "stockNow": "CURRENT STOCK",
+        "subtitle": "Register stock coming into inventory.",
+        "title": "New Cylinder Entry",
+        "units": "units"
+      },
+      "distExit": {
+        "delivery": "Home delivery",
+        "exitKindLine": "Exit type:",
+        "exitKindTitle": "Exit type",
+        "qtyOut": "Quantity going out:",
+        "returnSupplier": "Return to supplier",
+        "saleDirect": "Direct sale",
+        "selectedLine": "Selected type:",
+        "subtitle": "Register stock leaving the inventory.",
+        "title": "New Cylinder Exit",
+        "stockLine": "Current stock of {kg}: {a} → {b}"
+      },
+      "weights": {
+        "commercial": "Light commercial",
+        "domestic": "Domestic",
+        "industrial": "Industrial / Restaurants",
+        "kg10": "10 kg",
+        "kg15": "15 kg",
+        "kg45": "45 kg",
+        "kg5": "5 kg",
+        "standard": "Standard household"
+      }
+    },
+    "history": {
+      "clearFilters": "Clear filters",
+      "cols": {
+        "cylinder": "CYLINDER TYPE",
+        "datetime": "DATE AND TIME",
+        "idShort": "#ID",
+        "kind": "TYPE",
+        "qty": "QUANTITY"
+      },
+      "distributor": {
+        "colProvider": "PROVIDER / EXIT TYPE",
+        "exportExcel": "Export to Excel",
+        "movementsTitle": "Movements",
+        "ownerBadge": "Owner",
+        "searchPh": "ID, provider, type…",
+        "subtitle": "Check the entries and exits of your inventory.",
+        "title": "Movement History"
+      },
+      "filters": {
+        "all": "All",
+        "cylinderType": "Cylinder Type",
+        "entry": "Entry",
+        "exit": "Exit",
+        "from": "From",
+        "responsible": "Responsible",
+        "search": "Search",
+        "to": "To",
+        "type": "Type"
+      },
+      "filtersTitle": "Search Filters",
+      "keywordPh": "Search by keyword…",
+      "loadingMovements": "Loading movements…",
+      "noResults": "No records for the selected filters.",
+      "print": "Print",
+      "search": "Search"
+    },
+    "tabs": {
+      "entry": "Register Entry",
+      "exit": "Register Exit",
+      "history": "Movement History",
+      "stock": "Current Stock"
+    }
+  },
+  "iam": {
+    "signIn": {
+      "title": "Sign In to REGULA",
+      "subtitle": "Intelligent Gas Cylinder Monitoring System",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create an account"
+    },
+    "signUp": {
+      "title": "Create an Account",
+      "subtitle": "Join REGULA to optimize your gas operation",
+      "submit": "Register",
+      "hasAccount": "Already have an account?",
+      "signInLink": "Sign In"
+    },
+    "fields": {
+      "username": "Username",
+      "usernameOrEmail": "Username or Corporate Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "errors": {
+      "usernameRequired": "Username is required.",
+      "passwordRequired": "Password is required.",
+      "passwordsDoNotMatch": "Passwords do not match."
+    }
+  },
+  "shared": {
+    "sidebar": {
+      "mainNav": "Main navigation",
+      "sections": "Sections",
+      "language": "Language",
+      "spanish": "Español",
+      "english": "English",
+      "signOut": "Sign out"
+    },
+    "shell": {
+      "mobileBar": "Mobile bar",
+      "openMenuTooltip": "Open the main menu: Dashboard, inventory and more",
+      "toggleMenu": "Open or close the main menu"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "inventory": "Inventory",
+      "distribution": "Distribution / Deliveries",
+      "sales": "Sales",
+      "distributorFallback": "Distributor"
+    }
+  },
+  "commercial": {
+    "salesView": {
+      "loading": "Loading distributor sales...",
+      "eyebrow": "Sales record for the day",
+      "registerSale": "Register Sale"
+    },
+    "summary": {
+      "title": "Today's Sales",
+      "soldToday": "sold today",
+      "kg5": "5 kg sold today",
+      "kg10": "10 kg sold today",
+      "kg15": "15 kg sold today",
+      "kg45": "45 kg sold today",
+      "totalOperations": "Total operations"
+    },
+    "table": {
+      "searchPlaceholder": "Search client or ID...",
+      "filters": "Filters",
+      "export": "Export",
+      "cylinderType": "Cylinder type",
+      "quantity": "Quantity",
+      "clearFilters": "Clear filters",
+      "columns": {
+        "id": "TRANSACTION ID",
+        "time": "TIME",
+        "cylinder": "CYLINDER TYPE",
+        "quantity": "QUANTITY",
+        "paymentType": "PAYMENT TYPE",
+        "client": "CLIENT",
+        "distributor": "DELIVERER",
+        "actions": "ACTIONS"
+      },
+      "detail": {
+        "time": "Time",
+        "cylinder": "Cylinder type",
+        "quantity": "Quantity",
+        "paymentType": "Payment type",
+        "status": "Status",
+        "client": "Client",
+        "distributor": "Deliverer"
+      }
+    },
+    "dialog": {
+      "title": "Register New Sale",
+      "cylinderType": "Cylinder type",
+      "quantity": "Quantity",
+      "paymentType": "Payment type",
+      "cash": "Cash",
+      "digital": "Yape/Plin",
+      "transfer": "Bank Transfer",
+      "client": "Client (optional)",
+      "clientPlaceholder": "Client name...",
+      "cancel": "Cancel",
+      "submit": "Register Sale"
+    }
+  },
+  "distribution": {
+    "hub": {
+      "tabs": "Distribution navigation",
+      "dayDeliveries": "Today's Deliveries",
+      "liveMap": "Live Map",
+      "history": "Delivery History"
+    },
+    "dayDeliveries": {
+      "newDelivery": "New Delivery",
+      "loading": "Loading deliveries...",
+      "errorBanner": "Deliveries could not be loaded from the server. Check that the backend is running.",
+      "pending": "Pending",
+      "enRoute": "On the Way",
+      "completed": "Completed",
+      "notDelivered": "Not Delivered",
+      "emptyPending": "No pending deliveries.",
+      "emptyEnRoute": "No deliveries on the way.",
+      "emptyCompleted": "No completed deliveries yet.",
+      "noFailedTitle": "No failed deliveries today"
+    },
+    "history": {
+      "dateFilterLabel": "Filter by date",
+      "searchPlaceholder": "Search by plate...",
+      "export": "Export",
+      "completed": "Completed",
+      "notDelivered": "Not delivered",
+      "noResults": "No more records for this period",
+      "columns": {
+        "id": "ID",
+        "date": "DATE",
+        "delivererVehicle": "DELIVERER · VEHICLE",
+        "cargo": "CARGO",
+        "destination": "DESTINATION",
+        "status": "STATUS",
+        "eta": "ETA",
+        "realTime": "ACTUAL TIME"
+      }
+    },
+    "liveMap": {
+      "activeDeliverers": "Active deliverers",
+      "refreshNotice": "updates every 30 sec.",
+      "legendEnRoute": "On the way",
+      "legendCompleted": "Completed",
+      "legendNoSignal": "No signal",
+      "liveLabel": "Live · Lima, Peru",
+      "refreshBadge": "Updates in {seconds} sec.",
+      "empty": "No active deliverers."
+    },
+    "deliveryCard": {
+      "markEnRoute": "Mark on the way",
+      "markCompleted": "Completed",
+      "markNotDelivered": "Not delivered",
+      "eta": "ETA",
+      "late": "{minutes} min late"
+    },
+    "registerDialog": {
+      "title": "Register New Delivery",
+      "responsible": "Responsible *",
+      "responsibleHint": "Also used as the driver assigned to the delivery.",
+      "responsiblePlaceholder": "Select a responsible",
+      "vehicle": "Vehicle *",
+      "vehiclePlaceholder": "Select a vehicle",
+      "quantity": "Number of cylinders *",
+      "scheduledTime": "Scheduled date and time *",
+      "cargo": "Cargo *",
+      "cargoPlaceholder": "E.g.: 3 10kg cylinders",
+      "destination": "Destination *",
+      "destinationPlaceholder": "E.g.: Av. Los Pinos 456",
+      "cancel": "Cancel",
+      "submit": "Register Delivery",
+      "validationError": "Please complete all required fields (*)."
+    },
+    "detailPanel": {
+      "title": "Delivery Detail",
+      "responsible": "DELIVERER",
+      "vehicle": "VEHICLE",
+      "type": "Type",
+      "plate": "Plate",
+      "cargoAndDestination": "CARGO AND DESTINATION",
+      "cargo": "Cargo",
+      "destination": "Destination",
+      "times": "TIMES",
+      "eta": "ETA",
+      "realTime": "Actual time",
+      "difference": "Difference",
+      "onTime": "On time",
+      "close": "Close detail"
+    }
+  },
+  "dashboard": {
+    "greeting": "Good morning, {name}",
+    "subtitle": "Your operation, up to date",
+    "errorBanner": "Some data could not be loaded. Check that the backend is running.",
+    "autoRefresh": "Auto-updates every 30 sec.",
+    "loading": "Loading dashboard...",
+    "stock": {
+      "title": "Available stock"
+    },
+    "deliveries": {
+      "title": "Today's deliveries",
+      "pending": "Pending",
+      "enRoute": "On the way",
+      "completed": "Completed",
+      "notDelivered": "Not delivered"
+    },
+    "salesSummary": {
+      "title": "Today's Sales Summary",
+      "export": "Export",
+      "cylinders": "Cylinders",
+      "sold": "sold",
+      "income": "Income",
+      "totalOperations": "Total Operations",
+      "cash": "Cash",
+      "digital": "Yape/Plin",
+      "transfer": "Bank Transfer"
+    },
+    "stockFooter": "Estimated closing stock:"
+  },
+  "common": {
+    "loading": "Loading…",
+    "loadingInventory": "Loading inventory…",
+    "loadingStock": "Loading stock…"
+  },
+  "pageTitles": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "dashboard": "Daily Dashboard",
+    "inventory": "Inventory",
+    "sales": "Sales",
+    "distribution": "Distribution",
+    "dayDeliveries": "Today's Deliveries",
+    "liveMap": "Live Map",
+    "history": "Delivery History",
+    "subscribe": "Subscription"
+  },
+  "billing": {
+    "subscribe": {
+      "title": "Activate your subscription",
+      "subtitle": "You need an active subscription to use REGULA.",
+      "loading": "Preparing payment...",
+      "payButton": "Pay and activate",
+      "paying": "Processing payment...",
+      "notActiveYet": "Payment confirmed, but your subscription hasn't activated yet. Reload the page in a few seconds.",
+      "genericError": "We couldn't start the payment. Please try again.",
+      "confirming": "Confirming your payment, one moment..."
     }
   }
 }
